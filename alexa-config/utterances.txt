@@ -1,0 +1,162 @@
+StudentGetGrades What are my grades
+StudentGetGrades List grades
+StudentGetGrades List my grades
+StudentGetGrades What grades do I have for my classes
+StudentGetGrades What are my course grades
+StudentGetGrades What grades do I have for my courses
+StudentGetGrades Get grades
+StudentGetGrades Get my grades
+StudentGetGrades Tell me my grades
+StudentGetGrades What is my grade in {Course}
+StudentGetGrades What is my current grade in {Course}
+StudentGetGrades What grade do I have in {Course}
+StudentGetGrades What grade do I currently have in {Course}
+StudentGetGrades What is my grade in {Course}
+StudentGetGrades What is my current grade in {Course}
+StudentGetGrades What grade do I have in {Course}
+StudentGetGrades What grade do I currently have in {Course}
+StudentGetGrades What my grades are
+StudentGetGrades What are my class grades
+StudentGetGrades What my class grades are
+StudentGetGrades What my {Course} grade is
+StudentGetGrades What is my {Course} grade
+ParentGetGrades What my child's grades are
+ParentGetGrades What my student's grades are
+ParentGetGrades What are my kid's grades
+ParentGetGrades What are my student's grades
+ParentGetGrades What are my child's {Course} grades
+ParentGetGrades What are my kid's {Course} grades
+StudentGetGrades What are my grades
+StudentGetGrades List grades
+StudentGetGrades List my grades
+StudentGetGrades What grades do I have for my classes
+StudentGetGrades What are my course grades
+StudentGetGrades What grades do I have for my courses
+StudentGetGrades Get grades
+StudentGetGrades Get my grades
+StudentGetGrades Tell me my grades
+StudentGetGrades What is my grade in {Course}
+StudentGetGrades What is my current grade in {Course}
+StudentGetGrades What grade do I have in {Course}
+StudentGetGrades What grade do I currently have in {Course}
+StudentGetGrades What is my grade in {Course}
+StudentGetGrades What is my current grade in {Course}
+StudentGetGrades What grade do I have in {Course}
+StudentGetGrades What grade do I currently have in {Course}
+StudentGetGrades What my grades are
+StudentGetGrades What are my class grades
+StudentGetGrades What my class grades are
+StudentGetGrades What my {Course} grade is
+StudentGetGrades What is my {Course} grade
+ParentGetGrades What my child's grades are
+ParentGetGrades What my student's grades are
+ParentGetGrades What are my kid's grades
+ParentGetGrades What are my student's grades
+ParentGetGrades What are my child's {Course} grades
+ParentGetGrades What are my kid's {Course} grades
+ParentGetGrades Tell me my students grades
+ParentGetGrades Tell me my kids grades
+ParentGetGrades What are my kids grades in {Course}
+ParentGetGrades What are my students grades in {Course}
+ParentGetGrades What are {Name} grades
+ParentGetGrades Tell me {Name} grades
+ParentGetGrades Get {Name} grades
+GetBlackboard Blackboard is better
+GetBlackboard I want blackboard instead
+GetBlackboard I like blackboard better
+GetBlackboard I prefer blackboard
+GetAnnouncements Is there any news
+GetAnnouncements Are there any announcements
+GetAnnouncements Do I have any announcements
+GetAnnouncements What's the word
+GetAnnouncements What is the four one one
+GetAnnouncements What's the news
+GetAnnouncements Get my announcements
+GetAnnouncements Give me my announcements
+GetAnnouncements What are my announcements
+GetAnnouncements What my announcements are
+GetUngradedSubmissions How many submissions do I have to grade
+GetUngradedSubmissions What submissions do I have to grade
+GetUngradedSubmissions What submissions do I have left to grade
+GetUngradedSubmissions What submissions need to be graded
+GetUngradedSubmissions How many submissions do i have left to grade
+GetUngradedSubmissions How many submissions need to be graded
+GetMissing Do I have anything missing
+GetMissing What's missing
+GetMissing Is anything missing
+GetMissing Am i missing anything
+GetMissing Have i missed any assignments
+GetMissing Am i missing assignments
+GetMissing What assignments are missing
+GetMissing Am i missing any homework
+GetMissing Do i have any missing homework
+GetMissing What homework is missing
+GetMissing Do i have any missing assignments
+GetCalendarEvents What is on my calendar
+GetCalendarEvents What do I have on my calendar
+GetCalendarEvents What does my calendar look like
+GetCalendarEvents What do I have on my calendar for {Date}
+GetCalendarEvents What does my {Date} look like
+GetCalendarEvents What do I have {Date}
+GetCalendarEvents What homework do I have {Date}
+GetCalendarEvents What is due {Date}
+GetCalendarEvents What did I miss {Date}
+GetCalendarEvents Did I miss anything {Date}
+GetCalendarEvents What does my {Date} look like
+GetCalendarEvents What do I have {Date}
+GetCalendarEvents What is on my calendar in {Course}
+GetCalendarEvents What do I have on my calendar in {Course}
+GetCalendarEvents What does my calendar look like in {Course}
+GetCalendarEvents What is on my calendar for {Course}
+GetCalendarEvents What do I have on my calendar for {Course}
+GetCalendarEvents What does my calendar look like for {Course}
+GetCalendarEvents What is my next assignment in {Course}
+GetCalendarEvents What are my next assignments in {Course}
+GetCalendarEvents What do I have next in {Course}
+GetCalendarEvents What do I have coming up in {Course}
+LogIn log in with pin {Pin}
+LogIn log in with code {Pin}
+LogIn authenticate with pin {Pin}
+LogIn authenticate with code {Pin}
+LogIn my pin code is {Pin}
+LogIn my pin is {Pin}
+LogIn log in using pin {Pin}
+LogIn log in using code {Pin}
+LogIn pin code is {Pin}
+
+
+
+
+
+
+
+
+
+
+
+
+----------------------------------- unsupported by amazon but functionally complete ----------------------------------------
+
+
+
+
+
+
+
+
+
+GetCalendarEvents What do I have on my calendar on {Date} for {Course}
+GetCalendarEvents What does my {Date} look like for {Course}
+GetCalendarEvents What do I have {Date} for {Course}
+GetCalendarEvents What homework do I have {Date} for {Course}
+GetCalendarEvents What is due {Date} for {Course}
+GetCalendarEvents What did I miss {Date} for {Course}
+GetCalendarEvents Did I miss anything {Date} for {Course}
+GetCalendarEvents What does my {Date} look like for {Course}
+GetCalendarEvents What do I have {Date} for {Course}
+GetCalendarEvents What homework do I have {Date} in {Course}
+GetCalendarEvents What is due {Date} in {Course}
+GetCalendarEvents What did I miss {Date} in {Course}
+GetCalendarEvents Did I miss anything {Date} in {Course}
+GetCalendarEvents What does my {Date} look like in {Course}
+GetCalendarEvents What do I have {Date} in {Course}
