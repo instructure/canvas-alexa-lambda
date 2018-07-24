@@ -15,6 +15,8 @@
  * You should have received a copy of the GNU Affero General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+const HELP_MESSAGE = "You can ask to list grades, or check if you have any missing assignments."
+
 module.exports = {
   baseIntents: {
     'AMAZON.CancelIntent': function () {
@@ -27,7 +29,7 @@ module.exports = {
       this.emit(':tell', 'Goodbye!')
     },
     TellAndContinue: function (text) {
-      this.emit(':ask', `${text}.  ${this.t('CONTINUE_INTERACTION')}`, this.t('HELP_REPROMPT'))
+      this.emit(':ask', `${text}. Anything else?`, HELP_MESSAGE)
     },
   },
   launchIntents: {
@@ -38,9 +40,7 @@ module.exports = {
       this.emit(':tell', 'Goodbye!')
     },
     'AMAZON.HelpIntent': function () {
-      const speechOutput = this.t('HELP_MESSAGE')
-      const reprompt = this.t('HELP_REPROMPT')
-      this.emit(':ask', speechOutput, reprompt)
+      this.emit(':ask', HELP_MESSAGE, 'What can I help you with?')
     },
   },
 }

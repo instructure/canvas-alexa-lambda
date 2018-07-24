@@ -27,7 +27,7 @@ module.exports = class ApiClient {
       axios.defaults.baseURL = `https://${hostname}/api/v1`
     }
     axios.interceptors.response.use(res => res, (err) => {
-      alexa.emit(':tell', alexa.i18n.t('ERROR_MESSAGE'))
+      alexa.emit(':tell', "There was a problem communicating with Canvas. Please try again later.")
       return Promise.reject(err)
     })
   }

@@ -20,7 +20,6 @@
 
 const Alexa = require('alexa-sdk')
 
-const resources = require('./resources')
 const initHandlers = require('./handlers')
 const ApiClient = require('./apiClient')
 
@@ -28,8 +27,7 @@ const PIN_TOKEN = 'PIN_REFRESH_ONLY_TOKEN'
 
 exports.handler = function (event, context) {
   const alexa = Alexa.handler(event, context)
-  alexa.appId = process.env.ALEXA_APP_ID
-  alexa.resources = resources // i18n
+  alexa.appId = process.env.ALEXA_APP_ID || 'unit_test_app_id'
   if(context.development) {
     alexa.development = true
   }
@@ -38,7 +36,8 @@ exports.handler = function (event, context) {
   const needsPinLogin = token.startsWith(PIN_TOKEN)
 
   if (!token) {
-    alexa.emit(':tellWithLinkAccountCard', alexa.i18n.t('LOGIN_REQUIRED'))
+    alexa.emit(':tellWithLinkAccountCard', "You need to login with Canvas to use this skill.")
+    return
   } else {
     alexa.registerHandlers(initHandlers(token, needsPinLogin))
     if (!needsPinLogin) {
