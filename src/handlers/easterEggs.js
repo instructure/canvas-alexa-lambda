@@ -16,18 +16,17 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 const crazyPhrases = [
-  'You must be crazy',
-  'You need help',
-  'Seek help',
-  'I do not think you are in a right state of mind',
-  'You are not using this right'
-]
-
+  "You must be crazy",
+  "You need help",
+  "Seek help",
+  "I do not think you are in a right state of mind",
+  "You are not using this right"
+];
 
 module.exports = {
-  GetBlackboard: function () {
-    const responseIndex = Math.floor(Math.random() * crazyPhrases.length)
-    const speechOutput = crazyPhrases[responseIndex]
-    this.emit('TellAndContinue', speechOutput)
-  },
-}
+  GetBlackboard: function() {
+    const responseIndex = Math.floor(Math.random() * crazyPhrases.length);
+    const speechOutput = crazyPhrases[responseIndex];
+    this.emit("TellAndContinue", speechOutput);
+  }
+};

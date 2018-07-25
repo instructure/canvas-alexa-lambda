@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU Affero General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-const Fuse = require('fuse.js')
+const Fuse = require("fuse.js");
 
 const defaultOptions = {
   shouldSort: true,
@@ -24,14 +24,11 @@ const defaultOptions = {
   distance: 100,
   maxPatternLength: 32,
   minMatchCharLength: 1,
-  keys: [
-    'course_code',
-    'name',
-  ],
-}
+  keys: ["course_code", "name"]
+};
 
-module.exports = function parseCourseSlot (courses, courseSlotValue, options = {}) {
-  if (!courseSlotValue) return courses
-  const fuse = new Fuse(courses, Object.assign(defaultOptions, options))
-  return fuse.search(courseSlotValue)
-}
+module.exports = function parseCourseSlot(courses, courseSlotValue, options = {}) {
+  if (!courseSlotValue) return courses;
+  const fuse = new Fuse(courses, Object.assign(defaultOptions, options));
+  return fuse.search(courseSlotValue);
+};

@@ -15,27 +15,27 @@
  * You should have received a copy of the GNU Affero General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-exports.oneMonthInTheFuture = function oneMonthInTheFuture (date) {
+exports.oneMonthInTheFuture = function oneMonthInTheFuture(date) {
   // create a new date from the given date (so we can mutate it)
   // use setMonth to change months on the new date by adding 1 to given date
   // store the result of that (unix time) in a new date obj and return it
-  return new Date((new Date(date.getTime())).setMonth(date.getMonth() + 1))
-}
+  return new Date(new Date(date.getTime()).setMonth(date.getMonth() + 1));
+};
 
-exports.firstOfMonth = function firstOfMonth (date) {
+exports.firstOfMonth = function firstOfMonth(date) {
   // go to 1st of current month
-  return new Date(date.getFullYear(), date.getMonth(), 1)
-}
+  return new Date(date.getFullYear(), date.getMonth(), 1);
+};
 
-exports.lastOfMonth = function firstOfMonth (date) {
+exports.lastOfMonth = function firstOfMonth(date) {
   // go one month forward and one day backwards
   // days start at 1, so here 0 forces a day backwards
-  return new Date(date.getFullYear(), date.getMonth() + 1, 0)
-}
+  return new Date(date.getFullYear(), date.getMonth() + 1, 0);
+};
 
 // gives you the date based on year and week number with optional day
 // week day starts with monday, so day index starts with monday === 0
-exports.dateFromWeek = function dateFromWeek (year, week, day = 0) {
-  const dayOffset = 2 + day + (week - 1) * 7 - (new Date(year, 0, 1)).getDay()
-  return new Date(year, 0, dayOffset)
-}
+exports.dateFromWeek = function dateFromWeek(year, week, day = 0) {
+  const dayOffset = 2 + day + (week - 1) * 7 - new Date(year, 0, 1).getDay();
+  return new Date(year, 0, dayOffset);
+};

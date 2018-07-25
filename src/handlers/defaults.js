@@ -15,32 +15,32 @@
  * You should have received a copy of the GNU Affero General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-const HELP_MESSAGE = "You can ask to list grades, or check if you have any missing assignments."
+const HELP_MESSAGE = "You can ask to list grades, or check if you have any missing assignments.";
 
 module.exports = {
   baseIntents: {
-    'AMAZON.CancelIntent': function () {
-      this.emit(':tell', 'Goodbye!')
+    "AMAZON.CancelIntent": function() {
+      this.emit(":tell", "Goodbye!");
     },
-    'AMAZON.StopIntent': function () {
-      this.emit(':tell', 'Goodbye!')
+    "AMAZON.StopIntent": function() {
+      this.emit(":tell", "Goodbye!");
     },
-    'AMAZON.NoIntent': function () {
-      this.emit(':tell', 'Goodbye!')
+    "AMAZON.NoIntent": function() {
+      this.emit(":tell", "Goodbye!");
     },
-    TellAndContinue: function (text) {
-      this.emit(':ask', `${text}. Anything else?`, HELP_MESSAGE)
-    },
+    TellAndContinue: function(text) {
+      this.emit(":ask", `${text}. Anything else?`, HELP_MESSAGE);
+    }
   },
   launchIntents: {
-    'LaunchRequest': function () {
-      this.emit('AMAZON.HelpIntent')
+    LaunchRequest: function() {
+      this.emit("AMAZON.HelpIntent");
     },
-    'Unhandled': function () {
-      this.emit(':tell', 'Goodbye!')
+    Unhandled: function() {
+      this.emit(":tell", "Goodbye!");
     },
-    'AMAZON.HelpIntent': function () {
-      this.emit(':ask', HELP_MESSAGE, 'What can I help you with?')
-    },
-  },
-}
+    "AMAZON.HelpIntent": function() {
+      this.emit(":ask", HELP_MESSAGE, "What can I help you with?");
+    }
+  }
+};

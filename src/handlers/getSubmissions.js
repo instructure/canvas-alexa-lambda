@@ -16,30 +16,34 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 module.exports = {
-  GetUngradedSubmissions: function () {
-    this.context.api.getActiveTeacherCourses().then((res) => {
-        if (!res.data.length) {
-          this.emit('TellAndContinue', 'You have no courses to grade')
-        }
-        Promise.all(res.data.map((course) => {
-          return this.context.api.getStudentSubmissions(course.id).then(resp => ({ course, subs: resp.data }))
-        })).then((responses) => {
-          if (!responses.length) {
-            this.emit('TellAndContinue', 'You have no submissions')
-          }
-          let speechResponse = ''
-          responses.forEach((submissionResponse, index) => {
-            speechResponse += `${submissionResponse.course.name}, `
-            let ungradedCount = 0
-            submissionResponse.subs.forEach((sub, index) => {
-              if (sub.workflow_state === 'submitted' && !sub.grade) {
-                ungradedCount++
-              }
-            })
-            speechResponse += `${ungradedCount}.\n`
-          })
-          this.emit('TellAndContinue', speechResponse)
+  GetUngradedSubmissions: function() {
+    this.context.api.getActiveTeacherCourses().then(res => {
+      if (!res.data.length) {
+        this.emit("TellAndContinue", "You have no courses to grade");
+      }
+      Promise.all(
+        res.data.map(course => {
+          return this.context.api
+            .getStudentSubmissions(course.id)
+            .then(resp => ({ course, subs: resp.data }));
         })
-      })
-  },
-}
+      ).then(responses => {
+        if (!responses.length) {
+          this.emit("TellAndContinue", "You have no submissions");
+        }
+        let speechResponse = "";
+        responses.forEach((submissionResponse, index) => {
+          speechResponse += `${submissionResponse.course.name}, `;
+          let ungradedCount = 0;
+          submissionResponse.subs.forEach((sub, index) => {
+            if (sub.workflow_state === "submitted" && !sub.grade) {
+              ungradedCount++;
+            }
+          });
+          speechResponse += `${ungradedCount}.\n`;
+        });
+        this.emit("TellAndContinue", speechResponse);
+      });
+    });
+  }
+};

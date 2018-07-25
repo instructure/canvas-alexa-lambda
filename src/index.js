@@ -16,37 +16,37 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-'use strict'
+"use strict";
 
-const Alexa = require('alexa-sdk')
+const Alexa = require("alexa-sdk");
 
-const initHandlers = require('./handlers')
-const ApiClient = require('./apiClient')
+const initHandlers = require("./handlers");
+const ApiClient = require("./apiClient");
 
-const PIN_TOKEN = 'PIN_REFRESH_ONLY_TOKEN'
+const PIN_TOKEN = "PIN_REFRESH_ONLY_TOKEN";
 
-exports.handler = function (event, context) {
-  const alexa = Alexa.handler(event, context)
-  alexa.appId = process.env.ALEXA_APP_ID || '1'
-  if(event.session.development) {
-    alexa.development = true
+exports.handler = function(event, context) {
+  const alexa = Alexa.handler(event, context);
+  alexa.appId = process.env.ALEXA_APP_ID || "1";
+  if (event.session.development) {
+    alexa.development = true;
   }
 
-  const token = event.session.user.accessToken || ''
-  const needsPinLogin = token.startsWith(PIN_TOKEN)
+  const token = event.session.user.accessToken || "";
+  const needsPinLogin = token.startsWith(PIN_TOKEN);
 
   if (!token) {
-    alexa.emit(':tellWithLinkAccountCard', "You need to login with Canvas to use this skill.")
-    return
+    alexa.emit(":tellWithLinkAccountCard", "You need to login with Canvas to use this skill.");
+    return;
   } else {
-    alexa.registerHandlers(initHandlers(token, needsPinLogin))
+    alexa.registerHandlers(initHandlers(token, needsPinLogin));
     if (!needsPinLogin) {
-      context.api = new ApiClient(alexa, token)
+      context.api = new ApiClient(alexa, token);
     }
   }
-  alexa.execute()
-}
+  alexa.execute();
+};
 /* istanbul ignore next line */
 exports.devSuccessHandler = function(response) {
-  console.log(response)
-}
+  console.log(response);
+};

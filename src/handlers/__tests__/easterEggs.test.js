@@ -18,32 +18,31 @@
 const virtualAlexa = require("virtual-alexa");
 
 const alexa = virtualAlexa.VirtualAlexa.Builder()
-    .handler("./src/index.handler")
-    .intentSchemaFile("./alexa-config/intents.json")
-    .sampleUtterancesFile("./alexa-config/utterances.txt")
-    .applicationID("1")
-    .create();
+  .handler("./src/index.handler")
+  .intentSchemaFile("./alexa-config/intents.json")
+  .sampleUtterancesFile("./alexa-config/utterances.txt")
+  .applicationID("1")
+  .create();
 
-alexa.filter((requestJSON) => {
-  requestJSON.session.user.accessToken = "totally~a~real~host;totally~a~real~access~token"
-})
+alexa.filter(requestJSON => {
+  requestJSON.session.user.accessToken = "totally~a~real~host;totally~a~real~access~token";
+});
 
 const crazyPhrases = [
-    'You must be crazy',
-    'You need help',
-    'Seek help',
-    'I do not think you are in a right state of mind',
-    'You are not using this right'
-]
+  "You must be crazy",
+  "You need help",
+  "Seek help",
+  "I do not think you are in a right state of mind",
+  "You are not using this right"
+];
 
-test('testeastereggintent',async() => {
-    const result = await alexa.utter("Blackboard is better")
-    var returnedCrazyPhrase = false
-    crazyPhrases.forEach(function(element){
-        if(result.response.outputSpeech.ssml.indexOf(element)>-1){
-            returnedCrazyPhrase=true
-        }
-    })
-    expect(returnedCrazyPhrase).toEqual(true)
-})
-
+test("testeastereggintent", async () => {
+  const result = await alexa.utter("Blackboard is better");
+  var returnedCrazyPhrase = false;
+  crazyPhrases.forEach(function(element) {
+    if (result.response.outputSpeech.ssml.indexOf(element) > -1) {
+      returnedCrazyPhrase = true;
+    }
+  });
+  expect(returnedCrazyPhrase).toEqual(true);
+});

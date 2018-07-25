@@ -8,9 +8,14 @@ pipeline {
                 sh 'docker build --no-cache -t alexa_unit_tests-$BUILD_ID .'
             }
         }
+        stage('Lint') {
+            steps {
+                sh 'docker run --rm alexa_unit_tests-$BUILD_ID yarn lint'
+            }
+        }
         stage('Test') {
             steps {
-                sh 'docker run --rm alexa_unit_tests-$BUILD_ID'
+                sh 'docker run --rm alexa_unit_tests-$BUILD_ID yarn test --coverage'
             }
         }
     }

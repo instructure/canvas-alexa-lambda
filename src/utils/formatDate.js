@@ -15,25 +15,38 @@
  * You should have received a copy of the GNU Affero General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
-const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+const months = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December"
+];
 
-exports.forAPI = function formatForAPI (date) {
-  return date.toISOString().slice(0, 10)
-}
+exports.forAPI = function formatForAPI(date) {
+  return date.toISOString().slice(0, 10);
+};
 
-exports.forSpeech = function formatForSpeech (date) {
-  const monthDay = date.getDate()
-  const weekDay = days[ date.getDay() ]
-  const month = months[ date.getMonth() ]
-  return `${weekDay} ${month} ${monthDay}`
-}
+exports.forSpeech = function formatForSpeech(date) {
+  const monthDay = date.getDate();
+  const weekDay = days[date.getDay()];
+  const month = months[date.getMonth()];
+  return `${weekDay} ${month} ${monthDay}`;
+};
 
-exports.rangeForSpeech = function formatRangeForSpeech (startDate, endDate) {
+exports.rangeForSpeech = function formatRangeForSpeech(startDate, endDate) {
   // start and end are the same
   if (startDate.getTime() === endDate.getTime()) {
-    return exports.forSpeech(startDate)
+    return exports.forSpeech(startDate);
   } else {
-    return `${exports.forSpeech(startDate)} to ${exports.forSpeech(endDate)}`
+    return `${exports.forSpeech(startDate)} to ${exports.forSpeech(endDate)}`;
   }
-}
+};

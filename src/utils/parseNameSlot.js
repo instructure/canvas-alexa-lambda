@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU Affero General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-const Fuse = require('fuse.js')
+const Fuse = require("fuse.js");
 
 const defaultOptions = {
   shouldSort: true,
@@ -24,14 +24,11 @@ const defaultOptions = {
   distance: 100,
   maxPatternLength: 32,
   minMatchCharLength: 1,
-  keys: [
-    'name',
-    'short_name',
-  ],
-}
+  keys: ["name", "short_name"]
+};
 
-module.exports = function parseNameSlot (people, nameSlotValue, options = {}) {
-  if (!nameSlotValue) return people
-  const fuse = new Fuse(people, Object.assign(defaultOptions, options))
-  return fuse.search(nameSlotValue)
-}
+module.exports = function parseNameSlot(people, nameSlotValue, options = {}) {
+  if (!nameSlotValue) return people;
+  const fuse = new Fuse(people, Object.assign(defaultOptions, options));
+  return fuse.search(nameSlotValue);
+};

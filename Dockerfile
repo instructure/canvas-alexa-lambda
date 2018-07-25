@@ -4,10 +4,9 @@ ENV APP_HOME /usr/src/app
 WORKDIR $APP_HOME
 USER docker
 
-COPY package.json yarn.lock webpack.config.js ./
+COPY package.json yarn.lock webpack.config.js .prettierrc ./
 COPY src/ ./src
 COPY alexa-config/ ./alexa-config/
 
 RUN yarn install
-
-CMD ["yarn", "jest", "--coverage"]
+CMD ["/bin/bash"]

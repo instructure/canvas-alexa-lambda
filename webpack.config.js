@@ -1,13 +1,13 @@
-'use strict'
+"use strict";
 
-const path = require('path')
-const webpack = require('webpack')
+const path = require("path");
+const webpack = require("webpack");
 // const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
-const ArchivePlugin = require('webpack-archive-plugin')
+const ArchivePlugin = require("webpack-archive-plugin");
 
 module.exports = {
-  entry: './src/index.js',
-  target: 'node',
+  entry: "./src/index.js",
+  target: "node",
   plugins: [
     new webpack.optimize.OccurrenceOrderPlugin(),
     // FIXME: we need to wait for a release on this guy to be able to uglify
@@ -18,13 +18,13 @@ module.exports = {
     //   sourceMap: true,
     // }),
     new ArchivePlugin({
-      output: process.env.buildPath || path.join(__dirname, 'build/lambda'),
-      format: 'zip',
-    }),
+      output: process.env.buildPath || path.join(__dirname, "build/lambda"),
+      format: "zip"
+    })
   ],
   output: {
-    libraryTarget: 'commonjs',
-    path: path.join(__dirname, 'build'),
-    filename: 'index.js',
-  },
-}
+    libraryTarget: "commonjs",
+    path: path.join(__dirname, "build"),
+    filename: "index.js"
+  }
+};

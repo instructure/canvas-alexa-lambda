@@ -16,64 +16,71 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 const virtualAlexa = require("virtual-alexa");
-var axios = require('axios');
-var MockAdapter = require('axios-mock-adapter');
+var axios = require("axios");
+var MockAdapter = require("axios-mock-adapter");
 let mock;
 let alexa;
 
 beforeAll(() => {
   alexa = virtualAlexa.VirtualAlexa.Builder()
-      .handler("./src/index.handler")
-      .intentSchemaFile("./alexa-config/intents.json")
-      .sampleUtterancesFile("./alexa-config/utterances.txt")
-      .applicationID('1')
-      .create();
+    .handler("./src/index.handler")
+    .intentSchemaFile("./alexa-config/intents.json")
+    .sampleUtterancesFile("./alexa-config/utterances.txt")
+    .applicationID("1")
+    .create();
 
-  alexa.filter((requestJSON) => {
-    requestJSON.session.user.accessToken = "totally~a~real~host;totally~a~real~access~token"
-    requestJSON.session.development = true
-  })
-  mock = new MockAdapter(axios)
-})
+  alexa.filter(requestJSON => {
+    requestJSON.session.user.accessToken = "totally~a~real~host;totally~a~real~access~token";
+    requestJSON.session.development = true;
+  });
+  mock = new MockAdapter(axios);
+});
 
 afterEach(() => {
-  mock.reset()
-})
+  mock.reset();
+});
 
 afterAll(() => {
-  mock.restore()
-})
+  mock.restore();
+});
 
-it('test announcements intent when user has no active courses', async () => {
-  mock.onGet('/courses?enrollment_state=active').reply(200, []);
-  const expected = "You have no active courses. Anything else?"
-  const result = await alexa.utter("Is there any news")
-  expect(result.response.outputSpeech.ssml).toEqual(expect.stringContaining(expected))
-})
+it("test announcements intent when user has no active courses", async () => {
+  mock.onGet("/courses?enrollment_state=active").reply(200, []);
+  const expected = "You have no active courses. Anything else?";
+  const result = await alexa.utter("Is there any news");
+  expect(result.response.outputSpeech.ssml).toEqual(expect.stringContaining(expected));
+});
 
-it('test announcements intent when user has no announcements', async () => {
-  mock.onGet('/courses?enrollment_state=active').reply(200, [
-    {id: 5, name: "temp course name 1"},
-    {id: 6, name: "temp course name 2"}
-  ]);
-  mock.onGet('/announcements?active_only=true&context_codes[]=course_5&context_codes[]=course_6').reply(200, []);
+it("test announcements intent when user has no announcements", async () => {
+  mock
+    .onGet("/courses?enrollment_state=active")
+    .reply(200, [{ id: 5, name: "temp course name 1" }, { id: 6, name: "temp course name 2" }]);
+  mock
+    .onGet("/announcements?active_only=true&context_codes[]=course_5&context_codes[]=course_6")
+    .reply(200, []);
 
-  const expected = "You have no announcements. Anything else?"
-  const result = await alexa.utter("Is there any news")
-  expect(result.response.outputSpeech.ssml.replace(/(\r\n\t|\n|\r\t)/gm,"")).toEqual(expect.stringContaining(expected))
-})
+  const expected = "You have no announcements. Anything else?";
+  const result = await alexa.utter("Is there any news");
+  expect(result.response.outputSpeech.ssml.replace(/(\r\n\t|\n|\r\t)/gm, "")).toEqual(
+    expect.stringContaining(expected)
+  );
+});
 
-it('test announcements intent when user has announcements', async () => {
-  mock.onGet('/courses?enrollment_state=active').reply(200, [
-    {id: 5, name: "temp course name 1"},
-    {id: 6, name: "temp course name 2"}
-  ]);
-  mock.onGet('/announcements?active_only=true&context_codes[]=course_5&context_codes[]=course_6').reply(200, [
-    {id: 5, title: "temp announcement named blah", context_code: "course_6"},
-    {id: 6, title: "temp announcement named blee", context_code: "course_5"}
-  ]);
+it("test announcements intent when user has announcements", async () => {
+  mock
+    .onGet("/courses?enrollment_state=active")
+    .reply(200, [{ id: 5, name: "temp course name 1" }, { id: 6, name: "temp course name 2" }]);
+  mock
+    .onGet("/announcements?active_only=true&context_codes[]=course_5&context_codes[]=course_6")
+    .reply(200, [
+      { id: 5, title: "temp announcement named blah", context_code: "course_6" },
+      { id: 6, title: "temp announcement named blee", context_code: "course_5" }
+    ]);
 
-  const expected = "Here are your announcements: In course temp course name 2: temp announcement named blah,In course temp course name 1: temp announcement named blee. Anything else?"
-  const result = await alexa.utter("Is there any news")
-  expect(result.response.outputSpeech.ssml.replace(/(\r\n\t|\n|\r\t)/gm,"")).toEqual(expect.stringContaining(expected))
-})
+  const expected =
+    "Here are your announcements: In course temp course name 2: temp announcement named blah,In course temp course name 1: temp announcement named blee. Anything else?";
+  const result = await alexa.utter("Is there any news");
+  expect(result.response.outputSpeech.ssml.replace(/(\r\n\t|\n|\r\t)/gm, "")).toEqual(
+    expect.stringContaining(expected)
+  );
+});

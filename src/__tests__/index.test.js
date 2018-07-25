@@ -17,23 +17,19 @@
  */
 const virtualAlexa = require("virtual-alexa");
 
-
 const alexa = virtualAlexa.VirtualAlexa.Builder()
-    .handler("./src/index.handler")
-    .intentSchemaFile("./alexa-config/intents.json")
-    .sampleUtterancesFile("./alexa-config/utterances.txt")
-    .applicationID('1')
-    .create();
+  .handler("./src/index.handler")
+  .intentSchemaFile("./alexa-config/intents.json")
+  .sampleUtterancesFile("./alexa-config/utterances.txt")
+  .applicationID("1")
+  .create();
 
+alexa.filter(requestJSON => {
+  requestJSON.context.development = true;
+});
 
-alexa.filter((requestJSON) => {
-  requestJSON.context.development = true
-})
-
-it('It will tell you to login if you do not already have an access token', async () => {
-  const result = await alexa.utter("Tell me my grades")
-  const expected = "You need to login with Canvas to use this skill."
-  expect(result.response.outputSpeech.ssml).toEqual(expect.stringContaining(expected))
-})
-
-
+it("It will tell you to login if you do not already have an access token", async () => {
+  const result = await alexa.utter("Tell me my grades");
+  const expected = "You need to login with Canvas to use this skill.";
+  expect(result.response.outputSpeech.ssml).toEqual(expect.stringContaining(expected));
+});

@@ -15,64 +15,74 @@
  * You should have received a copy of the GNU Affero General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-const axios = require('axios')
+const axios = require("axios");
 
 module.exports = class ApiClient {
-  constructor (alexa, apiToken = '') {
-    const [hostname, token] = apiToken.split(';')
-    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
-    if(alexa.development) {
-      axios.defaults.baseURL = `http://${hostname}/api/v1`
+  constructor(alexa, apiToken = "") {
+    const [hostname, token] = apiToken.split(";");
+    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+    if (alexa.development) {
+      axios.defaults.baseURL = `http://${hostname}/api/v1`;
     } else {
-      axios.defaults.baseURL = `https://${hostname}/api/v1`
+      axios.defaults.baseURL = `https://${hostname}/api/v1`;
     }
-    axios.interceptors.response.use(res => res, (err) => {
-      alexa.emit(':tell', "There was a problem communicating with Canvas. Please try again later.")
-      return Promise.reject(err)
-    })
+    axios.interceptors.response.use(
+      res => res,
+      err => {
+        alexa.emit(
+          ":tell",
+          "There was a problem communicating with Canvas. Please try again later."
+        );
+        return Promise.reject(err);
+      }
+    );
   }
 
-  getMissingAssignments () {
-    return axios.get('/users/self/missing_submissions')
+  getMissingAssignments() {
+    return axios.get("/users/self/missing_submissions");
   }
 
-  getStudentSubmissions (courseId) {
-    return axios.get(`/courses/${courseId}/students/submissions?student_ids[]=all&per_page=100`)
+  getStudentSubmissions(courseId) {
+    return axios.get(`/courses/${courseId}/students/submissions?student_ids[]=all&per_page=100`);
   }
 
   // get another user's active courses (for observers, etc)
-  getActiveUserCourses (id, includes) {
-    const includeQuery = includes.map(inc => `include[]=${inc}`).join('&')
-    return axios.get(`/users/${id}/courses?enrollment_state=active&${includeQuery}`)
+  getActiveUserCourses(id, includes) {
+    const includeQuery = includes.map(inc => `include[]=${inc}`).join("&");
+    return axios.get(`/users/${id}/courses?enrollment_state=active&${includeQuery}`);
   }
 
   // get current user's active courses
-  getActiveCourses ({ enrollmentType = null, includes = [] } = {}) {
-    const includesQuery = includes.map(inc => `&include[]=${inc}`).join('')
-    const enrollmentQuery = enrollmentType ? `&enrollment_type=${enrollmentType}` : ''
-    const query = `enrollment_state=active${includesQuery}${enrollmentQuery}`
-    return axios.get(`/courses?${query}`)
+  getActiveCourses({ enrollmentType = null, includes = [] } = {}) {
+    const includesQuery = includes.map(inc => `&include[]=${inc}`).join("");
+    const enrollmentQuery = enrollmentType ? `&enrollment_type=${enrollmentType}` : "";
+    const query = `enrollment_state=active${includesQuery}${enrollmentQuery}`;
+    return axios.get(`/courses?${query}`);
   }
 
-  getActiveStudentCourses (includes = []) {
-    return this.getActiveCourses({ includes, enrollmentType: 'student' })
+  getActiveStudentCourses(includes = []) {
+    return this.getActiveCourses({ includes, enrollmentType: "student" });
   }
 
-  getActiveTeacherCourses (includes = []) {
-    return this.getActiveCourses({ includes, enrollmentType: 'teacher' })
+  getActiveTeacherCourses(includes = []) {
+    return this.getActiveCourses({ includes, enrollmentType: "teacher" });
   }
 
-  getObservees () {
-    return axios.get('/users/self/observees')
+  getObservees() {
+    return axios.get("/users/self/observees");
   }
 
-  getCalendarEvents (params = {}) {
-    const contextCodesQuery = params.contextCodes.map(cc => `context_codes[]=${cc}`).join('&')
-    return axios.get(`/users/self/calendar_events?type=assignment&start_date=${params.startDate}&end_date=${params.endDate}&per_page=50&${contextCodesQuery}`)
+  getCalendarEvents(params = {}) {
+    const contextCodesQuery = params.contextCodes.map(cc => `context_codes[]=${cc}`).join("&");
+    return axios.get(
+      `/users/self/calendar_events?type=assignment&start_date=${params.startDate}&end_date=${
+        params.endDate
+      }&per_page=50&${contextCodesQuery}`
+    );
   }
 
-  getAnnouncements (params = {}) {
-    const contextCodesQuery = params.contextCodes.map(cc => `context_codes[]=${cc}`).join('&')
-    return axios.get(`/announcements?active_only=true&${contextCodesQuery}`)
+  getAnnouncements(params = {}) {
+    const contextCodesQuery = params.contextCodes.map(cc => `context_codes[]=${cc}`).join("&");
+    return axios.get(`/announcements?active_only=true&${contextCodesQuery}`);
   }
-}
+};
