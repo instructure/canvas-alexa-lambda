@@ -34,7 +34,6 @@ test('It will tell you to login if you do not already have an access token', (do
   })
 })
 
-// TODO test with an access token works
 
 /*
 alexa.filter((requestJSON) => {

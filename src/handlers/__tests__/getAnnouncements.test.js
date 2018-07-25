@@ -18,35 +18,61 @@
 const virtualAlexa = require("virtual-alexa");
 var axios = require('axios');
 var MockAdapter = require('axios-mock-adapter');
+let mock;
+let alexa;
 
+beforeAll(() => {
+  alexa = virtualAlexa.VirtualAlexa.Builder()
+      .handler("./src/index.handler")
+      .intentSchemaFile("./alexa-config/intents.json")
+      .sampleUtterancesFile("./alexa-config/utterances.txt")
+      .applicationID('unit_test_app_id')
+      .create();
 
-const alexa = virtualAlexa.VirtualAlexa.Builder()
-    .handler("./src/index.handler")
-    .intentSchemaFile("./alexa-config/intents.json")
-    .sampleUtterancesFile("./alexa-config/utterances.txt")
-    .applicationID('unit_test_app_id')
-    .create();
-
-alexa.filter((requestJSON) => {
-  requestJSON.session.user.accessToken = "totally~a~real~host;totally~a~real~access~token"
+  alexa.filter((requestJSON) => {
+    requestJSON.session.user.accessToken = "totally~a~real~host;totally~a~real~access~token"
+  })
+  mock = new MockAdapter(axios)
 })
 
-test('test announcements intent when user has no announcements', (done) => {
-  var mock = new MockAdapter(axios);
-  mock.onGet('/courses?enrollment_state=active').reply(200, []);
-  alexa.utter("Is there any news").then(payload => {
-    const expected = "You have no announcements. Anything else?"
-    expect(payload.response.outputSpeech.ssml).toEqual(expect.stringContaining(expected))
-    done()
-  })
+afterEach(() => {
+  mock.reset()
 })
 
-test('test announcements intent when user has no announcements', (done) => {
-  var mock = new MockAdapter(axios);
+afterAll(() => {
+  mock.restore()
+})
+
+it('test announcements intent when user has no active courses', async () => {
   mock.onGet('/courses?enrollment_state=active').reply(200, []);
-  alexa.utter("Is there any news").then(payload => {
-    const expected = "You have no announcements. Anything else?"
-    expect(payload.response.outputSpeech.ssml).toEqual(expect.stringContaining(expected))
-    done()
-  })
+  const expected = "You have no active courses. Anything else?"
+  const result = await alexa.utter("Is there any news")
+  expect(result.response.outputSpeech.ssml).toEqual(expect.stringContaining(expected))
+})
+
+it('test announcements intent when user has no announcements', async () => {
+  mock.onGet('/courses?enrollment_state=active').reply(200, [
+    {id: 5, name: "temp course name 1"},
+    {id: 6, name: "temp course name 2"}
+  ]);
+  mock.onGet('/announcements?active_only=true&context_codes[]=course_5&context_codes[]=course_6').reply(200, []);
+
+  const expected = "You have no announcements. Anything else?"
+  const result = await alexa.utter("Is there any news")
+  expect(result.response.outputSpeech.ssml.replace(/(\r\n\t|\n|\r\t)/gm,"")).toEqual(expect.stringContaining(expected))
+})
+
+it('test announcements intent when user has announcements', async () => {
+  mock.onGet('/courses?enrollment_state=active').reply(200, [
+    {id: 5, name: "temp course name 1"},
+    {id: 6, name: "temp course name 2"}
+  ]);
+  mock.onGet('/announcements?active_only=true&context_codes[]=course_5&context_codes[]=course_6').reply(200, [
+    {id: 5, title: "temp announcement named blah", context_code: "course_6"},
+    {id: 6, title: "temp announcement named blee", context_code: "course_5"}
+  ]);
+
+  const expected = "Here are your announcements: In course temp course name 2: temp announcement named blah,In course temp course name 1: temp announcement named blee. Anything else?"
+  const result = await alexa.utter("Is there any news")
+  expect(result.response.outputSpeech.ssml.replace(/(\r\n\t|\n|\r\t)/gm,"")).toEqual(expect.stringContaining(expected))
 })
