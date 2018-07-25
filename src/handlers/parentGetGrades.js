@@ -19,33 +19,29 @@ const parseCourseSlot = require('../utils/parseCourseSlot')
 const parseNameSlot = require('../utils/parseNameSlot')
 
 module.exports = {
-  'ParentGetGrades': function () {
+  'ParentGetGrades': async function () {
     const nameSlot = this.event.request.intent.slots.Name.value
     const courseSlot = this.event.request.intent.slots.Course.value
 
-    return this.context.api.getObservees()
-      .then(res => {
-        const matchedStudents = parseNameSlot(res.data, nameSlot)
-        return Promise.all(matchedStudents.map(student => {
-          return this.context.api.getActiveUserCourses(student.id, ['total_scores'])
-            .then(res => ({
-              student: student.short_name,
-              courses: parseCourseSlot(res.data, courseSlot),
-            }))
-        }))
-      })
-      .then(studentCourses => {
-        let speechResponse = 'Here are your students grades: '
+    const observeesApiResult = await this.context.api.getObservees()
+    const matchedStudents = parseNameSlot(observeesApiResult.data, nameSlot)
 
-        if (studentCourses.length) {
-          speechResponse += formatStudentGrades(studentCourses, courseSlot)
-        } else {
-          speechResponse = `No ${nameSlot ? 'matching' : ''} students found`
+    const activeCourses = await Promise.all(
+      matchedStudents.map(async (student) => {
+        const res = await this.context.api.getActiveUserCourses(student.id, ['total_scores'])
+        return {
+          student: student.short_name,
+          courses: parseCourseSlot(res.data, courseSlot),
         }
-
-        this.emit('TellAndContinue', speechResponse)
       })
-  },
+    )
+
+    const speechResponse = activeCourses.length
+      ? 'Here are your students grades: ' + formatStudentGrades(activeCourses, courseSlot)
+      : `No ${nameSlot ? 'matching ' : ''}students found`
+
+    this.emit('TellAndContinue', speechResponse)
+  }
 }
 
 function formatStudentGrades (studentCourses, courseSlot) {
@@ -56,7 +52,7 @@ function formatCourses (courses, courseSlot) {
   if (courses.length) {
     return courses.map(course => formatCourse(course)).join('\n')
   } else {
-    return `No ${courseSlot ? 'matching' : ''} course found`
+    return `No ${courseSlot ? 'matching ' : ''}course found`
   }
 }
 
