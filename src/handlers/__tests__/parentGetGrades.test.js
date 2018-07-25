@@ -33,7 +33,7 @@ beforeAll(() => {
     .handler("./src/index.handler")
     .intentSchemaFile("./alexa-config/intents.json")
     .sampleUtterancesFile("./alexa-config/utterances.txt")
-    .applicationID('unit_test_app_id')
+    .applicationID('1')
     .create();
 
   alexa.filter((requestJSON) => {

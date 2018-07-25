@@ -27,8 +27,8 @@ const PIN_TOKEN = 'PIN_REFRESH_ONLY_TOKEN'
 
 exports.handler = function (event, context) {
   const alexa = Alexa.handler(event, context)
-  alexa.appId = process.env.ALEXA_APP_ID || 'unit_test_app_id'
-  if(context.development) {
+  alexa.appId = process.env.ALEXA_APP_ID || '1'
+  if(event.session.development) {
     alexa.development = true
   }
 
@@ -46,7 +46,7 @@ exports.handler = function (event, context) {
   }
   alexa.execute()
 }
-
+/* istanbul ignore next line */
 exports.devSuccessHandler = function(response) {
   console.log(response)
 }

@@ -27,6 +27,7 @@ node -e "require('./src/index.js').handler(
       locale: 'en'
     },
     session: {
+      development: true,
       application: {
         applicationId: '1'
       },
@@ -35,5 +36,5 @@ node -e "require('./src/index.js').handler(
         accessToken: '$host;$accessToken'
       }
     }
-  },{succeed: require('./src/index.js').devSuccessHandler, development: true}
+  },{succeed: require('./src/index.js').devSuccessHandler, fail: require('./src/index.js').devSuccessHandler}
 )"

@@ -26,11 +26,12 @@ beforeAll(() => {
       .handler("./src/index.handler")
       .intentSchemaFile("./alexa-config/intents.json")
       .sampleUtterancesFile("./alexa-config/utterances.txt")
-      .applicationID('unit_test_app_id')
+      .applicationID('1')
       .create();
 
   alexa.filter((requestJSON) => {
     requestJSON.session.user.accessToken = "totally~a~real~host;totally~a~real~access~token"
+    requestJSON.session.development = true
   })
   mock = new MockAdapter(axios)
 })
