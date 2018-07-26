@@ -6,6 +6,7 @@ USER docker
 
 COPY package.json yarn.lock webpack.config.js .prettierrc ./
 COPY src/ ./src
+COPY bin/ ./bin
 COPY alexa-config/ ./alexa-config/
 
 RUN yarn install
