@@ -36,7 +36,9 @@ module.exports = {
     LaunchRequest: function() {
       this.emit("AMAZON.HelpIntent");
     },
+    /* istanbul ignore next line */
     Unhandled: function() {
+      /* istanbul ignore next line */
       this.emit(":tell", "Goodbye!");
     },
     "AMAZON.HelpIntent": function() {
