@@ -10,7 +10,7 @@ pipeline {
         }
         stage('Lint') {
             steps {
-                sh 'docker run --rm alexa_unit_tests-$BUILD_ID yarn lint'
+                sh 'docker run --rm alexa_unit_tests-$BUILD_ID yarn lint-test'
             }
         }
         stage('Test') {

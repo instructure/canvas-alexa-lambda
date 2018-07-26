@@ -6,7 +6,8 @@
   "scripts": {
     "build": "webpack",
     "test": "jest",
-    "lint": "prettier --list-different \"**/*.js\""
+    "lint": "prettier --write \"**/*.js\"",
+    "lint-test": "prettier --list-different \"**/*.js\""
   },
   "keywords": [
     "alexa",
