@@ -85,3 +85,17 @@ it("test the have no events response", async () => {
   const result = await alexa.utter("What is on my calendar");
   expect(result).toMatchSnapshot();
 });
+
+it("test getCalenderEvent intent with course", async () => {
+  mock
+    .onGet("/courses?enrollment_state=active&enrollment_type=student")
+    .reply(200, [{ id: 7, name: "temp" }]);
+
+  mock
+    .onGet(
+      "/users/self/calendar_events?type=assignment&start_date=2017-10-13&end_date=2017-10-13&per_page=50&context_codes[]=course_7"
+    )
+    .reply(200, []);
+  const result = await alexa.utter("What is on my calendar in temp");
+  expect(result).toMatchSnapshot();
+});

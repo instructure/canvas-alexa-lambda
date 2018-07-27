@@ -41,6 +41,26 @@ SkillResponse {
 }
 `;
 
+exports[`test getCalenderEvent intent with course 1`] = `
+SkillResponse {
+  "response": Object {
+    "outputSpeech": Object {
+      "ssml": "<speak> You have no events for Friday October 13 in temp. . Anything else? </speak>",
+      "type": "SSML",
+    },
+    "reprompt": Object {
+      "outputSpeech": Object {
+        "ssml": "<speak> You can ask to list grades, or check if you have any missing assignments. </speak>",
+        "type": "SSML",
+      },
+    },
+    "shouldEndSession": false,
+  },
+  "sessionAttributes": Object {},
+  "version": "1.0",
+}
+`;
+
 exports[`test the have no events response 1`] = `
 SkillResponse {
   "response": Object {
