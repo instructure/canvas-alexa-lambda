@@ -15,29 +15,26 @@
  * You should have received a copy of the GNU Affero General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-const createVirtualAlexa = require("../../test_utils/utils.js").createVirtualAlexa;
+const virtualAlexa = require("virtual-alexa");
 
-const crazyPhrases = [
-  "You must be crazy",
-  "You need help",
-  "Seek help",
-  "I do not think you are in a right state of mind",
-  "You are not using this right"
-];
+module.exports = {
+  createVirtualAlexa: function(options = {}) {
+    fakeAccessToken = options.fakeAccessToken === undefined ? true : options.fakeAccessToken;
 
-let alexa;
+    const alexa = virtualAlexa.VirtualAlexa.Builder()
+      .handler("./src/index.handler")
+      .intentSchemaFile("./alexa-config/intents.json")
+      .sampleUtterancesFile("./alexa-config/utterances.txt")
+      .applicationID("1")
+      .create();
 
-beforeAll(() => {
-  alexa = createVirtualAlexa();
-});
+    alexa.filter(requestJSON => {
+      requestJSON.session.development = true;
+      if (fakeAccessToken) {
+        requestJSON.session.user.accessToken = "localhost;fake-access-token";
+      }
+    });
 
-test("testeastereggintent", async () => {
-  const result = await alexa.utter("Blackboard is better");
-  var returnedCrazyPhrase = false;
-  crazyPhrases.forEach(function(element) {
-    if (result.response.outputSpeech.ssml.indexOf(element) > -1) {
-      returnedCrazyPhrase = true;
-    }
-  });
-  expect(returnedCrazyPhrase).toEqual(true);
-});
+    return alexa;
+  }
+};

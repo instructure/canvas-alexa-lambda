@@ -15,21 +15,11 @@
  * You should have received a copy of the GNU Affero General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-const virtualAlexa = require("virtual-alexa");
+const createVirtualAlexa = require("../../test_utils/utils.js").createVirtualAlexa;
 let alexa;
 
 beforeAll(() => {
-  alexa = virtualAlexa.VirtualAlexa.Builder()
-    .handler("./src/index.handler")
-    .intentSchemaFile("./alexa-config/intents.json")
-    .sampleUtterancesFile("./alexa-config/utterances.txt")
-    .applicationID("1")
-    .create();
-
-  alexa.filter(requestJSON => {
-    requestJSON.session.user.accessToken = "totally~a~real~host;totally~a~real~access~token";
-    requestJSON.session.development = true;
-  });
+  alexa = createVirtualAlexa();
 });
 
 it("launch the cancel intent", async () => {
