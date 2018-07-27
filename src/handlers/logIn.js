@@ -32,7 +32,6 @@ module.exports = function initLogIn(token) {
         }
 
         try {
-          console.log(`https://${AUTH_HOSTNAME}/pin-auth`, queryString.stringify({ token, pin }));
           await axios.post(
             `https://${AUTH_HOSTNAME}/pin-auth`,
             queryString.stringify({ token, pin })

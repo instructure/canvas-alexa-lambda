@@ -58,7 +58,7 @@ it("does not log you in if no pin is supplied", async () => {
   expect(result).toMatchSnapshot();
 });
 
-it("test", async () => {
+it("does not let you do other intents until you verify the pin", async () => {
   const result = await alexa.utter("Blackboard is better");
   expect(result).toMatchSnapshot();
 });

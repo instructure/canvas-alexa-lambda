@@ -1,5 +1,19 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`does not let you do other intents until you verify the pin 1`] = `
+SkillResponse {
+  "response": Object {
+    "outputSpeech": Object {
+      "ssml": "<speak> You need to login with your security pin. To login say <emphasis level=\\"strong\\">ask canvas to login with pin</emphasis>, followed by your pin digits. </speak>",
+      "type": "SSML",
+    },
+    "shouldEndSession": true,
+  },
+  "sessionAttributes": Object {},
+  "version": "1.0",
+}
+`;
+
 exports[`does not log you in if no pin is supplied 1`] = `
 SkillResponse {
   "response": Object {
@@ -33,20 +47,6 @@ SkillResponse {
   "response": Object {
     "outputSpeech": Object {
       "ssml": "<speak> Pin login successful. The Canvas skill is unlocked for ten minutes. </speak>",
-      "type": "SSML",
-    },
-    "shouldEndSession": true,
-  },
-  "sessionAttributes": Object {},
-  "version": "1.0",
-}
-`;
-
-exports[`test 1`] = `
-SkillResponse {
-  "response": Object {
-    "outputSpeech": Object {
-      "ssml": "<speak> You need to login with your security pin. To login say <emphasis level=\\"strong\\">ask canvas to login with pin</emphasis>, followed by your pin digits. </speak>",
       "type": "SSML",
     },
     "shouldEndSession": true,
