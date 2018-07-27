@@ -22,28 +22,26 @@ const AUTH_HOSTNAME = process.env.AUTH_HOSTNAME;
 module.exports = function initLogIn(token) {
   return {
     intent: {
-      LogIn: function() {
+      LogIn: async function() {
         const pin = this.event.request.intent.slots.Pin.value;
-        if (pin) {
-          axios
-            .post(`https://${AUTH_HOSTNAME}/pin-auth`, queryString.stringify({ token, pin }))
-            .then(res => {
-              this.emit(
-                ":tell",
-                "Pin login successful. The Canvas skill is unlocked for ten minutes."
-              );
-            })
-            .catch(err => {
-              console.log("pin login err >", err);
-              this.emit(
-                ":tell",
-                "Pin login failed. Please try again. To reset your pin, re-link your Canvas account with this skill."
-              );
-            });
-        } else {
+        if (!pin) {
           this.emit(
             ":tell",
             "Please provide a pin. To reset your pin, re-link your Canvas account with this skill."
+          );
+        }
+
+        try {
+          console.log(`https://${AUTH_HOSTNAME}/pin-auth`, queryString.stringify({ token, pin }));
+          await axios.post(
+            `https://${AUTH_HOSTNAME}/pin-auth`,
+            queryString.stringify({ token, pin })
+          );
+          this.emit(":tell", "Pin login successful. The Canvas skill is unlocked for ten minutes.");
+        } catch (err) {
+          this.emit(
+            ":tell",
+            "Pin login failed. Please try again. To reset your pin, re-link your Canvas account with this skill."
           );
         }
       }
