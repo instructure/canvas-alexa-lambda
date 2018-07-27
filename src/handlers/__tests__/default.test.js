@@ -34,30 +34,25 @@ beforeAll(() => {
 
 it("launch the cancel intent", async () => {
   const result = await alexa.utter("Cancel");
-  const expected = "Goodbye!";
-  expect(result.response.outputSpeech.ssml).toEqual(expect.stringContaining(expected));
+  expect(result).toMatchSnapshot();
 });
 
 it("launch the stop intent", async () => {
   const result = await alexa.utter("Stop");
-  const expected = "Goodbye!";
-  expect(result.response.outputSpeech.ssml).toEqual(expect.stringContaining(expected));
+  expect(result).toMatchSnapshot();
 });
 
 it("launch the no intent", async () => {
   const result = await alexa.utter("No");
-  const expected = "Goodbye!";
-  expect(result.response.outputSpeech.ssml).toEqual(expect.stringContaining(expected));
+  expect(result).toMatchSnapshot();
 });
 
 it("launch the help intent", async () => {
   const result = await alexa.utter("Help");
-  const expected = "You can ask to list grades, or check if you have any missing assignments.";
-  expect(result.response.outputSpeech.ssml).toEqual(expect.stringContaining(expected));
+  expect(result).toMatchSnapshot();
 });
 
 it("launch the launch intent", async () => {
   const result = await alexa.launch();
-  const expected = "You can ask to list grades, or check if you have any missing assignments.";
-  expect(result.response.outputSpeech.ssml).toEqual(expect.stringContaining(expected));
+  expect(result).toMatchSnapshot();
 });

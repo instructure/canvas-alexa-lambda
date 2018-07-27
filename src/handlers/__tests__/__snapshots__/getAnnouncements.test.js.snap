@@ -1,0 +1,62 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`test announcements intent when user has announcements 1`] = `
+SkillResponse {
+  "response": Object {
+    "outputSpeech": Object {
+      "ssml": "<speak> Here are your announcements: In course temp course name 2: temp announcement named blah,
+In course temp course name 1: temp announcement named blee. Anything else? </speak>",
+      "type": "SSML",
+    },
+    "reprompt": Object {
+      "outputSpeech": Object {
+        "ssml": "<speak> You can ask to list grades, or check if you have any missing assignments. </speak>",
+        "type": "SSML",
+      },
+    },
+    "shouldEndSession": false,
+  },
+  "sessionAttributes": Object {},
+  "version": "1.0",
+}
+`;
+
+exports[`test announcements intent when user has no active courses 1`] = `
+SkillResponse {
+  "response": Object {
+    "outputSpeech": Object {
+      "ssml": "<speak> You have no active courses. Anything else? </speak>",
+      "type": "SSML",
+    },
+    "reprompt": Object {
+      "outputSpeech": Object {
+        "ssml": "<speak> You can ask to list grades, or check if you have any missing assignments. </speak>",
+        "type": "SSML",
+      },
+    },
+    "shouldEndSession": false,
+  },
+  "sessionAttributes": Object {},
+  "version": "1.0",
+}
+`;
+
+exports[`test announcements intent when user has no announcements 1`] = `
+SkillResponse {
+  "response": Object {
+    "outputSpeech": Object {
+      "ssml": "<speak> You have no announcements. Anything else? </speak>",
+      "type": "SSML",
+    },
+    "reprompt": Object {
+      "outputSpeech": Object {
+        "ssml": "<speak> You can ask to list grades, or check if you have any missing assignments. </speak>",
+        "type": "SSML",
+      },
+    },
+    "shouldEndSession": false,
+  },
+  "sessionAttributes": Object {},
+  "version": "1.0",
+}
+`;

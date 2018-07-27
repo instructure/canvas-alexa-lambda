@@ -121,8 +121,6 @@ it("respond correctly when they don't have any course enrollments", async () => 
     }
   ]);
 
-  const expected =
-    "Here are your students grades: For Billy: No matching course foundFor Bob: No grade posted for Calculus.. Anything else?";
   const result = await alexa.utter("What are my kids grades in calculus");
   expect(result).toMatchSnapshot();
 });

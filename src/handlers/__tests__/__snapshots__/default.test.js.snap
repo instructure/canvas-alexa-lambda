@@ -1,0 +1,83 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`launch the cancel intent 1`] = `
+SkillResponse {
+  "response": Object {
+    "outputSpeech": Object {
+      "ssml": "<speak> Goodbye! </speak>",
+      "type": "SSML",
+    },
+    "shouldEndSession": true,
+  },
+  "sessionAttributes": Object {},
+  "version": "1.0",
+}
+`;
+
+exports[`launch the help intent 1`] = `
+SkillResponse {
+  "response": Object {
+    "outputSpeech": Object {
+      "ssml": "<speak> You can ask to list grades, or check if you have any missing assignments. </speak>",
+      "type": "SSML",
+    },
+    "reprompt": Object {
+      "outputSpeech": Object {
+        "ssml": "<speak> What can I help you with? </speak>",
+        "type": "SSML",
+      },
+    },
+    "shouldEndSession": false,
+  },
+  "sessionAttributes": Object {},
+  "version": "1.0",
+}
+`;
+
+exports[`launch the launch intent 1`] = `
+SkillResponse {
+  "response": Object {
+    "outputSpeech": Object {
+      "ssml": "<speak> You can ask to list grades, or check if you have any missing assignments. </speak>",
+      "type": "SSML",
+    },
+    "reprompt": Object {
+      "outputSpeech": Object {
+        "ssml": "<speak> What can I help you with? </speak>",
+        "type": "SSML",
+      },
+    },
+    "shouldEndSession": false,
+  },
+  "sessionAttributes": Object {},
+  "version": "1.0",
+}
+`;
+
+exports[`launch the no intent 1`] = `
+SkillResponse {
+  "response": Object {
+    "outputSpeech": Object {
+      "ssml": "<speak> Goodbye! </speak>",
+      "type": "SSML",
+    },
+    "shouldEndSession": true,
+  },
+  "sessionAttributes": Object {},
+  "version": "1.0",
+}
+`;
+
+exports[`launch the stop intent 1`] = `
+SkillResponse {
+  "response": Object {
+    "outputSpeech": Object {
+      "ssml": "<speak> Goodbye! </speak>",
+      "type": "SSML",
+    },
+    "shouldEndSession": true,
+  },
+  "sessionAttributes": Object {},
+  "version": "1.0",
+}
+`;

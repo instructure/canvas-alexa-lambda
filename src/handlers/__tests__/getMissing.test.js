@@ -48,8 +48,7 @@ afterAll(() => {
 it("says no no missing assignments if you have nothing missing", async () => {
   mock.onGet("/users/self/missing_submissions").reply(200, []);
   const result = await alexa.utter("Am i missing anything");
-  const expected = expect.stringContaining("You have no missing assignments");
-  expect(result.response.outputSpeech.ssml).toEqual(expected);
+  expect(result).toMatchSnapshot();
 });
 
 it("names two assignments that are missing", async () => {
@@ -57,14 +56,7 @@ it("names two assignments that are missing", async () => {
     .onGet("/users/self/missing_submissions")
     .reply(200, [{ id: 1, name: "Chapter 1 Problems" }, { id: 2, name: "Chapter 2 Problems" }]);
   const result = await alexa.utter("Have i missed any assignments");
-  const expected1 = expect.stringContaining("Yes");
-  const expected2 = expect.stringContaining("Your assignment named Chapter 1 Problems is missing");
-  const expected3 = expect.stringContaining(
-    "Also Your assignment named Chapter 2 Problems is missing"
-  );
-  expect(result.response.outputSpeech.ssml).toEqual(expected1);
-  expect(result.response.outputSpeech.ssml).toEqual(expected2);
-  expect(result.response.outputSpeech.ssml).toEqual(expected3);
+  expect(result).toMatchSnapshot();
 });
 
 it("names two assignments  that are missing", async () => {
@@ -77,6 +69,5 @@ it("names two assignments  that are missing", async () => {
       { id: 4, name: "Chapter 4 Problems" }
     ]);
   const result = await alexa.utter("What assignments are missing");
-  const expected1 = expect.stringContaining("and 2 more");
-  expect(result.response.outputSpeech.ssml).toEqual(expected1);
+  expect(result).toMatchSnapshot();
 });
