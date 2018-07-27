@@ -18,45 +18,39 @@
 const parseCourseSlot = require("../utils/parseCourseSlot");
 
 module.exports = {
-  StudentGetGrades: function() {
-    this.context.api.getActiveStudentCourses(["total_scores"]).then(res => {
-      let speechResponse = "";
-      if (res.data.length > 0) {
-        speechResponse += formatGrades(res.data, this.event.request.intent.slots.Course.value);
-      } else {
-        speechResponse = "You are not in any active courses.";
-      }
-      speechResponse = speechResponse.replace(/&/g, "and");
-      this.emit("TellAndContinue", speechResponse);
-    });
+  StudentGetGrades: async function() {
+    const res = await this.context.api.getActiveStudentCourses(["total_scores"]);
+    const speechResponse = res.data.length
+      ? formatGrades(res.data, this.event.request.intent.slots.Course.value)
+      : "You are not in any active courses.";
+    this.emit("TellAndContinue", speechResponse.replace(/&/g, "and"));
   }
 };
 
 function formatGrades(courses, courseSlot) {
   const results = parseCourseSlot(courses, courseSlot);
-  let speechResponse = "";
-
   if (!results.length) {
-    speechResponse = `No ${courseSlot ? "matching" : ""} course found`;
+    return "No matching course found";
+  }
+
+  // if asked about one specific course
+  let speechResponse = "";
+  if (courseSlot && results.length === 1) {
+    const course = results[0];
+    const enrollment = course.enrollments[0] || {};
+    speechResponse = `For ${course.name} your grade is ${enrollment.computed_current_grade ||
+      enrollment.computed_current_score ||
+      "not posted yet"} .`;
   } else {
-    // if asked about one specific course
-    if (courseSlot && results.length === 1) {
-      const course = results[0];
-      const enrollment = course.enrollments[0] || {};
-      speechResponse = `For ${course.name} your grade is ${enrollment.computed_current_grade ||
-        enrollment.computed_current_score ||
-        "not posted yet"} .`;
-    } else {
-      speechResponse = "Here are your grades:\n";
-      speechResponse += results
-        .map(course => {
-          const enrollment = course.enrollments[0] || {};
-          return `for ${course.name}: Your grade is ${enrollment.computed_current_grade ||
-            enrollment.computed_current_score ||
-            "not posted yet"} .`;
-        })
-        .join("\n");
-    }
+    speechResponse = "Here are your grades:\n";
+    speechResponse += results
+      .map(course => {
+        const enrollment = course.enrollments[0] || {};
+        return `for ${course.name}: Your grade is ${enrollment.computed_current_grade ||
+          enrollment.computed_current_score ||
+          "not posted yet"} .`;
+      })
+      .join("\n");
   }
 
   return speechResponse;
