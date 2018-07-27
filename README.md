@@ -66,7 +66,7 @@ We use jest for testing the canvas alexa lambda
 
 We use prettier in this project.  Once you are comfortable with your intent or change you can run:
 
-`yarn prettier --write "**/*.js"`
+`yarn lint`
 
 This will auto format your code to our prettier standard.
 
@@ -92,7 +92,7 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 * **Steven Burnett** - *Initial work* - [sdb1228](https://github.com/sdb1228)
 * **Landon Gilbert-Bland** - *Initial work* - [vimalloc](https://github.com/vimalloc)
 
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
+See also the list of [contributors](https://github.com/instructure/canvas-alexa-lambda/graphs/contributors) who participated in this project.
 
 ## License
 
