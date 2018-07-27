@@ -21,7 +21,7 @@ const parseCourseSlot = require("../utils/parseCourseSlot");
 const { oneMonthInTheFuture } = require("../utils/computeDate");
 
 module.exports = {
-  GetCalendarEvents: function() {
+  GetCalendarEvents: async function() {
     const courseSlot = this.event.request.intent.slots.Course.value;
     const dateSlot = this.event.request.intent.slots.Date.value;
     const { startDate, endDate } = parseDateSlot(dateSlot, {
@@ -32,69 +32,66 @@ module.exports = {
     let targetCourse = null;
 
     // grab active student enrollments
-    this.context.api
-      .getActiveStudentCourses()
-      .then(res => {
-        const matchingCourses = courseSlot
-          ? parseCourseSlot(res.data, courseSlot).slice(0, 1)
-          : res.data;
+    const activeStudentCoursesResonse = await this.context.api.getActiveStudentCourses();
+    const matchingCourses = courseSlot
+      ? parseCourseSlot(activeStudentCoursesResonse.data, courseSlot).slice(0, 1)
+      : activeStudentCoursesResonse.data;
 
-        if (matchingCourses.length) {
-          targetCourse = courseSlot ? matchingCourses[0].name : null;
-          const contextCodes = matchingCourses
-            // maybe FIXME: there's a weird course on siteadmin accounts where
-            // the course id === the root account id and including it with calendar
-            // API causes a 401, so this removes the course, sorta hacky
-            .filter(course => course.id !== course.root_account_id)
-            .map(course => `course_${course.id}`);
+    if (!matchingCourses.length) {
+      let speechResponse = `You have no events for ${formatDate.rangeForSpeech(
+        startDate,
+        endDate
+      )}`;
+      this.emit("TellAndContinue", speechResponse);
+      return;
+    }
+    targetCourse = courseSlot ? matchingCourses[0].name : null;
+    const contextCodes = matchingCourses
+      // maybe FIXME: there's a weird course on siteadmin accounts where
+      // the course id === the root account id and including it with calendar
+      // API causes a 401, so this removes the course, sorta hacky
+      .filter(course => course.id !== course.root_account_id)
+      .map(course => `course_${course.id}`);
 
-          // grab calendar events for the next month for active student enrollments
-          return this.context.api.getCalendarEvents({
-            contextCodes,
-            startDate: formatDate.forAPI(startDate),
-            endDate: formatDate.forAPI(endDate)
-          });
-        } else {
-          return { data: [] };
-        }
-      })
-      .then(res => {
-        // group events by date
-        return res.data.reduce((dateMap, { all_day_date, title }) => {
-          dateMap[all_day_date] = dateMap[all_day_date] || [];
-          dateMap[all_day_date].push(title);
-          return dateMap;
-        }, {});
-      })
-      .then(eventsByDate => {
-        // formulate our response
-        const dates = Object.keys(eventsByDate).map(date => ({
-          date,
-          label: formatDate.forSpeech(new Date(date))
-        }));
+    // grab calendar events for the next month for active student enrollments
+    const calendarEventsResponse = await this.context.api.getCalendarEvents({
+      contextCodes,
+      startDate: formatDate.forAPI(startDate),
+      endDate: formatDate.forAPI(endDate)
+    });
 
-        let speechResponse = null;
-        const courseSuffix = targetCourse ? ` in ${targetCourse}` : "";
+    const eventsByDate = calendarEventsResponse.data.reduce((dateMap, { all_day_date, title }) => {
+      dateMap[all_day_date] = dateMap[all_day_date] || [];
+      dateMap[all_day_date].push(title);
+      return dateMap;
+    }, {});
+    // formulate our response
+    const dates = Object.keys(eventsByDate).map(date => ({
+      date,
+      label: formatDate.forSpeech(new Date(date))
+    }));
 
-        if (dates.length) {
-          speechResponse = `Here are your events for ${formatDate.rangeForSpeech(
-            startDate,
-            endDate
-          )}${courseSuffix}: `;
-          dates.forEach(({ label, date }) => {
-            speechResponse += `On ${label}: `;
-            eventsByDate[date].forEach(event => {
-              speechResponse += event + ".\n";
-            });
-          });
-        } else {
-          speechResponse = `You have no events for ${formatDate.rangeForSpeech(
-            startDate,
-            endDate
-          )}${courseSuffix}. `;
-        }
+    let speechResponse = null;
+    const courseSuffix = targetCourse ? ` in ${targetCourse}` : "";
 
-        this.emit("TellAndContinue", speechResponse);
+    if (dates.length) {
+      speechResponse = `Here are your events for ${formatDate.rangeForSpeech(
+        startDate,
+        endDate
+      )}${courseSuffix}: `;
+      dates.forEach(({ label, date }) => {
+        speechResponse += `On ${label}: `;
+        eventsByDate[date].forEach(event => {
+          speechResponse += event + ".\n";
+        });
       });
+    } else {
+      speechResponse = `You have no events for ${formatDate.rangeForSpeech(
+        startDate,
+        endDate
+      )}${courseSuffix}. `;
+    }
+
+    this.emit("TellAndContinue", speechResponse);
   }
 };

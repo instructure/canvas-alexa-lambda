@@ -1,0 +1,62 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`test calendar events when there are events 1`] = `
+SkillResponse {
+  "response": Object {
+    "outputSpeech": Object {
+      "ssml": "<speak> Here are your events for Sunday August 13: On Sunday August 13: asdfasdfasdfsdf.
+. Anything else? </speak>",
+      "type": "SSML",
+    },
+    "reprompt": Object {
+      "outputSpeech": Object {
+        "ssml": "<speak> You can ask to list grades, or check if you have any missing assignments. </speak>",
+        "type": "SSML",
+      },
+    },
+    "shouldEndSession": false,
+  },
+  "sessionAttributes": Object {},
+  "version": "1.0",
+}
+`;
+
+exports[`test calendar events when there are no active courses 1`] = `
+SkillResponse {
+  "response": Object {
+    "outputSpeech": Object {
+      "ssml": "<speak> You have no events for Thursday July 13. Anything else? </speak>",
+      "type": "SSML",
+    },
+    "reprompt": Object {
+      "outputSpeech": Object {
+        "ssml": "<speak> You can ask to list grades, or check if you have any missing assignments. </speak>",
+        "type": "SSML",
+      },
+    },
+    "shouldEndSession": false,
+  },
+  "sessionAttributes": Object {},
+  "version": "1.0",
+}
+`;
+
+exports[`test the have no events response 1`] = `
+SkillResponse {
+  "response": Object {
+    "outputSpeech": Object {
+      "ssml": "<speak> You have no events for Wednesday September 13. . Anything else? </speak>",
+      "type": "SSML",
+    },
+    "reprompt": Object {
+      "outputSpeech": Object {
+        "ssml": "<speak> You can ask to list grades, or check if you have any missing assignments. </speak>",
+        "type": "SSML",
+      },
+    },
+    "shouldEndSession": false,
+  },
+  "sessionAttributes": Object {},
+  "version": "1.0",
+}
+`;
