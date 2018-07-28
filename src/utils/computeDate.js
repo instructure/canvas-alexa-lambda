@@ -27,7 +27,7 @@ exports.firstOfMonth = function firstOfMonth(date) {
   return new Date(date.getFullYear(), date.getMonth(), 1);
 };
 
-exports.lastOfMonth = function firstOfMonth(date) {
+exports.lastOfMonth = function lastOfMonth(date) {
   // go one month forward and one day backwards
   // days start at 1, so here 0 forces a day backwards
   return new Date(date.getFullYear(), date.getMonth() + 1, 0);
