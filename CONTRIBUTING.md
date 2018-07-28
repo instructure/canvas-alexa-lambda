@@ -14,16 +14,16 @@ the CLA check on the pull request will pass successfully. Please read our
 [FAQ](https://github.com/instructure/canvas-lms/wiki/FAQ) for more information.
 
 To save yourself a considerable headache, please consider doing development against
-our master branch, instead of the default stable branch. Our stable branch is
+our master branch instead of the default stable branch. Our stable branch is
 occasionally reforked from master from time to time, so your Git history may get
 very confused if you are attempting to contribute changesets against stable.
 
 If you choose to contribute a pull request to Canvas Alexa Lambda, following
 these guidelines will make things easier for you and for us:
 
- - Your pull request should generally consist of a single commit. This helps keep the git history clean
-   by keeping each commit focused on a single purpose.  If you have multiple commits that keep that focus
-   then that is acceptable, however "train of thought" commits should not be in the history.
+ - Your pull request should generally consist of a single commit. This process helps keep the git history clean
+   by keeping each commit focused on a single purpose. Multiple commits that maintain that focus
+   are acceptable, but "train of thought" commits should not be in the history.
  - Your commit message should follow this general format:
 
    ```
@@ -32,26 +32,26 @@ these guidelines will make things easier for you and for us:
     Further explanation of the commit, generally focusing on why you chose
     the approach you did in making this change.
 
-    closes gh-123 (if this closes a GitHub Issue)
+    closes gh-xxx (include the github issue number if applicable)
 
     Test Plan:
       - Use this space to enumerate steps that need to be taken to test this commit
-      - This is important for our in house QA personnel to be able to test it.
+      - Test plans are important for our in-house QA personnel
    ```
 
  - The process your pull request goes through is as follows:
     - An Instructure engineer will pull the request down and run it through our automated test suite.
-      They will report back with results of the testing.  You can help this process along by running targeted
-      tests locally prior to submitting the pull request.  You should also run `yarn lint` and `yarn test` to make sure
+      They will report back with results of the testing. You can help this process along by running targeted
+      tests locally prior to submitting the pull request. You should also run `yarn lint` and `yarn test` to make sure
       your commit passes our linter.
     - Once the test passes against our test suites, one or two engineers will look over the code and provide
       a code review.
-    - Once the code review has been successful our QA engineers will run through the test plan that has
+    - Once the code review is successful, our QA engineers will run through the test plan that has
       been provided and make sure that everything is good to go.
     - If your commit touches any UI elements or behavior of the application, one of our product managers
-      will review the changes as well to make sure it is consistent with our product direction
-    - Once all these things have occurred then an engineer will merge your commit into the repository.
-    - Congratulations! You are now a Canvas Alexa Lambda contributor!  Thank you for helping make Canvas Alexa Lambda great.
+      will review the changes as well to make sure it is consistent with our product direction.
+    - Once all these things have taken place, an engineer will merge your commit into the repository.
+    - Congratulations! You are now a Canvas Alexa Lambda contributor! Thank you for helping make Canvas Alexa Lambda great.
 
 Guidelines
 ----------
