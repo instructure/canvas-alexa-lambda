@@ -4,10 +4,10 @@
 
 ## Getting Started
 
-To get started you will need to set up your `.lambda-dev` file. The `.lambda-dev-example` files has a basic setup, however you will still need to get your own
-access key for the host you are running against.  For the best local development experience (and easiest to track requests/problems) it is recommeneded to clone
-and run [Canvas-lms](https://github.com/instructure/canvas-lms) locally.  If you do that you should be able to keep the default host in the `.lambda-dev-example`.
-From there you will you should be able to visit your users settings (`<host>profile/settings`) to create an access token and paste it into the `.lambda-dev` file.
+To get started, set up your `.lambda-dev` file. The `.lambda-dev-example` file includes a basic setup; however, 
+you will still need to get your own access key for the host you are running against. For the best local development 
+experience (and the easiest to track requests/problems), clone and run [Canvas-lms](https://github.com/instructure/canvas-lms) locally. This process will help you keep the default host in the `.lambda-dev-example`.
+Then, visit your users settings (`<host>profile/settings`) to create an access token and paste it into the `.lambda-dev` file.
 
 After that you should be able to run the `devScript.sh` with the intent you would like to test:
 
@@ -21,7 +21,7 @@ After that you should be able to run the `devScript.sh` with the intent you woul
 `yarn`
 `./bin/devScript.sh <intentName>`
 
-The script will run the lambda with some dummy session and context data and return to you
+The script will run the lambda with some dummy session and context data and return
 the output of your intent in the saml field.
 
 example:
@@ -47,12 +47,13 @@ You will either need:
 
 or
 
-[Node](https://nodejs.org/en/) v8.10.0
-You can use npm if you would like, however we use [Yarn](https://yarnpkg.com/lang/en/) for this project.
+[Node](https://nodejs.org/en/) v8.10.0.
+
+You can use npm if you would like; however, we use [Yarn](https://yarnpkg.com/lang/en/) for this project.
 
 ## Running the tests
 
-We use jest for testing the canvas alexa lambda
+We use jest for testing the canvas alexa lambda:
 
 *Docker*
 
@@ -64,15 +65,11 @@ We use jest for testing the canvas alexa lambda
 
 ### And coding style tests
 
-We use prettier in this project.  Once you are comfortable with your intent or change you can run:
+We use prettier in this project. Once you are comfortable with your intent or change you can run:
 
 `yarn lint`
 
 This will auto format your code to our prettier standard.
-
-## Deployment
-
-See Running On an actual Alexa device for more help here!
 
 ## Built With
 
@@ -96,4 +93,4 @@ See also the list of [contributors](https://github.com/instructure/canvas-alexa-
 
 ## License
 
-This project is licensed under the GNU AFFERO GENERAL PUBLIC License - see the [LICENSE](LICENSE) file for details
+This project is licensed under the GNU AFFERO GENERAL PUBLIC License - see the [LICENSE](LICENSE) file for details.
