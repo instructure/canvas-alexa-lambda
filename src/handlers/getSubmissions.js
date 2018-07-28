@@ -22,25 +22,25 @@ module.exports = {
       this.emit("TellAndContinue", "You have no courses to grade");
       return;
     }
-    Promise.all(
-      activeTeacherCoursesResp.data.map(course => {
-        return this.context.api
-          .getStudentSubmissions(course.id)
-          .then(resp => ({ course, subs: resp.data }));
+
+    const responses = await Promise.all(
+      activeTeacherCoursesResp.data.map(async course => {
+        const resp = await this.context.api.getStudentSubmissions(course.id);
+        return { course, subs: resp.data };
       })
-    ).then(responses => {
-      let speechResponse = "";
-      responses.forEach((submissionResponse, index) => {
-        speechResponse += `${submissionResponse.course.name}, `;
-        let ungradedCount = 0;
-        submissionResponse.subs.forEach((sub, index) => {
-          if (sub.workflow_state === "submitted" && !sub.grade) {
-            ungradedCount++;
-          }
-        });
-        speechResponse += `${ungradedCount}. `;
+    );
+
+    let speechResponse = "";
+    responses.forEach((submissionResponse, index) => {
+      speechResponse += `${submissionResponse.course.name}, `;
+      let ungradedCount = 0;
+      submissionResponse.subs.forEach((sub, index) => {
+        if (sub.workflow_state === "submitted" && !sub.grade) {
+          ungradedCount++;
+        }
       });
-      this.emit("TellAndContinue", speechResponse);
+      speechResponse += `${ungradedCount}. `;
     });
+    this.emit("TellAndContinue", speechResponse);
   }
 };
