@@ -18,6 +18,7 @@
 const axios = require("axios");
 
 module.exports = class ApiClient {
+  /* istanbul ignore next line */
   constructor(alexa, apiToken = "") {
     const [hostname, token] = apiToken.split(";");
     axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
@@ -72,7 +73,7 @@ module.exports = class ApiClient {
     return axios.get("/users/self/observees");
   }
 
-  getCalendarEvents(params = {}) {
+  getCalendarEvents(params) {
     const contextCodesQuery = params.contextCodes.map(cc => `context_codes[]=${cc}`).join("&");
     return axios.get(
       `/users/self/calendar_events?type=assignment&start_date=${params.startDate}&end_date=${
@@ -81,7 +82,7 @@ module.exports = class ApiClient {
     );
   }
 
-  getAnnouncements(params = {}) {
+  getAnnouncements(params) {
     const contextCodesQuery = params.contextCodes.map(cc => `context_codes[]=${cc}`).join("&");
     return axios.get(`/announcements?active_only=true&${contextCodesQuery}`);
   }
