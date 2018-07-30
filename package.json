@@ -7,7 +7,7 @@
     "build": "webpack",
     "test": "jest",
     "lint": "prettier --write \"**/*.js\"",
-    "lint-test": "prettier --list-different \"**/*.js\""
+    "lint-test": "eslint src/**"
   },
   "keywords": [
     "alexa",
@@ -25,6 +25,9 @@
   },
   "devDependencies": {
     "axios-mock-adapter": "^1.15.0",
+    "eslint": "^5.2.0",
+    "eslint-plugin-prettier": "^2.6.2",
+    "eslint-plugin-security": "^1.4.0",
     "jest": "^23.4.1",
     "prettier": "^1.13.7",
     "uglifyjs-webpack-plugin": "^0.4.6",

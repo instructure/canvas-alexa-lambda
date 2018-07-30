@@ -1,0 +1,10 @@
+{
+  "parserOptions": {
+    "ecmaVersion": 8
+  },
+  "extends": ["plugin:security/recommended"],
+  "plugins": ["prettier", "security"],
+  "rules": {
+    "prettier/prettier": "error"
+  }
+}
