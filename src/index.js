@@ -22,6 +22,7 @@ const Alexa = require("alexa-sdk");
 
 const initHandlers = require("./handlers");
 const ApiClient = require("./apiClient");
+const SanitizeMessage = require("./utils/sanitizeMessage");
 
 const PIN_TOKEN = "PIN_REFRESH_ONLY_TOKEN";
 
@@ -34,6 +35,7 @@ exports.handler = function(event, context) {
 
   const token = event.session.user.accessToken || "";
   const needsPinLogin = token.startsWith(PIN_TOKEN);
+  context.sanitizeMessage = SanitizeMessage;
 
   if (!token) {
     alexa.emit(":tellWithLinkAccountCard", "You need to login with Canvas to use this skill.");

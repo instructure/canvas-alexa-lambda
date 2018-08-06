@@ -61,3 +61,11 @@ it("names two assignments  that are missing", async () => {
   const result = await alexa.utter("What assignments are missing");
   expect(result).toMatchSnapshot();
 });
+
+it("convert & to and for missing assignments", async () => {
+  mock
+    .onGet("/users/self/missing_submissions")
+    .reply(200, [{ id: 1, name: "Chapter 1 & Problems" }, { id: 4, name: "Chapter 4 & Problems" }]);
+  const result = await alexa.utter("What assignments are missing");
+  expect(result).toMatchSnapshot();
+});

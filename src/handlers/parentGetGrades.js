@@ -40,7 +40,7 @@ module.exports = {
       ? "Here are your students grades: " + formatStudentGrades(activeCourses, courseSlot)
       : `No ${nameSlot ? "matching " : ""}students found`;
 
-    this.emit("TellAndContinue", speechResponse);
+    this.emit("TellAndContinue", this.context.sanitizeMessage(speechResponse));
   }
 };
 

@@ -43,6 +43,6 @@ module.exports = {
       .map(ann => `In course ${result[ann.context_code].name}: ${ann.title}`)
       .join(",\n");
     const speechOutput = `Here are your announcements: ${annSpeech}`;
-    this.emit("TellAndContinue", speechOutput);
+    this.emit("TellAndContinue", this.context.sanitizeMessage(speechOutput));
   }
 };

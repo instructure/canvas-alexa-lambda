@@ -15,6 +15,7 @@
  * You should have received a copy of the GNU Affero General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+
 module.exports = {
   GetMissing: function() {
     this.context.api.getMissingAssignments().then(res => {
@@ -34,7 +35,7 @@ module.exports = {
       } else {
         speechResponse = "You have no missing assignments";
       }
-      this.emit("TellAndContinue", speechResponse);
+      this.emit("TellAndContinue", this.context.sanitizeMessage(speechResponse));
     });
   }
 };

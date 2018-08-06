@@ -20,7 +20,7 @@
   "license": "MIT",
   "dependencies": {
     "alexa-sdk": "^1.0.6",
-    "axios": "^0.16.2",
+    "axios": "^0.18.0",
     "fuse.js": "^3.0.5"
   },
   "devDependencies": {

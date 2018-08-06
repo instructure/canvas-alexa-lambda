@@ -1,5 +1,25 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`convert & to and for missing assignments 1`] = `
+SkillResponse {
+  "response": Object {
+    "outputSpeech": Object {
+      "ssml": "<speak> Yes, Your assignment named Chapter 1 and Problems is missing, Also Your assignment named Chapter 4 and Problems is missing, . Anything else? </speak>",
+      "type": "SSML",
+    },
+    "reprompt": Object {
+      "outputSpeech": Object {
+        "ssml": "<speak> You can ask to list grades, or check if you have any missing assignments. </speak>",
+        "type": "SSML",
+      },
+    },
+    "shouldEndSession": false,
+  },
+  "sessionAttributes": Object {},
+  "version": "1.0",
+}
+`;
+
 exports[`names two assignments  that are missing 1`] = `
 SkillResponse {
   "response": Object {

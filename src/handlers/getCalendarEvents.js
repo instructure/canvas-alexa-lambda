@@ -92,6 +92,6 @@ module.exports = {
       )}${courseSuffix}. `;
     }
 
-    this.emit("TellAndContinue", speechResponse);
+    this.emit("TellAndContinue", this.context.sanitizeMessage(speechResponse));
   }
 };

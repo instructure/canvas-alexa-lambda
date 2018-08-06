@@ -20,7 +20,7 @@ const axios = require("axios");
 module.exports = class ApiClient {
   /* istanbul ignore next line */
   constructor(alexa, apiToken = "") {
-    const [hostname, token] = apiToken.split(";");
+    const [hostname, token] = apiToken.split(":");
     axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
     if (alexa.development) {
       axios.defaults.baseURL = `http://${hostname}/api/v1`;

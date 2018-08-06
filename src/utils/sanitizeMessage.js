@@ -15,26 +15,7 @@
  * You should have received a copy of the GNU Affero General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-const virtualAlexa = require("virtual-alexa");
 
-module.exports = {
-  createVirtualAlexa: function(options = {}) {
-    fakeAccessToken = options.fakeAccessToken === undefined ? true : options.fakeAccessToken;
-
-    const alexa = virtualAlexa.VirtualAlexa.Builder()
-      .handler("./src/index.handler")
-      .intentSchemaFile("./alexa-config/intents.json")
-      .sampleUtterancesFile("./alexa-config/utterances.txt")
-      .applicationID("1")
-      .create();
-
-    alexa.filter(requestJSON => {
-      requestJSON.session.development = true;
-      if (fakeAccessToken) {
-        requestJSON.session.user.accessToken = "localhost:fake-access-token";
-      }
-    });
-
-    return alexa;
-  }
+module.exports = function sanitizeMessage(message) {
+  return message.replace(/&+/g, "and");
 };

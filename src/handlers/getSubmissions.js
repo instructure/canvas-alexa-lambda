@@ -41,6 +41,6 @@ module.exports = {
       });
       speechResponse += `${ungradedCount}. `;
     });
-    this.emit("TellAndContinue", speechResponse);
+    this.emit("TellAndContinue", this.context.sanitizeMessage(speechResponse));
   }
 };

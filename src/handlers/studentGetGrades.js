@@ -23,7 +23,7 @@ module.exports = {
     const speechResponse = res.data.length
       ? formatGrades(res.data, this.event.request.intent.slots.Course.value)
       : "You are not in any active courses.";
-    this.emit("TellAndContinue", speechResponse.replace(/&/g, "and"));
+    this.emit("TellAndContinue", this.context.sanitizeMessage(speechResponse));
   }
 };
 
