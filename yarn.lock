@@ -106,9 +106,9 @@ ajv@^6.0.1, ajv@^6.5.0:
     json-schema-traverse "^0.4.1"
     uri-js "^4.2.1"
 
-alexa-sdk@^1.0.6:
-  version "1.0.11"
-  resolved "https://registry.yarnpkg.com/alexa-sdk/-/alexa-sdk-1.0.11.tgz#bbc5d95c9878bc76c4b48f7909ad620c81044995"
+alexa-sdk@^1.0.25:
+  version "1.0.25"
+  resolved "https://registry.yarnpkg.com/alexa-sdk/-/alexa-sdk-1.0.25.tgz#bac389792aaba20bb7bd799eaf049ebff5bd8273"
   dependencies:
     aws-sdk "^2.4.7"
     i18next "^3.4.1"

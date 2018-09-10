@@ -19,7 +19,7 @@
   "author": "Instructure Inc",
   "license": "MIT",
   "dependencies": {
-    "alexa-sdk": "^1.0.6",
+    "alexa-sdk": "^1.0.25",
     "axios": "^0.18.0",
     "fuse.js": "^3.0.5"
   },

@@ -10,6 +10,7 @@ SkillResponse {
     "shouldEndSession": true,
   },
   "sessionAttributes": Object {},
+  "userAgent": "ask-nodejs/1.0.25 Node/v8.11.4",
   "version": "1.0",
 }
 `;
@@ -30,6 +31,7 @@ SkillResponse {
     "shouldEndSession": false,
   },
   "sessionAttributes": Object {},
+  "userAgent": "ask-nodejs/1.0.25 Node/v8.11.4",
   "version": "1.0",
 }
 `;
@@ -50,6 +52,7 @@ SkillResponse {
     "shouldEndSession": false,
   },
   "sessionAttributes": Object {},
+  "userAgent": "ask-nodejs/1.0.25 Node/v8.11.4",
   "version": "1.0",
 }
 `;
@@ -64,6 +67,7 @@ SkillResponse {
     "shouldEndSession": true,
   },
   "sessionAttributes": Object {},
+  "userAgent": "ask-nodejs/1.0.25 Node/v8.11.4",
   "version": "1.0",
 }
 `;
@@ -78,6 +82,7 @@ SkillResponse {
     "shouldEndSession": true,
   },
   "sessionAttributes": Object {},
+  "userAgent": "ask-nodejs/1.0.25 Node/v8.11.4",
   "version": "1.0",
 }
 `;
