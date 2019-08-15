@@ -4,13 +4,13 @@ exports[`does not let you do other intents until you verify the pin 1`] = `
 SkillResponse {
   "response": Object {
     "outputSpeech": Object {
-      "ssml": "<speak> You need to login with your security pin. To login say <emphasis level=\\"strong\\">ask canvas to login with pin</emphasis>, followed by your pin digits. </speak>",
+      "ssml": "<speak>You need to login with your security pin. To login say <emphasis level=\\"strong\\">ask canvas to login with pin</emphasis>, followed by your pin digits.</speak>",
       "type": "SSML",
     },
     "shouldEndSession": true,
   },
   "sessionAttributes": Object {},
-  "userAgent": "ask-nodejs/1.0.25 Node/v8.11.4",
+  "userAgent": "ask-node/2.7.0 Node/v8.16.0 ask-sdk-v1adapter/2.7.0",
   "version": "1.0",
 }
 `;
@@ -19,13 +19,13 @@ exports[`does not log you in if no pin is supplied 1`] = `
 SkillResponse {
   "response": Object {
     "outputSpeech": Object {
-      "ssml": "<speak> Please provide a pin. To reset your pin, re-link your Canvas account with this skill. </speak>",
+      "ssml": "<speak>Please provide a pin. To reset your pin, re-link your Canvas account with this skill.</speak>",
       "type": "SSML",
     },
     "shouldEndSession": true,
   },
   "sessionAttributes": Object {},
-  "userAgent": "ask-nodejs/1.0.25 Node/v8.11.4",
+  "userAgent": "ask-node/2.7.0 Node/v8.16.0 ask-sdk-v1adapter/2.7.0",
   "version": "1.0",
 }
 `;
@@ -34,13 +34,13 @@ exports[`does not log you in if the pin is invalid 1`] = `
 SkillResponse {
   "response": Object {
     "outputSpeech": Object {
-      "ssml": "<speak> Pin login failed. Please try again. To reset your pin, re-link your Canvas account with this skill. </speak>",
+      "ssml": "<speak>Pin login failed. Please try again. To reset your pin, re-link your Canvas account with this skill.</speak>",
       "type": "SSML",
     },
     "shouldEndSession": true,
   },
   "sessionAttributes": Object {},
-  "userAgent": "ask-nodejs/1.0.25 Node/v8.11.4",
+  "userAgent": "ask-node/2.7.0 Node/v8.16.0 ask-sdk-v1adapter/2.7.0",
   "version": "1.0",
 }
 `;
@@ -49,13 +49,13 @@ exports[`logs you in with a pin 1`] = `
 SkillResponse {
   "response": Object {
     "outputSpeech": Object {
-      "ssml": "<speak> Pin login successful. The Canvas skill is unlocked for ten minutes. </speak>",
+      "ssml": "<speak>Pin login successful. The Canvas skill is unlocked for ten minutes.</speak>",
       "type": "SSML",
     },
     "shouldEndSession": true,
   },
   "sessionAttributes": Object {},
-  "userAgent": "ask-nodejs/1.0.25 Node/v8.11.4",
+  "userAgent": "ask-node/2.7.0 Node/v8.16.0 ask-sdk-v1adapter/2.7.0",
   "version": "1.0",
 }
 `;

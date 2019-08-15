@@ -4,20 +4,20 @@ exports[`announces details for multiple students 1`] = `
 SkillResponse {
   "response": Object {
     "outputSpeech": Object {
-      "ssml": "<speak> Here are your students grades: For Billy: No course found
-For Bob: In Calculus: the grade is 93.. Anything else? </speak>",
+      "ssml": "<speak>Here are your students grades: For Billy: No course found
+For Bob: In Calculus: the grade is 93.. Anything else?</speak>",
       "type": "SSML",
     },
     "reprompt": Object {
       "outputSpeech": Object {
-        "ssml": "<speak> You can ask to list grades, or check if you have any missing assignments. </speak>",
+        "ssml": "<speak>You can ask to list grades, or check if you have any missing assignments.</speak>",
         "type": "SSML",
       },
     },
     "shouldEndSession": false,
   },
   "sessionAttributes": Object {},
-  "userAgent": "ask-nodejs/1.0.25 Node/v8.11.4",
+  "userAgent": "ask-node/2.7.0 Node/v8.16.0 ask-sdk-v1adapter/2.7.0",
   "version": "1.0",
 }
 `;
@@ -26,20 +26,20 @@ exports[`filters students based on courseNameSlot 1`] = `
 SkillResponse {
   "response": Object {
     "outputSpeech": Object {
-      "ssml": "<speak> Here are your students grades: For Billy: No matching course found
-For Bob: In Calculus: the grade is 93.. Anything else? </speak>",
+      "ssml": "<speak>Here are your students grades: For Billy: No matching course found
+For Bob: In Calculus: the grade is 93.. Anything else?</speak>",
       "type": "SSML",
     },
     "reprompt": Object {
       "outputSpeech": Object {
-        "ssml": "<speak> You can ask to list grades, or check if you have any missing assignments. </speak>",
+        "ssml": "<speak>You can ask to list grades, or check if you have any missing assignments.</speak>",
         "type": "SSML",
       },
     },
     "shouldEndSession": false,
   },
   "sessionAttributes": Object {},
-  "userAgent": "ask-nodejs/1.0.25 Node/v8.11.4",
+  "userAgent": "ask-node/2.7.0 Node/v8.16.0 ask-sdk-v1adapter/2.7.0",
   "version": "1.0",
 }
 `;
@@ -48,19 +48,19 @@ exports[`filters students based on studentNameSlot 1`] = `
 SkillResponse {
   "response": Object {
     "outputSpeech": Object {
-      "ssml": "<speak> Here are your students grades: For Bob: In Calculus: the grade is 93.. Anything else? </speak>",
+      "ssml": "<speak>Here are your students grades: For Bob: In Calculus: the grade is 93.. Anything else?</speak>",
       "type": "SSML",
     },
     "reprompt": Object {
       "outputSpeech": Object {
-        "ssml": "<speak> You can ask to list grades, or check if you have any missing assignments. </speak>",
+        "ssml": "<speak>You can ask to list grades, or check if you have any missing assignments.</speak>",
         "type": "SSML",
       },
     },
     "shouldEndSession": false,
   },
   "sessionAttributes": Object {},
-  "userAgent": "ask-nodejs/1.0.25 Node/v8.11.4",
+  "userAgent": "ask-node/2.7.0 Node/v8.16.0 ask-sdk-v1adapter/2.7.0",
   "version": "1.0",
 }
 `;
@@ -69,20 +69,20 @@ exports[`respond correctly when they don't have any course enrollments 1`] = `
 SkillResponse {
   "response": Object {
     "outputSpeech": Object {
-      "ssml": "<speak> Here are your students grades: For Billy: No matching course found
-For Bob: No grade posted for Calculus.. Anything else? </speak>",
+      "ssml": "<speak>Here are your students grades: For Billy: No matching course found
+For Bob: No grade posted for Calculus.. Anything else?</speak>",
       "type": "SSML",
     },
     "reprompt": Object {
       "outputSpeech": Object {
-        "ssml": "<speak> You can ask to list grades, or check if you have any missing assignments. </speak>",
+        "ssml": "<speak>You can ask to list grades, or check if you have any missing assignments.</speak>",
         "type": "SSML",
       },
     },
     "shouldEndSession": false,
   },
   "sessionAttributes": Object {},
-  "userAgent": "ask-nodejs/1.0.25 Node/v8.11.4",
+  "userAgent": "ask-node/2.7.0 Node/v8.16.0 ask-sdk-v1adapter/2.7.0",
   "version": "1.0",
 }
 `;
@@ -91,19 +91,19 @@ exports[`says no students found if you have no observees 1`] = `
 SkillResponse {
   "response": Object {
     "outputSpeech": Object {
-      "ssml": "<speak> No students found. Anything else? </speak>",
+      "ssml": "<speak>No students found. Anything else?</speak>",
       "type": "SSML",
     },
     "reprompt": Object {
       "outputSpeech": Object {
-        "ssml": "<speak> You can ask to list grades, or check if you have any missing assignments. </speak>",
+        "ssml": "<speak>You can ask to list grades, or check if you have any missing assignments.</speak>",
         "type": "SSML",
       },
     },
     "shouldEndSession": false,
   },
   "sessionAttributes": Object {},
-  "userAgent": "ask-nodejs/1.0.25 Node/v8.11.4",
+  "userAgent": "ask-node/2.7.0 Node/v8.16.0 ask-sdk-v1adapter/2.7.0",
   "version": "1.0",
 }
 `;
@@ -112,19 +112,19 @@ exports[`says no students matching name found if are not an observees for the sp
 SkillResponse {
   "response": Object {
     "outputSpeech": Object {
-      "ssml": "<speak> No matching students found. Anything else? </speak>",
+      "ssml": "<speak>No matching students found. Anything else?</speak>",
       "type": "SSML",
     },
     "reprompt": Object {
       "outputSpeech": Object {
-        "ssml": "<speak> You can ask to list grades, or check if you have any missing assignments. </speak>",
+        "ssml": "<speak>You can ask to list grades, or check if you have any missing assignments.</speak>",
         "type": "SSML",
       },
     },
     "shouldEndSession": false,
   },
   "sessionAttributes": Object {},
-  "userAgent": "ask-nodejs/1.0.25 Node/v8.11.4",
+  "userAgent": "ask-node/2.7.0 Node/v8.16.0 ask-sdk-v1adapter/2.7.0",
   "version": "1.0",
 }
 `;

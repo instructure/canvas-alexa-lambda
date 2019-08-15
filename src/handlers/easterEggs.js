@@ -25,7 +25,12 @@ const crazyPhrases = [
 
 module.exports = {
   GetBlackboard: function() {
+    if (!this.event.session.user.accessToken) {
+      this.emit(":tellWithLinkAccountCard", "You need to login with Canvas to use this skill.");
+      return;
+    }
     const responseIndex = Math.floor(Math.random() * crazyPhrases.length);
+    // eslint-disable-next-line security/detect-object-injection
     const speechOutput = crazyPhrases[responseIndex];
     this.emit("TellAndContinue", speechOutput);
   }

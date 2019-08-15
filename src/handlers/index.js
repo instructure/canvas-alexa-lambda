@@ -45,6 +45,7 @@ module.exports = function initHandlers(token, needsPinLogin) {
 
     // replace all the normal handlers with a "you need to login" handler
     Object.keys(handlers).forEach(key => {
+      // eslint-disable-next-line security/detect-object-injection
       loginHandlers[key] = logIn.needsLogin;
     });
 

@@ -29,6 +29,7 @@ module.exports = function initLogIn(token) {
             ":tell",
             "Please provide a pin. To reset your pin, re-link your Canvas account with this skill."
           );
+          return;
         }
 
         try {

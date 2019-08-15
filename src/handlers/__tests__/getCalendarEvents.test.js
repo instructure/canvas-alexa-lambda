@@ -28,7 +28,6 @@ Date = class extends Date {
 };
 
 beforeAll(() => {
-  alexa = createVirtualAlexa();
   mock = new MockAdapter(axios);
 });
 
@@ -40,13 +39,22 @@ afterAll(() => {
   mock.restore();
 });
 
+test("test calendar events login", async () => {
+  const alexa = createVirtualAlexa({ fakeAccessToken: false });
+  const result = await alexa.utter("What is on my calendar");
+  const expected = "You need to login with Canvas to use this skill.";
+  expect(result.response.outputSpeech.ssml).toEqual(expect.stringContaining(expected));
+});
+
 it("test calendar events when there are no active courses", async () => {
+  const alexa = createVirtualAlexa();
   mock.onGet("/courses?enrollment_state=active&enrollment_type=student").reply(200, []);
   const result = await alexa.utter("What is on my calendar");
   expect(result).toMatchSnapshot();
 });
 
 it("test calendar events when there are events", async () => {
+  const alexa = createVirtualAlexa();
   mock
     .onGet("/courses?enrollment_state=active&enrollment_type=student")
     .reply(200, [{ id: 5, name: "temp course name 1" }, { id: 6, name: "temp course name 2" }]);
@@ -73,6 +81,7 @@ it("test calendar events when there are events", async () => {
 });
 
 it("test the have no events response", async () => {
+  const alexa = createVirtualAlexa();
   mock
     .onGet("/courses?enrollment_state=active&enrollment_type=student")
     .reply(200, [{ id: 7, name: "temp course name 1" }, { id: 8, name: "temp course name 2" }]);
@@ -87,6 +96,7 @@ it("test the have no events response", async () => {
 });
 
 it("test getCalenderEvent intent with course", async () => {
+  const alexa = createVirtualAlexa();
   mock
     .onGet("/courses?enrollment_state=active&enrollment_type=student")
     .reply(200, [{ id: 7, name: "temp" }]);

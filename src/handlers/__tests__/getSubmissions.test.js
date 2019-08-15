@@ -20,10 +20,8 @@ const MockAdapter = require("axios-mock-adapter");
 const createVirtualAlexa = require("../../test_utils/utils.js").createVirtualAlexa;
 
 let mock;
-let alexa;
 
 beforeAll(() => {
-  alexa = createVirtualAlexa();
   mock = new MockAdapter(axios);
 });
 
@@ -35,13 +33,22 @@ afterAll(() => {
   mock.restore();
 });
 
+test("test getUngradedSubmissions login", async () => {
+  const alexa = createVirtualAlexa({ fakeAccessToken: false });
+  const result = await alexa.utter("What submissions do I have to grade");
+  const expected = "You need to login with Canvas to use this skill.";
+  expect(result.response.outputSpeech.ssml).toEqual(expect.stringContaining(expected));
+});
+
 it("test getUngradedSubmissions with no active courses", async () => {
+  const alexa = createVirtualAlexa();
   mock.onGet("/courses?enrollment_state=active&enrollment_type=teacher").reply(200, []);
   const result = await alexa.utter("What submissions do I have to grade");
   expect(result).toMatchSnapshot();
 });
 
 it("test getUngradedSubmissions with no submissions", async () => {
+  const alexa = createVirtualAlexa();
   mock
     .onGet("/courses?enrollment_state=active&enrollment_type=teacher")
     .reply(200, [{ id: 1, name: "course name" }]);
@@ -51,6 +58,7 @@ it("test getUngradedSubmissions with no submissions", async () => {
 });
 
 it("test getUngradedSubmissions with 2 courses with no submissions", async () => {
+  const alexa = createVirtualAlexa();
   mock
     .onGet("/courses?enrollment_state=active&enrollment_type=teacher")
     .reply(200, [{ id: 1, name: "course name" }, { id: 2, name: "course name 2" }]);
@@ -61,6 +69,7 @@ it("test getUngradedSubmissions with 2 courses with no submissions", async () =>
 });
 
 it("test getUngradedSubmissions with 2 submissions", async () => {
+  const alexa = createVirtualAlexa();
   mock
     .onGet("/courses?enrollment_state=active&enrollment_type=teacher")
     .reply(200, [{ id: 1, name: "course name" }]);

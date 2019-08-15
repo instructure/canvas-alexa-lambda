@@ -1,4 +1,4 @@
-FROM instructure/node:8
+FROM instructure/node:8-xenial
 
 ENV APP_HOME /usr/src/app
 WORKDIR $APP_HOME

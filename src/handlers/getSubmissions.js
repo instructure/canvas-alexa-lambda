@@ -17,6 +17,10 @@
  */
 module.exports = {
   GetUngradedSubmissions: async function() {
+    if (!this.event.session.user.accessToken) {
+      this.emit(":tellWithLinkAccountCard", "You need to login with Canvas to use this skill.");
+      return;
+    }
     const activeTeacherCoursesResp = await this.context.api.getActiveTeacherCourses();
     if (!activeTeacherCoursesResp.data.length) {
       this.emit("TellAndContinue", "You have no courses to grade");

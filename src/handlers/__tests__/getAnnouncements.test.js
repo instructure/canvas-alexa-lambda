@@ -20,10 +20,8 @@ const MockAdapter = require("axios-mock-adapter");
 const createVirtualAlexa = require("../../test_utils/utils.js").createVirtualAlexa;
 
 let mock;
-let alexa;
 
 beforeAll(() => {
-  alexa = createVirtualAlexa();
   mock = new MockAdapter(axios);
 });
 
@@ -35,13 +33,22 @@ afterAll(() => {
   mock.restore();
 });
 
+test("test announcements intent login", async () => {
+  const alexa = createVirtualAlexa({ fakeAccessToken: false });
+  const result = await alexa.utter("Is there any news");
+  const expected = "You need to login with Canvas to use this skill.";
+  expect(result.response.outputSpeech.ssml).toEqual(expect.stringContaining(expected));
+});
+
 it("test announcements intent when user has no active courses", async () => {
+  const alexa = createVirtualAlexa();
   mock.onGet("/courses?enrollment_state=active").reply(200, []);
   const result = await alexa.utter("Is there any news");
   expect(result).toMatchSnapshot();
 });
 
 it("test announcements intent when user has no announcements", async () => {
+  const alexa = createVirtualAlexa();
   mock
     .onGet("/courses?enrollment_state=active")
     .reply(200, [{ id: 5, name: "temp course name 1" }, { id: 6, name: "temp course name 2" }]);
@@ -53,6 +60,7 @@ it("test announcements intent when user has no announcements", async () => {
 });
 
 it("test announcements intent when user has announcements", async () => {
+  const alexa = createVirtualAlexa();
   mock
     .onGet("/courses?enrollment_state=active")
     .reply(200, [{ id: 5, name: "temp course name 1" }, { id: 6, name: "temp course name 2" }]);

@@ -25,13 +25,15 @@ const crazyPhrases = [
   "You are not using this right"
 ];
 
-let alexa;
-
-beforeAll(() => {
-  alexa = createVirtualAlexa();
+test("testeastereggintentlogin", async () => {
+  const alexa = createVirtualAlexa({ fakeAccessToken: false });
+  const result = await alexa.utter("Blackboard is better");
+  const expected = "You need to login with Canvas to use this skill.";
+  expect(result.response.outputSpeech.ssml).toEqual(expect.stringContaining(expected));
 });
 
 test("testeastereggintent", async () => {
+  const alexa = createVirtualAlexa();
   const result = await alexa.utter("Blackboard is better");
   var returnedCrazyPhrase = false;
   crazyPhrases.forEach(function(element) {

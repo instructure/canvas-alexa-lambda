@@ -24,11 +24,9 @@ const makeCourseUrl = id => {
 };
 
 let mock;
-let alexa;
 
 beforeAll(() => {
   mock = new MockAdapter(axios);
-  alexa = createVirtualAlexa();
 });
 
 afterEach(() => {
@@ -39,19 +37,29 @@ afterAll(() => {
   mock.restore();
 });
 
+test("test parentGetGrades login", async () => {
+  const alexa = createVirtualAlexa({ fakeAccessToken: false });
+  const result = await alexa.utter("What are my kid's grades");
+  const expected = "You need to login with Canvas to use this skill.";
+  expect(result.response.outputSpeech.ssml).toEqual(expect.stringContaining(expected));
+});
+
 it("says no students found if you have no observees", async () => {
+  const alexa = createVirtualAlexa();
   mock.onGet("/users/self/observees").reply(200, []);
   const result = await alexa.utter("What are my kid's grades");
   expect(result).toMatchSnapshot();
 });
 
 it("says no students matching name found if are not an observees for the specific student", async () => {
+  const alexa = createVirtualAlexa();
   mock.onGet("/users/self/observees").reply(200, []);
   const result = await alexa.utter("What are landons grades");
   expect(result).toMatchSnapshot();
 });
 
 it("announces details for multiple students", async () => {
+  const alexa = createVirtualAlexa();
   mock
     .onGet("/users/self/observees")
     .reply(200, [{ id: 1, short_name: "Billy" }, { id: 2, short_name: "Bob" }]);
@@ -68,6 +76,7 @@ it("announces details for multiple students", async () => {
 });
 
 it("filters students based on studentNameSlot", async () => {
+  const alexa = createVirtualAlexa();
   mock
     .onGet("/users/self/observees")
     .reply(200, [{ id: 1, short_name: "Billy" }, { id: 2, short_name: "Bob" }]);
@@ -84,6 +93,7 @@ it("filters students based on studentNameSlot", async () => {
 });
 
 it("filters students based on courseNameSlot", async () => {
+  const alexa = createVirtualAlexa();
   mock
     .onGet("/users/self/observees")
     .reply(200, [{ id: 1, short_name: "Billy" }, { id: 2, short_name: "Bob" }]);
@@ -100,6 +110,7 @@ it("filters students based on courseNameSlot", async () => {
 });
 
 it("respond correctly when they don't have any course enrollments", async () => {
+  const alexa = createVirtualAlexa();
   mock
     .onGet("/users/self/observees")
     .reply(200, [{ id: 1, short_name: "Billy" }, { id: 2, short_name: "Bob" }]);

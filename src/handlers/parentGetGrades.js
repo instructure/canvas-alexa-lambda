@@ -20,6 +20,10 @@ const parseNameSlot = require("../utils/parseNameSlot");
 
 module.exports = {
   ParentGetGrades: async function() {
+    if (!this.event.session.user.accessToken) {
+      this.emit(":tellWithLinkAccountCard", "You need to login with Canvas to use this skill.");
+      return;
+    }
     const nameSlot = this.event.request.intent.slots.Name.value;
     const courseSlot = this.event.request.intent.slots.Course.value;
 

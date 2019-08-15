@@ -19,6 +19,10 @@ const parseCourseSlot = require("../utils/parseCourseSlot");
 
 module.exports = {
   StudentGetGrades: async function() {
+    if (!this.event.session.user.accessToken) {
+      this.emit(":tellWithLinkAccountCard", "You need to login with Canvas to use this skill.");
+      return;
+    }
     const res = await this.context.api.getActiveStudentCourses(["total_scores"]);
     const speechResponse = res.data.length
       ? formatGrades(res.data, this.event.request.intent.slots.Course.value)

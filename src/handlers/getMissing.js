@@ -18,12 +18,17 @@
 
 module.exports = {
   GetMissing: function() {
+    if (!this.event.session.user.accessToken) {
+      this.emit(":tellWithLinkAccountCard", "You need to login with Canvas to use this skill.");
+      return;
+    }
     this.context.api.getMissingAssignments().then(res => {
       let speechResponse = null;
       if (res.data.length > 0) {
         speechResponse = "Yes, ";
         const loopCount = Math.min(2, res.data.length);
         for (let i = 0; i < loopCount; i++) {
+          // eslint-disable-next-line security/detect-object-injection
           speechResponse += `Your assignment named ${res.data[i].name} is missing, `;
           if (i + 1 < loopCount) {
             speechResponse += "Also ";

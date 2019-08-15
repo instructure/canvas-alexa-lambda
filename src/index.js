@@ -18,7 +18,7 @@
 
 "use strict";
 
-const Alexa = require("alexa-sdk");
+const Alexa = require("ask-sdk-v1adapter");
 
 const initHandlers = require("./handlers");
 const ApiClient = require("./apiClient");
@@ -37,15 +37,11 @@ exports.handler = function(event, context) {
   const needsPinLogin = token.startsWith(PIN_TOKEN);
   context.sanitizeMessage = SanitizeMessage;
 
-  if (!token) {
-    alexa.emit(":tellWithLinkAccountCard", "You need to login with Canvas to use this skill.");
-    return;
-  } else {
-    alexa.registerHandlers(initHandlers(token, needsPinLogin));
-    if (!needsPinLogin) {
-      context.api = new ApiClient(alexa, token);
-    }
+  alexa.registerHandlers(initHandlers(token, needsPinLogin));
+  if (!needsPinLogin) {
+    context.api = new ApiClient(alexa, token);
   }
+
   alexa.execute();
 };
 /* istanbul ignore next line */

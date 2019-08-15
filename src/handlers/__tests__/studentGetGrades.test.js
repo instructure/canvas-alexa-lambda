@@ -20,10 +20,8 @@ const MockAdapter = require("axios-mock-adapter");
 const createVirtualAlexa = require("../../test_utils/utils.js").createVirtualAlexa;
 
 let mock;
-let alexa;
 
 beforeAll(() => {
-  alexa = createVirtualAlexa();
   mock = new MockAdapter(axios);
 });
 
@@ -35,7 +33,15 @@ afterAll(() => {
   mock.restore();
 });
 
+test("test studentGetGrades login", async () => {
+  const alexa = createVirtualAlexa({ fakeAccessToken: false });
+  const result = await alexa.utter("What are my grades");
+  const expected = "You need to login with Canvas to use this skill.";
+  expect(result.response.outputSpeech.ssml).toEqual(expect.stringContaining(expected));
+});
+
 it("tells you if you are in no courses", async () => {
+  const alexa = createVirtualAlexa();
   const url = "/courses?enrollment_state=active&include[]=total_scores&enrollment_type=student";
   mock.onGet(url).reply(200, []);
   const result = await alexa.utter("What are my grades");
@@ -43,6 +49,7 @@ it("tells you if you are in no courses", async () => {
 });
 
 it("tells you grades for multiple courses", async () => {
+  const alexa = createVirtualAlexa();
   const url = "/courses?enrollment_state=active&include[]=total_scores&enrollment_type=student";
   mock.onGet(url).reply(200, [
     {
@@ -63,6 +70,7 @@ it("tells you grades for multiple courses", async () => {
 });
 
 it("tells you your grades for a specific class using computed grades", async () => {
+  const alexa = createVirtualAlexa();
   const url = "/courses?enrollment_state=active&include[]=total_scores&enrollment_type=student";
   mock.onGet(url).reply(200, [
     {
@@ -79,6 +87,7 @@ it("tells you your grades for a specific class using computed grades", async () 
 });
 
 it("tells you your grades for a specific class using computed grades", async () => {
+  const alexa = createVirtualAlexa();
   const url = "/courses?enrollment_state=active&include[]=total_scores&enrollment_type=student";
   mock.onGet(url).reply(200, [
     {
@@ -95,6 +104,7 @@ it("tells you your grades for a specific class using computed grades", async () 
 });
 
 it("tells you no grades posted yet for a specific class", async () => {
+  const alexa = createVirtualAlexa();
   const url = "/courses?enrollment_state=active&include[]=total_scores&enrollment_type=student";
   mock.onGet(url).reply(200, [
     {
@@ -111,6 +121,7 @@ it("tells you no grades posted yet for a specific class", async () => {
 });
 
 it("does not tels you your grades for a specific class you are not in", async () => {
+  const alexa = createVirtualAlexa();
   const url = "/courses?enrollment_state=active&include[]=total_scores&enrollment_type=student";
   mock.onGet(url).reply(200, [
     {

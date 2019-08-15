@@ -17,6 +17,10 @@
  */
 module.exports = {
   GetAnnouncements: async function() {
+    if (!this.event.session.user.accessToken) {
+      this.emit(":tellWithLinkAccountCard", "You need to login with Canvas to use this skill.");
+      return;
+    }
     // grab active student enrollments
     const activeCoursesResp = await this.context.api.getActiveCourses();
     if (activeCoursesResp.data.length === 0) {

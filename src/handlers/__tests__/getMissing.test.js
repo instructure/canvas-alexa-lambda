@@ -20,10 +20,8 @@ const MockAdapter = require("axios-mock-adapter");
 const createVirtualAlexa = require("../../test_utils/utils.js").createVirtualAlexa;
 
 let mock;
-let alexa;
 
 beforeAll(() => {
-  alexa = createVirtualAlexa();
   mock = new MockAdapter(axios);
 });
 
@@ -35,13 +33,22 @@ afterAll(() => {
   mock.restore();
 });
 
+test("test missing assignments login", async () => {
+  const alexa = createVirtualAlexa({ fakeAccessToken: false });
+  const result = await alexa.utter("Am i missing anything");
+  const expected = "You need to login with Canvas to use this skill.";
+  expect(result.response.outputSpeech.ssml).toEqual(expect.stringContaining(expected));
+});
+
 it("says no no missing assignments if you have nothing missing", async () => {
+  const alexa = createVirtualAlexa();
   mock.onGet("/users/self/missing_submissions").reply(200, []);
   const result = await alexa.utter("Am i missing anything");
   expect(result).toMatchSnapshot();
 });
 
 it("names two assignments that are missing", async () => {
+  const alexa = createVirtualAlexa();
   mock
     .onGet("/users/self/missing_submissions")
     .reply(200, [{ id: 1, name: "Chapter 1 Problems" }, { id: 2, name: "Chapter 2 Problems" }]);
@@ -50,6 +57,7 @@ it("names two assignments that are missing", async () => {
 });
 
 it("names two assignments  that are missing", async () => {
+  const alexa = createVirtualAlexa();
   mock
     .onGet("/users/self/missing_submissions")
     .reply(200, [
@@ -63,6 +71,7 @@ it("names two assignments  that are missing", async () => {
 });
 
 it("convert & to and for missing assignments", async () => {
+  const alexa = createVirtualAlexa();
   mock
     .onGet("/users/self/missing_submissions")
     .reply(200, [{ id: 1, name: "Chapter 1 & Problems" }, { id: 4, name: "Chapter 4 & Problems" }]);

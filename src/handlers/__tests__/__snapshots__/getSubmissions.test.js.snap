@@ -4,19 +4,19 @@ exports[`test getUngradedSubmissions with 2 courses with no submissions 1`] = `
 SkillResponse {
   "response": Object {
     "outputSpeech": Object {
-      "ssml": "<speak> course name, 0. course name 2, 0. . Anything else? </speak>",
+      "ssml": "<speak>course name, 0. course name 2, 0. . Anything else?</speak>",
       "type": "SSML",
     },
     "reprompt": Object {
       "outputSpeech": Object {
-        "ssml": "<speak> You can ask to list grades, or check if you have any missing assignments. </speak>",
+        "ssml": "<speak>You can ask to list grades, or check if you have any missing assignments.</speak>",
         "type": "SSML",
       },
     },
     "shouldEndSession": false,
   },
   "sessionAttributes": Object {},
-  "userAgent": "ask-nodejs/1.0.25 Node/v8.11.4",
+  "userAgent": "ask-node/2.7.0 Node/v8.16.0 ask-sdk-v1adapter/2.7.0",
   "version": "1.0",
 }
 `;
@@ -25,19 +25,19 @@ exports[`test getUngradedSubmissions with 2 submissions 1`] = `
 SkillResponse {
   "response": Object {
     "outputSpeech": Object {
-      "ssml": "<speak> course name, 2. . Anything else? </speak>",
+      "ssml": "<speak>course name, 2. . Anything else?</speak>",
       "type": "SSML",
     },
     "reprompt": Object {
       "outputSpeech": Object {
-        "ssml": "<speak> You can ask to list grades, or check if you have any missing assignments. </speak>",
+        "ssml": "<speak>You can ask to list grades, or check if you have any missing assignments.</speak>",
         "type": "SSML",
       },
     },
     "shouldEndSession": false,
   },
   "sessionAttributes": Object {},
-  "userAgent": "ask-nodejs/1.0.25 Node/v8.11.4",
+  "userAgent": "ask-node/2.7.0 Node/v8.16.0 ask-sdk-v1adapter/2.7.0",
   "version": "1.0",
 }
 `;
@@ -46,19 +46,19 @@ exports[`test getUngradedSubmissions with no active courses 1`] = `
 SkillResponse {
   "response": Object {
     "outputSpeech": Object {
-      "ssml": "<speak> You have no courses to grade. Anything else? </speak>",
+      "ssml": "<speak>You have no courses to grade. Anything else?</speak>",
       "type": "SSML",
     },
     "reprompt": Object {
       "outputSpeech": Object {
-        "ssml": "<speak> You can ask to list grades, or check if you have any missing assignments. </speak>",
+        "ssml": "<speak>You can ask to list grades, or check if you have any missing assignments.</speak>",
         "type": "SSML",
       },
     },
     "shouldEndSession": false,
   },
   "sessionAttributes": Object {},
-  "userAgent": "ask-nodejs/1.0.25 Node/v8.11.4",
+  "userAgent": "ask-node/2.7.0 Node/v8.16.0 ask-sdk-v1adapter/2.7.0",
   "version": "1.0",
 }
 `;
@@ -67,19 +67,19 @@ exports[`test getUngradedSubmissions with no submissions 1`] = `
 SkillResponse {
   "response": Object {
     "outputSpeech": Object {
-      "ssml": "<speak> course name, 0. . Anything else? </speak>",
+      "ssml": "<speak>course name, 0. . Anything else?</speak>",
       "type": "SSML",
     },
     "reprompt": Object {
       "outputSpeech": Object {
-        "ssml": "<speak> You can ask to list grades, or check if you have any missing assignments. </speak>",
+        "ssml": "<speak>You can ask to list grades, or check if you have any missing assignments.</speak>",
         "type": "SSML",
       },
     },
     "shouldEndSession": false,
   },
   "sessionAttributes": Object {},
-  "userAgent": "ask-nodejs/1.0.25 Node/v8.11.4",
+  "userAgent": "ask-node/2.7.0 Node/v8.16.0 ask-sdk-v1adapter/2.7.0",
   "version": "1.0",
 }
 `;

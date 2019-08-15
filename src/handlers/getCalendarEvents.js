@@ -22,6 +22,10 @@ const { oneMonthInTheFuture } = require("../utils/computeDate");
 
 module.exports = {
   GetCalendarEvents: async function() {
+    if (!this.event.session.user.accessToken) {
+      this.emit(":tellWithLinkAccountCard", "You need to login with Canvas to use this skill.");
+      return;
+    }
     const courseSlot = this.event.request.intent.slots.Course.value;
     const dateSlot = this.event.request.intent.slots.Date.value;
     const { startDate, endDate } = parseDateSlot(dateSlot, {
@@ -61,7 +65,9 @@ module.exports = {
     });
 
     const eventsByDate = calendarEventsResponse.data.reduce((dateMap, { all_day_date, title }) => {
+      // eslint-disable-next-line security/detect-object-injection
       dateMap[all_day_date] = dateMap[all_day_date] || [];
+      // eslint-disable-next-line security/detect-object-injection
       dateMap[all_day_date].push(title);
       return dateMap;
     }, {});
@@ -81,6 +87,7 @@ module.exports = {
       )}${courseSuffix}: `;
       dates.forEach(({ label, date }) => {
         speechResponse += `On ${label}: `;
+        // eslint-disable-next-line security/detect-object-injection
         eventsByDate[date].forEach(event => {
           speechResponse += event + ".\n";
         });
