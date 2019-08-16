@@ -16,18 +16,39 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 const parseCourseSlot = require("../utils/parseCourseSlot");
+const SanitizeMessage = require("../utils/sanitizeMessage");
+const HELP_MESSAGE = "You can ask to list grades, or check if you have any missing assignments.";
 
 module.exports = {
-  StudentGetGrades: async function() {
-    if (!this.event.session.user.accessToken) {
-      this.emit(":tellWithLinkAccountCard", "You need to login with Canvas to use this skill.");
-      return;
-    }
-    const res = await this.context.api.getActiveStudentCourses(["total_scores"]);
-    const speechResponse = res.data.length
-      ? formatGrades(res.data, this.event.request.intent.slots.Course.value)
-      : "You are not in any active courses.";
-    this.emit("TellAndContinue", this.context.sanitizeMessage(speechResponse));
+  canHandle(handlerInput) {
+    return (
+      !handlerInput.context.needsPinLogin &&
+      handlerInput.context.token &&
+      handlerInput.requestEnvelope.request.type === "IntentRequest" &&
+      handlerInput.requestEnvelope.request.intent.name === "StudentGetGrades"
+    );
+  },
+  handle(handlerInput) {
+    return handlerInput.context.api
+      .getActiveStudentCourses(["total_scores"])
+      .then(result => {
+        const speechResponse = result.data.length
+          ? formatGrades(
+              result.data,
+              handlerInput.requestEnvelope.request.intent.slots.Course.value
+            )
+          : "You are not in any active courses.";
+        return handlerInput.responseBuilder
+          .speak(`${SanitizeMessage(speechResponse)}. Anything else?`)
+          .reprompt(HELP_MESSAGE)
+          .getResponse();
+      })
+      .catch(error => {
+        return handlerInput.responseBuilder
+          .speak("There was a problem communicating with Canvas. Please try again later.")
+          .withShouldEndSession(true)
+          .getResponse();
+      });
   }
 };
 

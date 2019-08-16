@@ -19,24 +19,15 @@ const axios = require("axios");
 
 module.exports = class ApiClient {
   /* istanbul ignore next line */
-  constructor(alexa, apiToken = "") {
+  constructor(apiToken = "", development = true) {
     const [hostname, token] = apiToken.split(";");
     axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-    if (alexa.development) {
+    if (development) {
       axios.defaults.baseURL = `http://${hostname}/api/v1`;
     } else {
       axios.defaults.baseURL = `https://${hostname}/api/v1`;
     }
-    axios.interceptors.response.use(
-      res => res,
-      err => {
-        alexa.emit(
-          ":tell",
-          "There was a problem communicating with Canvas. Please try again later."
-        );
-        return Promise.reject(err);
-      }
-    );
+    axios.interceptors.response.use(res => res, err => Promise.reject(err));
   }
 
   getMissingAssignments() {

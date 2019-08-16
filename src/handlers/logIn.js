@@ -19,38 +19,42 @@ const axios = require("axios");
 const queryString = require("querystring");
 const AUTH_HOSTNAME = process.env.AUTH_HOSTNAME;
 
-module.exports = function initLogIn(token) {
-  return {
-    intent: {
-      LogIn: async function() {
-        const pin = this.event.request.intent.slots.Pin.value;
-        if (!pin) {
-          this.emit(
-            ":tell",
-            "Please provide a pin. To reset your pin, re-link your Canvas account with this skill."
-          );
-          return;
-        }
-
-        try {
-          await axios.post(
-            `https://${AUTH_HOSTNAME}/pin-auth`,
-            queryString.stringify({ token, pin })
-          );
-          this.emit(":tell", "Pin login successful. The Canvas skill is unlocked for ten minutes.");
-        } catch (err) {
-          this.emit(
-            ":tell",
-            "Pin login failed. Please try again. To reset your pin, re-link your Canvas account with this skill."
-          );
-        }
-      }
-    },
-    needsLogin() {
-      this.emit(
-        ":tell",
-        'You need to login with your security pin. To login say <emphasis level="strong">ask canvas to login with pin</emphasis>, followed by your pin digits.'
-      );
+module.exports = {
+  canHandle(handlerInput) {
+    return (
+      handlerInput.requestEnvelope.request.type === "IntentRequest" &&
+      handlerInput.requestEnvelope.request.intent.name === "LogIn"
+    );
+  },
+  handle(handlerInput) {
+    const pin = handlerInput.requestEnvelope.request.intent.slots.Pin.value;
+    if (!pin) {
+      return handlerInput.responseBuilder
+        .speak(
+          "Please provide a pin. To reset your pin, re-link your Canvas account with this skill."
+        )
+        .withShouldEndSession(true)
+        .getResponse();
     }
-  };
+
+    return axios
+      .post(
+        `https://${AUTH_HOSTNAME}/pin-auth`,
+        queryString.stringify({ token: handlerInput.requestEnvelope.context.token, pin })
+      )
+      .then(result => {
+        return handlerInput.responseBuilder
+          .speak("Pin login successful. The Canvas skill is unlocked for ten minutes.")
+          .withShouldEndSession(true)
+          .getResponse();
+      })
+      .catch(err => {
+        return handlerInput.responseBuilder
+          .speak(
+            "Pin login failed. Please try again. To reset your pin, re-link your Canvas account with this skill."
+          )
+          .withShouldEndSession(true)
+          .getResponse();
+      });
+  }
 };

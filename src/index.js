@@ -18,33 +18,61 @@
 
 "use strict";
 
-const Alexa = require("ask-sdk-v1adapter");
+const Alexa = require("ask-sdk-core");
 
-const initHandlers = require("./handlers");
 const ApiClient = require("./apiClient");
-const SanitizeMessage = require("./utils/sanitizeMessage");
+
+const LaunchRequestHandler = require("./handlers/launch");
+const HelpRequestHandler = require("./handlers/help");
+const CancelStopNoRequestHandler = require("./handlers/cancelStopNo");
+const LogInRequestHandler = require("./handlers/logIn");
+const NeedsPinLoginRequestHandler = require("./handlers/needsPinLogin");
+const NeedsTokenRequestHandler = require("./handlers/needsToken");
+const GetBlackboardRequestHandler = require("./handlers/easterEggs");
+const GetMissingRequestHandler = require("./handlers/getMissing");
+const GetAnnouncements = require("./handlers/getAnnouncements");
+const GetCalendarEvents = require("./handlers/getCalendarEvents");
+const GetSubmissions = require("./handlers/getSubmissions");
+const StudentGetGrades = require("./handlers/studentGetGrades");
+const ParentGetGrades = require("./handlers/parentGetGrades");
+const ErrorRequestHandler = require("./handlers/error");
 
 const PIN_TOKEN = "PIN_REFRESH_ONLY_TOKEN";
 
-exports.handler = function(event, context) {
-  const alexa = Alexa.handler(event, context);
-  alexa.appId = process.env.ALEXA_APP_ID || "1";
-  if (event.session.development) {
-    alexa.development = true;
+const skillBuilder = Alexa.SkillBuilders.custom();
+let skill;
+
+exports.handler = function(request, context) {
+  if (request.session.development) {
+    context.development = true;
   }
 
-  const token = event.session.user.accessToken || "";
+  const token = request.session.user.accessToken || "";
+  context.token = token;
   const needsPinLogin = token.startsWith(PIN_TOKEN);
-  context.sanitizeMessage = SanitizeMessage;
+  context.needsPinLogin = needsPinLogin;
+  context.api = new ApiClient(token, context.development);
 
-  alexa.registerHandlers(initHandlers(token, needsPinLogin));
-  if (!needsPinLogin) {
-    context.api = new ApiClient(alexa, token);
+  if (!skill) {
+    skill = skillBuilder
+      .addRequestHandlers(
+        LaunchRequestHandler,
+        HelpRequestHandler,
+        CancelStopNoRequestHandler,
+        LogInRequestHandler,
+        NeedsPinLoginRequestHandler,
+        NeedsTokenRequestHandler,
+        GetBlackboardRequestHandler,
+        GetMissingRequestHandler,
+        GetAnnouncements,
+        GetCalendarEvents,
+        GetSubmissions,
+        StudentGetGrades,
+        ParentGetGrades
+      )
+      .addErrorHandlers(ErrorRequestHandler)
+      .create();
   }
 
-  alexa.execute();
-};
-/* istanbul ignore next line */
-exports.devSuccessHandler = function(response) {
-  console.log(response);
+  return skill.invoke(request, context);
 };

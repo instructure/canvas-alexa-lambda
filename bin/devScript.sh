@@ -52,5 +52,6 @@ node -e "require('./src/index.js').handler(
         accessToken: '$host;$accessToken'
       }
     }
-  },{succeed: require('./src/index.js').devSuccessHandler, fail: require('./src/index.js').devSuccessHandler}
-)"
+  },
+  {}
+).then((result) => { console.log(result) });"

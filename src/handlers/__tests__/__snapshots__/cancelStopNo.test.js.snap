@@ -1,10 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`does not log you in if no pin is supplied 1`] = `
+exports[`launch the cancel intent 1`] = `
 SkillResponse {
   "response": Object {
     "outputSpeech": Object {
-      "ssml": "<speak>Please provide a pin. To reset your pin, re-link your Canvas account with this skill.</speak>",
+      "ssml": "<speak>Goodbye!</speak>",
       "type": "SSML",
     },
     "shouldEndSession": true,
@@ -15,11 +15,11 @@ SkillResponse {
 }
 `;
 
-exports[`does not log you in if the pin is invalid 1`] = `
+exports[`launch the no intent 1`] = `
 SkillResponse {
   "response": Object {
     "outputSpeech": Object {
-      "ssml": "<speak>Pin login failed. Please try again. To reset your pin, re-link your Canvas account with this skill.</speak>",
+      "ssml": "<speak>Goodbye!</speak>",
       "type": "SSML",
     },
     "shouldEndSession": true,
@@ -30,11 +30,11 @@ SkillResponse {
 }
 `;
 
-exports[`logs you in with a pin 1`] = `
+exports[`launch the stop intent 1`] = `
 SkillResponse {
   "response": Object {
     "outputSpeech": Object {
-      "ssml": "<speak>Pin login successful. The Canvas skill is unlocked for ten minutes.</speak>",
+      "ssml": "<speak>Goodbye!</speak>",
       "type": "SSML",
     },
     "shouldEndSession": true,

@@ -15,36 +15,62 @@
  * You should have received a copy of the GNU Affero General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+
+const SanitizeMessage = require("../utils/sanitizeMessage");
+const HELP_MESSAGE = "You can ask to list grades, or check if you have any missing assignments.";
+
 module.exports = {
-  GetUngradedSubmissions: async function() {
-    if (!this.event.session.user.accessToken) {
-      this.emit(":tellWithLinkAccountCard", "You need to login with Canvas to use this skill.");
-      return;
-    }
-    const activeTeacherCoursesResp = await this.context.api.getActiveTeacherCourses();
-    if (!activeTeacherCoursesResp.data.length) {
-      this.emit("TellAndContinue", "You have no courses to grade");
-      return;
-    }
-
-    const responses = await Promise.all(
-      activeTeacherCoursesResp.data.map(async course => {
-        const resp = await this.context.api.getStudentSubmissions(course.id);
-        return { course, subs: resp.data };
-      })
+  canHandle(handlerInput) {
+    return (
+      !handlerInput.context.needsPinLogin &&
+      handlerInput.context.token &&
+      handlerInput.requestEnvelope.request.type === "IntentRequest" &&
+      handlerInput.requestEnvelope.request.intent.name === "GetUngradedSubmissions"
     );
-
-    let speechResponse = "";
-    responses.forEach((submissionResponse, index) => {
-      speechResponse += `${submissionResponse.course.name}, `;
-      let ungradedCount = 0;
-      submissionResponse.subs.forEach((sub, index) => {
-        if (sub.workflow_state === "submitted" && !sub.grade) {
-          ungradedCount++;
+  },
+  handle(handlerInput) {
+    return handlerInput.context.api
+      .getActiveTeacherCourses()
+      .then(coursesResult => {
+        if (!coursesResult.data.length) {
+          return handlerInput.responseBuilder
+            .speak("You have no courses to grade. Anything else?")
+            .reprompt(HELP_MESSAGE)
+            .getResponse();
         }
+
+        return Promise.all(
+          coursesResult.data.map(course => {
+            return handlerInput.context.api
+              .getStudentSubmissions(course.id)
+              .then(submissionsResult => {
+                return { course, subs: submissionsResult.data };
+              });
+          })
+        ).then(submissionsResult => {
+          let speechResponse = "";
+          submissionsResult.forEach((submissionResponse, index) => {
+            speechResponse += `${submissionResponse.course.name}, `;
+            let ungradedCount = 0;
+            submissionResponse.subs.forEach((sub, index) => {
+              if (sub.workflow_state === "submitted" && !sub.grade) {
+                ungradedCount++;
+              }
+            });
+            speechResponse += `${ungradedCount}. `;
+          });
+
+          return handlerInput.responseBuilder
+            .speak(`${SanitizeMessage(speechResponse)}. Anything else?`)
+            .reprompt(HELP_MESSAGE)
+            .getResponse();
+        });
+      })
+      .catch(error => {
+        return handlerInput.responseBuilder
+          .speak("There was a problem communicating with Canvas. Please try again later.")
+          .withShouldEndSession(true)
+          .getResponse();
       });
-      speechResponse += `${ungradedCount}. `;
-    });
-    this.emit("TellAndContinue", this.context.sanitizeMessage(speechResponse));
   }
 };

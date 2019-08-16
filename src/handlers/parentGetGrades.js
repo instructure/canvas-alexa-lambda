@@ -17,34 +17,54 @@
  */
 const parseCourseSlot = require("../utils/parseCourseSlot");
 const parseNameSlot = require("../utils/parseNameSlot");
+const SanitizeMessage = require("../utils/sanitizeMessage");
+const HELP_MESSAGE = "You can ask to list grades, or check if you have any missing assignments.";
 
 module.exports = {
-  ParentGetGrades: async function() {
-    if (!this.event.session.user.accessToken) {
-      this.emit(":tellWithLinkAccountCard", "You need to login with Canvas to use this skill.");
-      return;
-    }
-    const nameSlot = this.event.request.intent.slots.Name.value;
-    const courseSlot = this.event.request.intent.slots.Course.value;
-
-    const observeesApiResult = await this.context.api.getObservees();
-    const matchedStudents = parseNameSlot(observeesApiResult.data, nameSlot);
-
-    const activeCourses = await Promise.all(
-      matchedStudents.map(async student => {
-        const res = await this.context.api.getActiveUserCourses(student.id, ["total_scores"]);
-        return {
-          student: student.short_name,
-          courses: parseCourseSlot(res.data, courseSlot)
-        };
-      })
+  canHandle(handlerInput) {
+    return (
+      !handlerInput.context.needsPinLogin &&
+      handlerInput.context.token &&
+      handlerInput.requestEnvelope.request.type === "IntentRequest" &&
+      handlerInput.requestEnvelope.request.intent.name === "ParentGetGrades"
     );
+  },
+  handle(handlerInput) {
+    const nameSlot = handlerInput.requestEnvelope.request.intent.slots.Name.value;
+    const courseSlot = handlerInput.requestEnvelope.request.intent.slots.Course.value;
 
-    const speechResponse = activeCourses.length
-      ? "Here are your students grades: " + formatStudentGrades(activeCourses, courseSlot)
-      : `No ${nameSlot ? "matching " : ""}students found`;
+    return handlerInput.context.api
+      .getObservees()
+      .then(observeesResult => {
+        const matchedStudents = parseNameSlot(observeesResult.data, nameSlot);
+        return Promise.all(
+          matchedStudents.map(student => {
+            return handlerInput.context.api
+              .getActiveUserCourses(student.id, ["total_scores"])
+              .then(coursesResult => {
+                return {
+                  student: student.short_name,
+                  courses: parseCourseSlot(coursesResult.data, courseSlot)
+                };
+              });
+          })
+        ).then(result => {
+          const speechResponse = result.length
+            ? "Here are your students grades: " + formatStudentGrades(result, courseSlot)
+            : `No ${nameSlot ? "matching " : ""}students found`;
 
-    this.emit("TellAndContinue", this.context.sanitizeMessage(speechResponse));
+          return handlerInput.responseBuilder
+            .speak(`${SanitizeMessage(speechResponse)}. Anything else?`)
+            .reprompt(HELP_MESSAGE)
+            .getResponse();
+        });
+      })
+      .catch(error => {
+        return handlerInput.responseBuilder
+          .speak("There was a problem communicating with Canvas. Please try again later.")
+          .withShouldEndSession(true)
+          .getResponse();
+      });
   }
 };
 

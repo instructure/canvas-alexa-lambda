@@ -15,38 +15,73 @@
  * You should have received a copy of the GNU Affero General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+
+const SanitizeMessage = require("../utils/sanitizeMessage");
+const HELP_MESSAGE = "You can ask to list grades, or check if you have any missing assignments.";
+
 module.exports = {
-  GetAnnouncements: async function() {
-    if (!this.event.session.user.accessToken) {
-      this.emit(":tellWithLinkAccountCard", "You need to login with Canvas to use this skill.");
-      return;
-    }
+  canHandle(handlerInput) {
+    return (
+      !handlerInput.context.needsPinLogin &&
+      handlerInput.context.token &&
+      handlerInput.requestEnvelope.request.type === "IntentRequest" &&
+      handlerInput.requestEnvelope.request.intent.name === "GetAnnouncements"
+    );
+  },
+  handle(handlerInput) {
     // grab active student enrollments
-    const activeCoursesResp = await this.context.api.getActiveCourses();
-    if (activeCoursesResp.data.length === 0) {
-      this.emit("TellAndContinue", "You have no active courses");
-      return;
-    }
-    const courses = activeCoursesResp.data.map(course => ({
-      course_code: `course_${course.id}`,
-      course
-    }));
-    const announcementsResp = await this.context.api.getAnnouncements({
-      contextCodes: courses.map(c => c.course_code)
-    });
-    const announcements = announcementsResp.data;
-    if (announcements.length === 0) {
-      this.emit("TellAndContinue", "You have no announcements");
-      return;
-    }
-    const result = courses.reduce((obj, item) => {
-      obj[item.course_code] = item.course;
-      return obj;
-    }, {});
-    const annSpeech = announcements
-      .map(ann => `In course ${result[ann.context_code].name}: ${ann.title}`)
-      .join(",\n");
-    const speechOutput = `Here are your announcements: ${annSpeech}`;
-    this.emit("TellAndContinue", this.context.sanitizeMessage(speechOutput));
+    return handlerInput.context.api
+      .getActiveCourses()
+      .then(coursesResult => {
+        if (coursesResult.data.length === 0) {
+          return handlerInput.responseBuilder
+            .speak("You have no active courses. Anything else?")
+            .reprompt(HELP_MESSAGE)
+            .getResponse();
+        }
+
+        const courses = coursesResult.data.map(course => ({
+          course_code: `course_${course.id}`,
+          course
+        }));
+
+        return handlerInput.context.api
+          .getAnnouncements({ contextCodes: courses.map(c => c.course_code) })
+          .then(announcementsResult => {
+            if (announcementsResult.data.length === 0) {
+              return handlerInput.responseBuilder
+                .speak("You have no announcements. Anything else?")
+                .reprompt(HELP_MESSAGE)
+                .getResponse();
+            }
+
+            const result = courses.reduce((obj, item) => {
+              obj[item.course_code] = item.course;
+              return obj;
+            }, {});
+
+            const annSpeech = announcementsResult.data
+              .map(ann => `In course ${result[ann.context_code].name}: ${ann.title}`)
+              .join(",\n");
+
+            const speechOutput = `Here are your announcements: ${annSpeech}. Anything else?`;
+            return handlerInput.responseBuilder
+              .speak(SanitizeMessage(speechOutput))
+              .reprompt(HELP_MESSAGE)
+              .getResponse();
+          })
+          .catch(error => {
+            return handlerInput.responseBuilder
+              .speak("There was a problem communicating with Canvas. Please try again later.")
+              .withShouldEndSession(true)
+              .getResponse();
+          });
+      })
+      .catch(error => {
+        return handlerInput.responseBuilder
+          .speak("There was a problem communicating with Canvas. Please try again later.")
+          .withShouldEndSession(true)
+          .getResponse();
+      });
   }
 };

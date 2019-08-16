@@ -18,31 +18,16 @@
 const HELP_MESSAGE = "You can ask to list grades, or check if you have any missing assignments.";
 
 module.exports = {
-  baseIntents: {
-    "AMAZON.CancelIntent": function() {
-      this.emit(":tell", "Goodbye!");
-    },
-    "AMAZON.StopIntent": function() {
-      this.emit(":tell", "Goodbye!");
-    },
-    "AMAZON.NoIntent": function() {
-      this.emit(":tell", "Goodbye!");
-    },
-    TellAndContinue: function(text) {
-      this.emit(":ask", `${text}. Anything else?`, HELP_MESSAGE);
-    }
+  canHandle(handlerInput) {
+    return (
+      handlerInput.requestEnvelope.request.type === "IntentRequest" &&
+      handlerInput.requestEnvelope.request.intent.name === "AMAZON.HelpIntent"
+    );
   },
-  launchIntents: {
-    LaunchRequest: function() {
-      this.emit("AMAZON.HelpIntent");
-    },
-    /* istanbul ignore next line */
-    Unhandled: function() {
-      /* istanbul ignore next line */
-      this.emit(":tell", "Goodbye!");
-    },
-    "AMAZON.HelpIntent": function() {
-      this.emit(":ask", HELP_MESSAGE, "What can I help you with?");
-    }
+  handle(handlerInput) {
+    return handlerInput.responseBuilder
+      .speak(HELP_MESSAGE)
+      .reprompt("What can I help you with?")
+      .getResponse();
   }
 };

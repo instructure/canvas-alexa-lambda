@@ -17,7 +17,7 @@ For Bob: In Calculus: the grade is 93.. Anything else?</speak>",
     "shouldEndSession": false,
   },
   "sessionAttributes": Object {},
-  "userAgent": "ask-node/2.7.0 Node/v8.16.0 ask-sdk-v1adapter/2.7.0",
+  "userAgent": "ask-node/2.7.0 Node/v8.16.0",
   "version": "1.0",
 }
 `;
@@ -39,7 +39,7 @@ For Bob: In Calculus: the grade is 93.. Anything else?</speak>",
     "shouldEndSession": false,
   },
   "sessionAttributes": Object {},
-  "userAgent": "ask-node/2.7.0 Node/v8.16.0 ask-sdk-v1adapter/2.7.0",
+  "userAgent": "ask-node/2.7.0 Node/v8.16.0",
   "version": "1.0",
 }
 `;
@@ -60,7 +60,7 @@ SkillResponse {
     "shouldEndSession": false,
   },
   "sessionAttributes": Object {},
-  "userAgent": "ask-node/2.7.0 Node/v8.16.0 ask-sdk-v1adapter/2.7.0",
+  "userAgent": "ask-node/2.7.0 Node/v8.16.0",
   "version": "1.0",
 }
 `;
@@ -82,7 +82,7 @@ For Bob: No grade posted for Calculus.. Anything else?</speak>",
     "shouldEndSession": false,
   },
   "sessionAttributes": Object {},
-  "userAgent": "ask-node/2.7.0 Node/v8.16.0 ask-sdk-v1adapter/2.7.0",
+  "userAgent": "ask-node/2.7.0 Node/v8.16.0",
   "version": "1.0",
 }
 `;
@@ -103,7 +103,7 @@ SkillResponse {
     "shouldEndSession": false,
   },
   "sessionAttributes": Object {},
-  "userAgent": "ask-node/2.7.0 Node/v8.16.0 ask-sdk-v1adapter/2.7.0",
+  "userAgent": "ask-node/2.7.0 Node/v8.16.0",
   "version": "1.0",
 }
 `;
@@ -124,7 +124,7 @@ SkillResponse {
     "shouldEndSession": false,
   },
   "sessionAttributes": Object {},
-  "userAgent": "ask-node/2.7.0 Node/v8.16.0 ask-sdk-v1adapter/2.7.0",
+  "userAgent": "ask-node/2.7.0 Node/v8.16.0",
   "version": "1.0",
 }
 `;

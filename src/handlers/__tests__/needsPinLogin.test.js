@@ -15,34 +15,33 @@
  * You should have received a copy of the GNU Affero General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+const axios = require("axios");
+const MockAdapter = require("axios-mock-adapter");
 const createVirtualAlexa = require("../../test_utils/utils.js").createVirtualAlexa;
+
+let mock;
 let alexa;
 
 beforeAll(() => {
-  alexa = createVirtualAlexa();
+  alexa = createVirtualAlexa({ fakeAccessToken: false });
+  mock = new MockAdapter(axios);
+
+  // Set this up so it requires a pin
+  alexa.filter(requestJSON => {
+    requestJSON.session.development = true;
+    requestJSON.session.user.accessToken = "PIN_REFRESH_ONLY_TOKENlocalhost;fake-access-token";
+  });
 });
 
-it("launch the cancel intent", async () => {
-  const result = await alexa.utter("Cancel");
-  expect(result).toMatchSnapshot();
+afterEach(() => {
+  mock.reset();
 });
 
-it("launch the stop intent", async () => {
-  const result = await alexa.utter("Stop");
-  expect(result).toMatchSnapshot();
+afterAll(() => {
+  mock.restore();
 });
 
-it("launch the no intent", async () => {
-  const result = await alexa.utter("No");
-  expect(result).toMatchSnapshot();
-});
-
-it("launch the help intent", async () => {
-  const result = await alexa.utter("Help");
-  expect(result).toMatchSnapshot();
-});
-
-it("launch the launch intent", async () => {
-  const result = await alexa.launch();
+it("does not let you do other intents until you verify the pin", async () => {
+  const result = await alexa.utter("Blackboard is better");
   expect(result).toMatchSnapshot();
 });
