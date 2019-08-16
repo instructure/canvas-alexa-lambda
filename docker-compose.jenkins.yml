@@ -1,0 +1,11 @@
+version: '2'
+services:
+  alexa_unit_tests:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - coverage:/usr/src/app/coverage
+
+volumes:
+  coverage: {}
