@@ -21,7 +21,7 @@
   "dependencies": {
     "ask-sdk": "^2.7.0",
     "ask-sdk-v1adapter": "^2.7.0",
-    "axios": "^0.18.0",
+    "axios": "^0.18.1",
     "fuse.js": "^3.0.5"
   },
   "devDependencies": {
@@ -29,7 +29,7 @@
     "eslint": "^5.2.0",
     "eslint-plugin-prettier": "^2.6.2",
     "eslint-plugin-security": "^1.4.0",
-    "jest": "^23.4.1",
+    "jest": "^24.0.0",
     "prettier": "^1.13.7",
     "uglifyjs-webpack-plugin": "^0.4.6",
     "virtual-alexa": "^0.6.6",
