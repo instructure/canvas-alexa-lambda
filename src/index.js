@@ -43,15 +43,11 @@ const skillBuilder = Alexa.SkillBuilders.custom();
 let skill;
 
 exports.handler = function(request, context) {
-  if (request.session.development) {
-    context.development = true;
-  }
-
   const token = request.session.user.accessToken || "";
   context.token = token;
   const needsPinLogin = token.startsWith(PIN_TOKEN);
   context.needsPinLogin = needsPinLogin;
-  context.api = new ApiClient(token, context.development);
+  context.api = new ApiClient(token, !!request.session.development);
 
   if (!skill) {
     skill = skillBuilder

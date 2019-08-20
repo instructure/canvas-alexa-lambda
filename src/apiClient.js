@@ -19,7 +19,7 @@ const axios = require("axios");
 
 module.exports = class ApiClient {
   /* istanbul ignore next line */
-  constructor(apiToken = "", development = true) {
+  constructor(apiToken = "", development) {
     const [hostname, token] = apiToken.split(";");
     axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
     if (development) {
