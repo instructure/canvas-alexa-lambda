@@ -60,6 +60,10 @@ module.exports = class ApiClient {
     return this.getActiveCourses({ includes, enrollmentType: "teacher" });
   }
 
+  getProfile() {
+    return axios.get("/users/self");
+  }
+
   getObservees() {
     return axios.get("/users/self/observees");
   }

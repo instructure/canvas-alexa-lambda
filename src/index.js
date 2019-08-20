@@ -36,7 +36,7 @@ const GetSubmissions = require("./handlers/getSubmissions");
 const StudentGetGrades = require("./handlers/studentGetGrades");
 const ParentGetGrades = require("./handlers/parentGetGrades");
 const ErrorRequestHandler = require("./handlers/error");
-
+const GetStudentProfilesRequestHandler = require("./handlers/getStudentProfiles");
 const GetCourseworkRequestHandler = require("./handlers/getCoursework");
 
 const PIN_TOKEN = "PIN_REFRESH_ONLY_TOKEN";
@@ -45,11 +45,11 @@ const skillBuilder = Alexa.SkillBuilders.custom();
 let skill;
 
 exports.handler = function(request, context) {
-  const token = request.session.user.accessToken || "";
+  const token = (request.session && request.session.user && request.session.user.accessToken) || "";
   context.token = token;
   const needsPinLogin = token.startsWith(PIN_TOKEN);
   context.needsPinLogin = needsPinLogin;
-  context.api = new ApiClient(token, !!request.session.development);
+  context.api = new ApiClient(token, !!request.session && request.session.development);
 
   if (!skill) {
     skill = skillBuilder
@@ -67,7 +67,8 @@ exports.handler = function(request, context) {
         GetSubmissions,
         StudentGetGrades,
         ParentGetGrades,
-        GetCourseworkRequestHandler
+        GetCourseworkRequestHandler,
+        GetStudentProfilesRequestHandler
       )
       .addErrorHandlers(ErrorRequestHandler)
       .create();
