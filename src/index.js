@@ -37,6 +37,8 @@ const StudentGetGrades = require("./handlers/studentGetGrades");
 const ParentGetGrades = require("./handlers/parentGetGrades");
 const ErrorRequestHandler = require("./handlers/error");
 
+const GetCourseworkRequestHandler = require("./handlers/getCoursework");
+
 const PIN_TOKEN = "PIN_REFRESH_ONLY_TOKEN";
 
 const skillBuilder = Alexa.SkillBuilders.custom();
@@ -64,7 +66,8 @@ exports.handler = function(request, context) {
         GetCalendarEvents,
         GetSubmissions,
         StudentGetGrades,
-        ParentGetGrades
+        ParentGetGrades,
+        GetCourseworkRequestHandler
       )
       .addErrorHandlers(ErrorRequestHandler)
       .create();

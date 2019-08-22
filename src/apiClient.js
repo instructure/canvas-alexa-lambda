@@ -40,7 +40,7 @@ module.exports = class ApiClient {
 
   // get another user's active courses (for observers, etc)
   getActiveUserCourses(id, includes) {
-    const includeQuery = includes.map(inc => `include[]=${inc}`).join("&");
+    const includeQuery = includes ? includes.map(inc => `include[]=${inc}`).join("&") : "";
     return axios.get(`/users/${id}/courses?enrollment_state=active&${includeQuery}`);
   }
 
@@ -65,9 +65,10 @@ module.exports = class ApiClient {
   }
 
   getCalendarEvents(params) {
+    const userId = params.userId || "self";
     const contextCodesQuery = params.contextCodes.map(cc => `context_codes[]=${cc}`).join("&");
     return axios.get(
-      `/users/self/calendar_events?type=assignment&start_date=${params.startDate}&end_date=${
+      `/users/${userId}/calendar_events?type=assignment&start_date=${params.startDate}&end_date=${
         params.endDate
       }&per_page=50&${contextCodesQuery}`
     );
