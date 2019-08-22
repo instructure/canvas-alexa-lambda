@@ -59,6 +59,7 @@ describe("GetStudentProfiles", () => {
       },
       payload: {
         paginationContext: {
+          nextToken: "2",
           totalCount: data.length
         },
         studentProfiles: data
@@ -73,10 +74,13 @@ describe("GetStudentProfiles", () => {
     short_name: "Short Student 1"
   };
 
-  const observers = [
-    { id: 2, name: "Observer 1", sortable_name: "1, Observer", short_name: "Short Observer 1" },
-    { id: 3, name: "Observer 2", sortable_name: "2, Observer", short_name: "Short Observer 2" }
-  ];
+  const observers = {
+    observees: [
+      { id: 2, name: "Observer 1", sortable_name: "1, Observer", short_name: "Short Observer 1" },
+      { id: 3, name: "Observer 2", sortable_name: "2, Observer", short_name: "Short Observer 2" }
+    ],
+    nextToken: 2
+  };
 
   const profileResult = {
     id: 1,
@@ -121,7 +125,7 @@ describe("GetStudentProfiles", () => {
   };
 
   stubGetObserveesSuccess = data => {
-    mockApi.getObservees = sinon.stub().resolves({ data });
+    mockApi.getObservees = sinon.stub().resolves(data);
   };
 
   stubGetObserveesError = () => {

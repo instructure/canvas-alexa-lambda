@@ -60,4 +60,4 @@ node -e "require('./src/index.js').handler(
     }
   },
   {}
-).then((result) => { console.log(result); console.log(result.response.payload.paginationContext); console.log(result.response.payload.studentProfiles); result.response.payload.studentProfiles.forEach(s => console.log(s.name.nicknames)); });"
+).then((result) => { console.log(result); console.log(result.response.payload.paginationContext); console.log(result.response.payload.studentProfiles); result.response.payload.studentProfiles.forEach(s => console.log(s.name.nicknames)); console.log(result.response.payload.paginationContext); });"

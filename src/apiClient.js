@@ -60,12 +60,44 @@ module.exports = class ApiClient {
     return this.getActiveCourses({ includes, enrollmentType: "teacher" });
   }
 
+  getObserveesForPage(page, perPage) {
+    if (page < 1) {
+      return Promise.resolve([]);
+    }
+
+    return axios
+      .get("/users/self/observees", { params: { page: page, per_page: perPage } })
+      .then(response => {
+        return response.data;
+      });
+  }
+
   getProfile() {
     return axios.get("/users/self");
   }
 
-  getObservees() {
-    return axios.get("/users/self/observees");
+  getObservees(paginationInfo) {
+    if (!paginationInfo) {
+      return axios.get("/users/self/observees");
+    }
+
+    const lastPage = this.getObserveesForPage(paginationInfo.page - 1, paginationInfo.perPage);
+    const thisPage = this.getObserveesForPage(paginationInfo.page, paginationInfo.perPage);
+
+    return Promise.all([lastPage, thisPage]).then(([lastPageResults, thisPageResults]) => {
+      let nextToken = null;
+      const head = lastPageResults.length ? [lastPageResults[lastPageResults.length - 1]] : [];
+      const tail = thisPageResults;
+      if (tail.length === paginationInfo.perPage) {
+        nextToken = paginationInfo.page + 1;
+        tail.pop();
+      }
+
+      return {
+        observees: [...head, ...tail],
+        nextToken
+      };
+    });
   }
 
   getCalendarEvents(params) {

@@ -29,14 +29,17 @@ function formatUser(student, relationType) {
   };
 }
 
-async function getProfile(api) {
+async function getProfile(api, paginationInfo) {
+  if (paginationInfo.page > 1) {
+    return [];
+  }
   const profile = await api.getProfile();
-  return formatUser(profile.data, "SELF");
+  return [formatUser(profile.data, "SELF")];
 }
 
-async function getObservees(api) {
-  const observees = await api.getObservees();
-  return observees.data.map(o => formatUser(o, "GUARDIAN"));
+async function getObservees(api, paginationInfo) {
+  const { observees, nextToken } = await api.getObservees(paginationInfo);
+  return { observees: observees.map(o => formatUser(o, "GUARDIAN")), nextToken };
 }
 
 const GetStudentProfilesRequestHandler = {
@@ -55,14 +58,21 @@ const GetStudentProfilesRequestHandler = {
   },
 
   handle(handlerInput) {
-    const fetchProfile = getProfile(handlerInput.context.api);
-    const fetchObservees = getObservees(handlerInput.context.api);
+    const paginationInfo = {
+      page:
+        parseInt(handlerInput.requestEnvelope.request.payload.paginationContext.nextToken, 10) || 1,
+      perPage:
+        parseInt(handlerInput.requestEnvelope.request.payload.paginationContext.maxResults, 10) || 5
+    };
+    const fetchProfile = getProfile(handlerInput.context.api, paginationInfo);
+    const fetchObservees = getObservees(handlerInput.context.api, paginationInfo);
 
     return Promise.all([fetchProfile, fetchObservees])
-      .then(([profile, observees]) => {
-        const studentProfiles = [profile, ...observees];
+      .then(([profile, observeesResponse]) => {
+        const { observees, nextToken } = observeesResponse;
+        const studentProfiles = [...profile, ...observees];
 
-        return {
+        const response = {
           header: {
             namespace: "Alexa.Education.Profile.Student",
             name: "GetResponse",
@@ -76,10 +86,14 @@ const GetStudentProfilesRequestHandler = {
             studentProfiles
           }
         };
+
+        if (nextToken) {
+          response.payload.paginationContext.nextToken = "" + nextToken;
+        }
+
+        return response;
       })
-      .catch(error => {
-        return {};
-      });
+      .catch(err => ({}));
   }
 };
 
