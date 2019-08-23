@@ -76,7 +76,7 @@ module.exports = {
             endDate: formatDate.forAPI(endDate)
           })
           .then(eventsResult => {
-            const eventsByDate = eventsResult.data.reduce((dateMap, { all_day_date, title }) => {
+            const eventsByDate = eventsResult.events.reduce((dateMap, { all_day_date, title }) => {
               // eslint-disable-next-line security/detect-object-injection
               dateMap[all_day_date] = dateMap[all_day_date] || [];
               // eslint-disable-next-line security/detect-object-injection

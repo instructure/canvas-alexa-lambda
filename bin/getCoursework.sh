@@ -27,14 +27,13 @@ node -e "require('./src/index.js').handler(
       },
       payload: {
         paginationContext: {
-          maxResults: 5,
-          nextToken: 'qjduvobmskhj'
+          maxResults: 4,
+          nextToken: '2'
         },
         query: {
           matchAll: {
-            studentId: '2',
-            courseId: '1',
-            courseworkType: 'ASSIGNMENT',
+            studentId: '828',
+            courseId: '1132',
             dueTime: {
               start: '2018-06-05T00:00:000Z',
               end: '2020-11-30T00:00:000Z'

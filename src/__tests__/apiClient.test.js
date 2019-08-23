@@ -348,7 +348,7 @@ describe("ApiClient", () => {
         startDate: "start",
         endDate: "end"
       });
-      expect(result.data).toEqual([{ id: 1, title: "Some Event" }]);
+      expect(result.events).toEqual([{ id: 1, title: "Some Event" }]);
     });
 
     it("uses self for user ID if not given a user ID", async () => {
@@ -362,7 +362,7 @@ describe("ApiClient", () => {
         startDate: "start",
         endDate: "end"
       });
-      expect(result.data).toEqual([{ id: 1, title: "Some Event" }]);
+      expect(result.events).toEqual([{ id: 1, title: "Some Event" }]);
     });
 
     it("includes context codes param if given context codes", async () => {
@@ -376,7 +376,124 @@ describe("ApiClient", () => {
         startDate: "start",
         endDate: "end"
       });
-      expect(result.data).toEqual([{ id: 1, title: "Some Event" }]);
+      expect(result.events).toEqual([{ id: 1, title: "Some Event" }]);
+    });
+
+    it("includes page param if given pagination", async () => {
+      mock
+        .onGet(
+          "/users/self/calendar_events?type=assignment&start_date=start&end_date=end&page=2&per_page=50&context_codes[]=course1"
+        )
+        .reply(200, [{ id: 1, title: "Some Event" }], { link: "www.something.com" });
+      const result = await apiClient.getCalendarEvents(
+        {
+          contextCodes: ["course1"],
+          startDate: "start",
+          endDate: "end"
+        },
+        { page: 2, perPage: 50 }
+      );
+      expect(result.events).toEqual([{ id: 1, title: "Some Event" }]);
+    });
+
+    it("sets per_page param to perPage if given pagination", async () => {
+      mock
+        .onGet(
+          "/users/self/calendar_events?type=assignment&start_date=start&end_date=end&page=1&per_page=10&context_codes[]=course1"
+        )
+        .reply(200, [{ id: 1, title: "Some Event" }], { link: "www.something.com" });
+      const result = await apiClient.getCalendarEvents(
+        {
+          contextCodes: ["course1"],
+          startDate: "start",
+          endDate: "end"
+        },
+        { page: 1, perPage: 10 }
+      );
+      expect(result.events).toEqual([{ id: 1, title: "Some Event" }]);
+    });
+
+    it("adds exclude_submission_types param if courseworkType is ASSIGNMENT", async () => {
+      mock
+        .onGet(
+          "/users/self/calendar_events?type=assignment&start_date=start&end_date=end&per_page=50&exclude_submission_types[]=online_quiz&context_codes[]=course1"
+        )
+        .reply(200, [{ id: 1, title: "Some Event" }], { link: "www.something.com" });
+      const result = await apiClient.getCalendarEvents({
+        contextCodes: ["course1"],
+        startDate: "start",
+        endDate: "end",
+        courseworkType: "ASSIGNMENT"
+      });
+      expect(result.events).toEqual([{ id: 1, title: "Some Event" }]);
+    });
+
+    it("adds submission_types param if courseworkType is ASSESSMENT", async () => {
+      mock
+        .onGet(
+          "/users/self/calendar_events?type=assignment&start_date=start&end_date=end&per_page=50&submission_types[]=online_quiz&context_codes[]=course1"
+        )
+        .reply(200, [{ id: 1, title: "Some Event" }], { link: "www.something.com" });
+      const result = await apiClient.getCalendarEvents({
+        contextCodes: ["course1"],
+        startDate: "start",
+        endDate: "end",
+        courseworkType: "ASSESSMENT"
+      });
+      expect(result.events).toEqual([{ id: 1, title: "Some Event" }]);
+    });
+
+    it("returns a nextToken of null if not given pagination", async () => {
+      mock
+        .onGet(
+          "/users/1/calendar_events?type=assignment&start_date=start&end_date=end&per_page=50&"
+        )
+        .reply(200, [{ id: 1, title: "Some Event" }]);
+      const result = await apiClient.getCalendarEvents({
+        userId: 1,
+        contextCodes: [],
+        startDate: "start",
+        endDate: "end"
+      });
+      expect(result.nextToken).toBe(null);
+    });
+
+    it("returns next page number for nextToken if not on the last page", async () => {
+      mock
+        .onGet(
+          "/users/self/calendar_events?type=assignment&start_date=start&end_date=end&page=2&per_page=10&"
+        )
+        .reply(200, [{ id: 1, title: "Some Event" }], {
+          link: '<https://canvas.docker?page=8&per_page=50>; rel="last"'
+        });
+      const result = await apiClient.getCalendarEvents(
+        {
+          contextCodes: [],
+          startDate: "start",
+          endDate: "end"
+        },
+        { page: 2, perPage: 10 }
+      );
+      expect(result.nextToken).toBe(3);
+    });
+
+    it("returns null for nextToken if on the last page", async () => {
+      mock
+        .onGet(
+          "/users/self/calendar_events?type=assignment&start_date=start&end_date=end&page=2&per_page=10&"
+        )
+        .reply(200, [{ id: 1, title: "Some Event" }], {
+          link: '<https://canvas.docker?page=2&per_page=50>; rel="last"'
+        });
+      const result = await apiClient.getCalendarEvents(
+        {
+          contextCodes: [],
+          startDate: "start",
+          endDate: "end"
+        },
+        { page: 2, perPage: 10 }
+      );
+      expect(result.nextToken).toBe(null);
     });
   });
 

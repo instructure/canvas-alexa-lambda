@@ -16,6 +16,18 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 const axios = require("axios");
+const parseLinkHeader = require("parse-link-header");
+
+function pageNumber(link, location) {
+  const pageInformation = link[location];
+  return pageInformation && pageInformation.page && parseInt(pageInformation.page, 10);
+}
+
+function nextPage(response, currentPage) {
+  const link = parseLinkHeader(response.headers.link) || {};
+  const lastPage = pageNumber(link, "last") || currentPage;
+  return lastPage > currentPage ? currentPage + 1 : null;
+}
 
 module.exports = class ApiClient {
   /* istanbul ignore next line */
@@ -100,14 +112,35 @@ module.exports = class ApiClient {
     });
   }
 
-  getCalendarEvents(params) {
+  getCalendarEvents(params, paginationInfo) {
     const userId = params.userId || "self";
     const contextCodesQuery = params.contextCodes.map(cc => `context_codes[]=${cc}`).join("&");
-    return axios.get(
-      `/users/${userId}/calendar_events?type=assignment&start_date=${params.startDate}&end_date=${
-        params.endDate
-      }&per_page=50&${contextCodesQuery}`
-    );
+    const courseworkTypeQuery =
+      {
+        ASSIGNMENT: "&exclude_submission_types[]=online_quiz",
+        ASSESSMENT: "&submission_types[]=online_quiz"
+      }[params.courseworkType] || "";
+
+    let pageQuery = "";
+    if (paginationInfo) {
+      pageQuery = `&page=${paginationInfo.page}`;
+    }
+
+    let perPageQuery = "&per_page=50";
+    if (paginationInfo) {
+      perPageQuery = `&per_page=${paginationInfo.perPage}`;
+    }
+
+    return axios
+      .get(
+        `/users/${userId}/calendar_events?type=assignment&start_date=${params.startDate}&end_date=${
+          params.endDate
+        }${pageQuery}${perPageQuery}${courseworkTypeQuery}&${contextCodesQuery}`
+      )
+      .then(response => ({
+        events: response.data,
+        nextToken: paginationInfo ? nextPage(response, paginationInfo.page) : null
+      }));
   }
 
   getAnnouncements(params) {

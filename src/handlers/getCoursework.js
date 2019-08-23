@@ -44,7 +44,7 @@ const GetCourseworkRequestHandler = {
           ? coursesResult.data.filter(course => course.id == courseId)
           : coursesResult.data;
 
-        if (!matchingCourses) {
+        if (!matchingCourses.length) {
           return {};
         }
 
@@ -55,27 +55,46 @@ const GetCourseworkRequestHandler = {
           .filter(course => course.id !== course.root_account_id)
           .map(course => `course_${course.id}`);
 
+        const paginationInfo = {
+          page:
+            parseInt(
+              handlerInput.requestEnvelope.request.payload.paginationContext.nextToken,
+              10
+            ) || 1,
+          perPage:
+            parseInt(
+              handlerInput.requestEnvelope.request.payload.paginationContext.maxResults,
+              10
+            ) || 5
+        };
+
         return handlerInput.context.api
-          .getCalendarEvents({
-            userId: studentId,
-            courseworkType,
-            contextCodes,
-            startDate: dueTime.start.slice(0, 10),
-            endDate: dueTime.end.slice(0, 10)
-          })
+          .getCalendarEvents(
+            {
+              userId: studentId,
+              courseworkType,
+              contextCodes,
+              startDate: dueTime.start.slice(0, 10),
+              endDate: dueTime.end.slice(0, 10)
+            },
+            paginationInfo
+          )
           .then(eventsResult => {
-            return this.formatOutput(handlerInput, eventsResult.data, matchingCourses);
+            const { events, nextToken } = eventsResult;
+            return this.formatOutput(handlerInput, events, matchingCourses, nextToken);
           })
           .catch(error => {
+            console.log(error);
             return {};
           });
       })
       .catch(error => {
+        console.log(error);
         return {};
       });
   },
 
-  formatOutput(handlerInput, data, courses) {
+  formatOutput(handlerInput, data, courses, nextToken) {
     const formattedData = data.map(coursework => {
       return {
         id: coursework.assignment.id,
@@ -89,7 +108,7 @@ const GetCourseworkRequestHandler = {
       };
     });
 
-    return {
+    const result = {
       header: {
         namespace,
         name: "GetResponse",
@@ -103,6 +122,12 @@ const GetCourseworkRequestHandler = {
         coursework: formattedData
       }
     };
+
+    if (nextToken) {
+      result.payload.paginationContext.nextToken = "" + nextToken;
+    }
+
+    return result;
   }
 };
 

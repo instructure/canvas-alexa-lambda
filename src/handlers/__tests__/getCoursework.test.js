@@ -46,6 +46,10 @@ describe("GetCoursework", () => {
             messageId: 123
           },
           payload: {
+            paginationContext: {
+              page: 2,
+              perPage: 50
+            },
             query: {
               matchAll: {
                 studentId: 1,
@@ -70,7 +74,7 @@ describe("GetCoursework", () => {
   };
 
   stubGetCalendarEvents = data => {
-    mockApi.getCalendarEvents = sinon.stub().resolves({ data });
+    mockApi.getCalendarEvents = sinon.stub().resolves(data);
   };
 
   formatOutput = data => {
@@ -83,7 +87,8 @@ describe("GetCoursework", () => {
       },
       payload: {
         paginationContext: {
-          totalCount: data.length
+          totalCount: data.length,
+          nextToken: "2"
         },
         coursework: data
       }
@@ -91,7 +96,6 @@ describe("GetCoursework", () => {
   };
 
   const coursesData = [{ id: 1, name: "Course 1" }, { id: 2, name: "Course 2" }];
-  const contextCodes = ["course_1", "course_2"];
   const courseworkData = [
     {
       assignment: {
@@ -208,7 +212,7 @@ describe("GetCoursework", () => {
     it("returns coursework for the given set of courses and studentId", async () => {
       handlerInput.requestEnvelope.request.payload.query.matchAll.courseId = 2;
       stubGetActiveUserCourses(coursesData);
-      stubGetCalendarEvents([courseworkData[1]]);
+      stubGetCalendarEvents({ events: [courseworkData[1]], nextToken: 2 });
       const result = await GetCourseworkRequestHandler.handle(handlerInput);
       expect(result).toEqual(formatOutput([courseworkResult[1]]));
     });
