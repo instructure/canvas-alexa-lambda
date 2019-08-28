@@ -10,7 +10,7 @@
  * express or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-
+const ErrorResponse = require("../utils/errorResponse");
 const namespace = "Alexa.Education.Profile.Student";
 const name = "Get";
 const interfaceVersion = "1.0";
@@ -93,7 +93,9 @@ const GetStudentProfilesRequestHandler = {
 
         return response;
       })
-      .catch(err => ({}));
+      .catch(err =>
+        ErrorResponse("notAvailable", handlerInput.requestEnvelope.request.header.messageId)
+      );
   }
 };
 

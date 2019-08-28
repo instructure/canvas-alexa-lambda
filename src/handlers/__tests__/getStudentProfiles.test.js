@@ -49,7 +49,22 @@ describe("GetStudentProfiles", () => {
     };
   });
 
-  formatOutput = data => {
+  const createError = (input, type, message) => {
+    return {
+      header: {
+        namespace: "Alexa.Education",
+        name: "ErrorResponse",
+        messageId: input.requestEnvelope.request.header.messageId,
+        interfaceVersion: "1.0"
+      },
+      payload: {
+        type,
+        message
+      }
+    };
+  };
+
+  const formatOutput = data => {
     return {
       header: {
         namespace: "Alexa.Education.Profile.Student",
@@ -189,25 +204,40 @@ describe("GetStudentProfiles", () => {
   });
 
   describe("handle", () => {
-    it("returns empty object if getProfile and getObservees fail", async () => {
+    it("returns error response if getProfile and getObservees fail", async () => {
       stubGetProfileError();
       stubGetObserveesError();
       const result = await GetStudentProfilesRequestHandler.handle(handlerInput);
-      expect(result).toEqual({});
+      const expected = createError(
+        handlerInput,
+        "CONTENT_NOT_AVAILABLE",
+        "Access to this content is not available."
+      );
+      expect(result).toEqual(expected);
     });
 
-    it("returns empty object if getProfile fails", async () => {
+    it("returns error response if getProfile fails", async () => {
       stubGetProfileError();
       stubGetObserveesSuccess(observers);
       const result = await GetStudentProfilesRequestHandler.handle(handlerInput);
-      expect(result).toEqual({});
+      const expected = createError(
+        handlerInput,
+        "CONTENT_NOT_AVAILABLE",
+        "Access to this content is not available."
+      );
+      expect(result).toEqual(expected);
     });
 
-    it("returns empty object if getObservees fails", async () => {
+    it("returns error response if getObservees fails", async () => {
       stubGetProfileSuccess(profile);
       stubGetObserveesError();
       const result = await GetStudentProfilesRequestHandler.handle(handlerInput);
-      expect(result).toEqual({});
+      const expected = createError(
+        handlerInput,
+        "CONTENT_NOT_AVAILABLE",
+        "Access to this content is not available."
+      );
+      expect(result).toEqual(expected);
     });
 
     it("returns profile and observees if getProfile and getObservees succeed", async () => {

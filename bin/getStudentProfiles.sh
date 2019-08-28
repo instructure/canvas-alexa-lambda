@@ -18,7 +18,7 @@ node -e "require('./src/index.js').handler(
       header: {
         namespace: 'Alexa.Education.Profile.Student',
         name: 'Get',
-        messageId: 'some message ID',
+        messageId: '987654321',
         interfaceVersion: '1.0'
       },
       authorization: {
@@ -60,4 +60,9 @@ node -e "require('./src/index.js').handler(
     }
   },
   {}
-).then((result) => { console.log(result); console.log(result.response.payload.paginationContext); console.log(result.response.payload.studentProfiles); result.response.payload.studentProfiles.forEach(s => console.log(s.name.nicknames)); console.log(result.response.payload.paginationContext); });"
+).then((result) => {
+  console.log(result);
+  console.log(result.response.payload.paginationContext);
+  console.log(result.response.payload.studentProfiles);
+  (result.response.payload.studentProfiles || []).forEach(s => console.log(s.name.nicknames));
+});"

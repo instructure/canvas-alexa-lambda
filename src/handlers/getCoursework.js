@@ -10,6 +10,7 @@
  * express or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+const ErrorResponse = require("../utils/errorResponse");
 const namespace = "Alexa.Education.Coursework";
 const name = "Get";
 const interfaceVersion = "1.0";
@@ -82,16 +83,11 @@ const GetCourseworkRequestHandler = {
           .then(eventsResult => {
             const { events, nextToken } = eventsResult;
             return this.formatOutput(handlerInput, events, matchingCourses, nextToken);
-          })
-          .catch(error => {
-            console.log(error);
-            return {};
           });
       })
-      .catch(error => {
-        console.log(error);
-        return {};
-      });
+      .catch(error =>
+        ErrorResponse("notAvailable", handlerInput.requestEnvelope.request.header.messageId)
+      );
   },
 
   formatOutput(handlerInput, data, courses, nextToken) {
