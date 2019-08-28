@@ -101,7 +101,7 @@ describe("GetCoursework", () => {
       assignment: {
         id: 1,
         course_id: 1,
-        is_quiz_assignment: true,
+        submission_types: ["online_quiz"],
         due_at: "2019-06-05T00:00:000Z"
       },
       title: "Quiz 1",
@@ -111,7 +111,7 @@ describe("GetCoursework", () => {
       assignment: {
         id: 2,
         course_id: 2,
-        is_quiz_assignment: false,
+        submission_types: ["online_text_entry"],
         due_at: "2019-11-05T00:00:000Z"
       },
       title: "Assignment 1",

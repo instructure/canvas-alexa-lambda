@@ -27,8 +27,7 @@ node -e "require('./src/index.js').handler(
       },
       payload: {
         paginationContext: {
-          maxResults: 4,
-          nextToken: '2'
+          maxResults: 10,
         },
         query: {
           matchAll: {

@@ -96,13 +96,15 @@ const GetCourseworkRequestHandler = {
 
   formatOutput(handlerInput, data, courses, nextToken) {
     const formattedData = data.map(coursework => {
+      const isQuiz = coursework.assignment.submission_types.includes("online_quiz");
+      const course = courses.find(course => course.id === coursework.assignment.course_id);
       return {
         id: coursework.assignment.id,
         courseId: coursework.assignment.course_id,
-        courseName: courses.find(course => course.id === coursework.assignment.course_id).name,
+        courseName: course && course.name,
         title: coursework.title,
         description: coursework.description, // This puts out HTML, which may not be parsable by Alexa
-        type: coursework.assignment.is_quiz_assignment ? "ASSESSMENT" : "ASSIGNMENT", // This assumes that is_quiz_assignment? works for old Quizzes and Quizzes Next
+        type: isQuiz ? "ASSESSMENT" : "ASSIGNMENT",
         dueTime: coursework.assignment.due_at
         // submissionState and publishedTime are optional on the PDF
       };
