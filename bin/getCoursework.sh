@@ -23,51 +23,24 @@ node -e "require('./src/index.js').handler(
       },
       authorization: {
         type: 'BearerToken',
-        token: '<a bearer token>'
+        token: '$host;$accessToken'
       },
       payload: {
         paginationContext: {
-          maxResults: 10,
+          maxResults: 5,
         },
         query: {
           matchAll: {
-            studentId: '828',
-            courseId: '1132',
+            studentId: '99',
             dueTime: {
-              start: '2018-06-05T00:00:000Z',
-              end: '2020-11-30T00:00:000Z'
+              start: '2019-08-26T01:00:01Z',
+              end: '2019-09-20T01:00:01Z'
             }
           }
         },
         locale: 'en-US'
       }
     },
-    context: {
-      System: {
-        device: {
-          deviceId: 'string',
-          supportedInterfaces: {}
-        },
-        application: {
-          applicationId: '1'
-        },
-        user: {
-          accessToken: 'Atza|AAAAAAAA...',
-        },
-        apiEndpoint: 'https://api.amazonalexa.com',
-        apiAccessToken: 'AxThk...'
-      },
-    },
-    session: {
-      development: true,
-      application: {
-        applicationId: '1'
-      },
-      attributes: 'mock session attributes',
-      user:{
-        accessToken: '$host;$accessToken'
-      }
-    }
   },
   {}
 ).then((result) => {

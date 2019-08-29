@@ -23,7 +23,7 @@ node -e "require('./src/index.js').handler(
       },
       authorization: {
         type: 'BearerToken',
-        token: '<a bearer token>'
+        token: '$host;$accessToken'
       },
       payload: {
         paginationContext: {
@@ -32,32 +32,6 @@ node -e "require('./src/index.js').handler(
         locale: 'en-US'
       }
     },
-    context: {
-      System: {
-        device: {
-          deviceId: 'string',
-          supportedInterfaces: {}
-        },
-        application: {
-          applicationId: '1'
-        },
-        user: {
-          accessToken: 'Atza|AAAAAAAA...',
-        },
-        apiEndpoint: 'https://api.amazonalexa.com',
-        apiAccessToken: 'AxThk...'
-      },
-    },
-    session: {
-      development: true,
-      application: {
-        applicationId: '1'
-      },
-      attributes: 'mock session attributes',
-      user:{
-        accessToken: '$host;$accessToken'
-      }
-    }
   },
   {}
 ).then((result) => {

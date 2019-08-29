@@ -46,7 +46,7 @@ const GetCourseworkRequestHandler = {
           : coursesResult.data;
 
         if (!matchingCourses.length) {
-          return {};
+          return this.formatOutput(handlerInput, [], [], null);
         }
 
         const contextCodes = matchingCourses
@@ -114,9 +114,7 @@ const GetCourseworkRequestHandler = {
         interfaceVersion
       },
       payload: {
-        paginationContext: {
-          totalCount: data.length
-        },
+        paginationContext: {},
         coursework: formattedData
       }
     };

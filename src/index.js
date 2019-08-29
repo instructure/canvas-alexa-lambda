@@ -45,7 +45,19 @@ const skillBuilder = Alexa.SkillBuilders.custom();
 let skill;
 
 exports.handler = function(request, context) {
-  const token = (request.session && request.session.user && request.session.user.accessToken) || "";
+  let token = null;
+  if (request.session) {
+    token = (request.session && request.session.user && request.session.user.accessToken) || "";
+  } else {
+    token =
+      (request &&
+        request.request &&
+        request.request.header &&
+        request.request.authorization &&
+        request.request.authorization.token) ||
+      "";
+  }
+
   context.token = token;
   const needsPinLogin = token.startsWith(PIN_TOKEN);
   context.needsPinLogin = needsPinLogin;

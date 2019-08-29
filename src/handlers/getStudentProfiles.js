@@ -80,9 +80,7 @@ const GetStudentProfilesRequestHandler = {
             interfaceVersion: handlerInput.requestEnvelope.request.header.interfaceVersion
           },
           payload: {
-            paginationContext: {
-              totalCount: studentProfiles.length
-            },
+            paginationContext: {},
             studentProfiles
           }
         };

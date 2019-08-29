@@ -74,8 +74,7 @@ describe("GetStudentProfiles", () => {
       },
       payload: {
         paginationContext: {
-          nextToken: "2",
-          totalCount: data.length
+          nextToken: "2"
         },
         studentProfiles: data
       }

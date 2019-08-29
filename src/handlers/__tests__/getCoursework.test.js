@@ -87,10 +87,24 @@ describe("GetCoursework", () => {
       },
       payload: {
         paginationContext: {
-          totalCount: data.length,
           nextToken: "2"
         },
         coursework: data
+      }
+    };
+  };
+
+  emptyOutput = () => {
+    return {
+      header: {
+        namespace: "Alexa.Education.Coursework",
+        name: "GetResponse",
+        messageId: 123,
+        interfaceVersion: "1.0"
+      },
+      payload: {
+        paginationContext: {},
+        coursework: []
       }
     };
   };
@@ -196,17 +210,17 @@ describe("GetCoursework", () => {
   });
 
   describe("handle", () => {
-    it("returns empty object if there are no active courses", async () => {
+    it("returns empty response if there are no active courses", async () => {
       stubGetActiveUserCourses([]);
       const result = await GetCourseworkRequestHandler.handle(handlerInput);
-      expect(result).toEqual({});
+      expect(result).toEqual(emptyOutput());
     });
 
-    it("returns empty object if there are no active courses matching the courseId", async () => {
+    it("returns empty response if there are no active courses matching the courseId", async () => {
       handlerInput.requestEnvelope.request.payload.query.matchAll.courseId = 3;
       stubGetActiveUserCourses(coursesData);
       const result = await GetCourseworkRequestHandler.handle(handlerInput);
-      expect(result).toEqual({});
+      expect(result).toEqual(emptyOutput());
     });
 
     it("returns coursework for the given set of courses and studentId", async () => {
