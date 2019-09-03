@@ -32,6 +32,7 @@ node -e "require('./src/index.js').handler(
         locale: 'en-US'
       }
     },
+    development: true
   },
   {}
 ).then((result) => {

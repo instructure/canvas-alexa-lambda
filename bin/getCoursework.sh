@@ -31,7 +31,7 @@ node -e "require('./src/index.js').handler(
         },
         query: {
           matchAll: {
-            studentId: '99',
+            studentId: '2',
             dueTime: {
               start: '2019-08-26T01:00:01Z',
               end: '2019-09-20T01:00:01Z'
@@ -41,6 +41,7 @@ node -e "require('./src/index.js').handler(
         locale: 'en-US'
       }
     },
+    development: true
   },
   {}
 ).then((result) => {

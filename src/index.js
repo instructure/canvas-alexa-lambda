@@ -58,10 +58,17 @@ exports.handler = function(request, context) {
       "";
   }
 
+  let development;
+  if (request.session) {
+    development = !!request.session && request.session.development;
+  } else {
+    development = request.development;
+  }
+
   context.token = token;
   const needsPinLogin = token.startsWith(PIN_TOKEN);
   context.needsPinLogin = needsPinLogin;
-  context.api = new ApiClient(token, !!request.session && request.session.development);
+  context.api = new ApiClient(token, development);
 
   if (!skill) {
     skill = skillBuilder
