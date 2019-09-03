@@ -42,8 +42,10 @@ these guidelines will make things easier for you and for us:
  - The process your pull request goes through is as follows:
     - An Instructure engineer will pull the request down and run it through our automated test suite.
       They will report back with results of the testing. You can help this process along by running targeted
-      tests locally prior to submitting the pull request. You should also run `yarn lint` and `yarn test` to make sure
-      your commit passes our linter.
+      tests locally prior to submitting the pull request. We have also provided additional scripts for testing
+      your changes that can be found in README.md. You should go through these steps
+      to verify that your changes work as intended before submitting your pull request.
+      You should also run `yarn lint` and `yarn test` to make sure your commit passes our linter.
     - Once the test passes against our test suites, one or two engineers will look over the code and provide
       a code review.
     - Once the code review is successful, our QA engineers will run through the test plan that has
