@@ -22,8 +22,9 @@
     "ask-sdk": "^2.7.0",
     "axios": "^0.18.1",
     "fuse.js": "^3.0.5",
+    "parse-link-header": "^1.0.1",
     "sinon": "^7.4.1",
-    "parse-link-header": "^1.0.1"
+    "string-strip-html": "^4.2.0"
   },
   "devDependencies": {
     "axios-mock-adapter": "^1.15.0",

@@ -48,7 +48,8 @@ module.exports = {
         return handlerInput.context.api
           .getAnnouncements({ contextCodes: courses.map(c => c.course_code) })
           .then(announcementsResult => {
-            if (announcementsResult.data.length === 0) {
+            const { announcements } = announcementsResult;
+            if (announcements.length === 0) {
               return handlerInput.responseBuilder
                 .speak("You have no announcements. Anything else?")
                 .reprompt(HELP_MESSAGE)
@@ -60,7 +61,7 @@ module.exports = {
               return obj;
             }, {});
 
-            const annSpeech = announcementsResult.data
+            const annSpeech = announcements
               .map(ann => `In course ${result[ann.context_code].name}: ${ann.title}`)
               .join(",\n");
 

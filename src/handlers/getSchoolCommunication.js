@@ -18,11 +18,44 @@
 
 const ErrorResponse = require("../utils/errorResponse");
 const StringStrip = require("string-strip-html");
-const namespace = "Alexa.Education.Coursework";
+const namespace = "Alexa.Education.School.Communication";
 const name = "Get";
 const interfaceVersion = "1.0";
 
-const GetCourseworkRequestHandler = {
+const formatResponse = (handlerInput, data, nextToken) => {
+  const schoolCommunications = data.map(announcement => ({
+    id: announcement.id,
+    type: "GENERIC_FROM",
+    from: announcement.user_name,
+    kind: "ANNOUNCEMENT",
+    content: {
+      type: "PLAIN_TEXT",
+      text: StringStrip(announcement.message || "")
+    },
+    publishedTime: announcement.posted_at || announcement.delayed_post_at
+  }));
+
+  const response = {
+    header: {
+      namespace: "Alexa.Education.School.Communication",
+      name: "GetResponse",
+      messageId: handlerInput.requestEnvelope.request.header.messageId,
+      interfaceVersion: handlerInput.requestEnvelope.request.header.interfaceVersion
+    },
+    payload: {
+      paginationContext: {},
+      schoolCommunications
+    }
+  };
+
+  if (nextToken) {
+    response.payload.paginationContext.nextToken = "" + nextToken;
+  }
+
+  return response;
+};
+
+const GetSchoolCommunicationRequestHandler = {
   canHandle(handlerInput) {
     return (
       !handlerInput.context.needsPinLogin &&
@@ -38,22 +71,19 @@ const GetCourseworkRequestHandler = {
   },
 
   handle(handlerInput) {
-    const {
-      studentId,
-      courseId,
-      courseworkType,
-      dueTime
-    } = handlerInput.requestEnvelope.request.payload.query.matchAll;
+    const { studentId, courseId } = handlerInput.requestEnvelope.request.payload.query.matchAll;
 
-    return handlerInput.context.api
-      .getActiveUserCourses(studentId)
+    const api = handlerInput.context.api;
+    const query = studentId ? api.getActiveUserCourses(studentId) : api.getActiveCourses();
+
+    return query
       .then(coursesResult => {
         const matchingCourses = courseId
           ? coursesResult.data.filter(course => course.id == courseId)
           : coursesResult.data;
 
         if (!matchingCourses.length) {
-          return this.formatOutput(handlerInput, [], [], null);
+          return formatResponse(handlerInput, [], null);
         }
 
         const contextCodes = matchingCourses
@@ -77,61 +107,16 @@ const GetCourseworkRequestHandler = {
         };
 
         return handlerInput.context.api
-          .getCalendarEvents(
-            {
-              userId: studentId,
-              courseworkType,
-              contextCodes,
-              startDate: dueTime.start.slice(0, 10),
-              endDate: dueTime.end.slice(0, 10)
-            },
-            paginationInfo
-          )
-          .then(eventsResult => {
-            const { events, nextToken } = eventsResult;
-            return this.formatOutput(handlerInput, events, matchingCourses, nextToken);
+          .getAnnouncements({ contextCodes }, paginationInfo)
+          .then(announcementsResult => {
+            const { announcements, nextToken } = announcementsResult;
+            return formatResponse(handlerInput, announcements, nextToken);
           });
       })
-      .catch(error =>
-        ErrorResponse("notAvailable", handlerInput.requestEnvelope.request.header.messageId)
-      );
-  },
-
-  formatOutput(handlerInput, data, courses, nextToken) {
-    const formattedData = data.map(coursework => {
-      const isQuiz = coursework.assignment.submission_types.includes("online_quiz");
-      const course = courses.find(course => course.id === coursework.assignment.course_id);
-      return {
-        id: coursework.assignment.id,
-        courseId: coursework.assignment.course_id,
-        courseName: course && course.name,
-        title: coursework.title,
-        description: StringStrip(coursework.description || ""),
-        type: isQuiz ? "ASSESSMENT" : "ASSIGNMENT",
-        dueTime: coursework.assignment.due_at
-        // submissionState and publishedTime are optional on the PDF
-      };
-    });
-
-    const result = {
-      header: {
-        namespace,
-        name: "GetResponse",
-        messageId: handlerInput.requestEnvelope.request.header.messageId,
-        interfaceVersion
-      },
-      payload: {
-        paginationContext: {},
-        coursework: formattedData
-      }
-    };
-
-    if (nextToken) {
-      result.payload.paginationContext.nextToken = "" + nextToken;
-    }
-
-    return result;
+      .catch(error => {
+        return ErrorResponse("notAvailable", handlerInput.requestEnvelope.request.header.messageId);
+      });
   }
 };
 
-module.exports = GetCourseworkRequestHandler;
+module.exports = GetSchoolCommunicationRequestHandler;

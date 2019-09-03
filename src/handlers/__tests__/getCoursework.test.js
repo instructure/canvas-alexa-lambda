@@ -138,7 +138,7 @@ describe("GetCoursework", () => {
       courseId: 1,
       courseName: "Course 1",
       title: "Quiz 1",
-      description: "<p>Some Description</p>",
+      description: "Some Description",
       type: "ASSESSMENT",
       dueTime: "2019-06-05T00:00:000Z"
     },
@@ -147,7 +147,7 @@ describe("GetCoursework", () => {
       courseId: 2,
       courseName: "Course 2",
       title: "Assignment 1",
-      description: "<p>Some Description</p>",
+      description: "Some Description",
       type: "ASSIGNMENT",
       dueTime: "2019-11-05T00:00:000Z"
     }

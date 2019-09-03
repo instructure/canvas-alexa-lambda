@@ -506,18 +506,52 @@ describe("ApiClient", () => {
 
     it("calls announcements endpoint", async () => {
       mock
-        .onGet("/announcements?active_only=true&")
+        .onGet("/announcements?active_only=true&per_page=50")
         .reply(200, [{ id: 1, title: "Some Announcement" }]);
       const result = await apiClient.getAnnouncements({ contextCodes: [] });
-      expect(result.data).toEqual([{ id: 1, title: "Some Announcement" }]);
+      expect(result.announcements).toEqual([{ id: 1, title: "Some Announcement" }]);
     });
 
     it("includes context codes param if given context codes", async () => {
       mock
-        .onGet("/announcements?active_only=true&context_codes[]=course1")
+        .onGet("/announcements?active_only=true&context_codes[]=course1&per_page=50")
         .reply(200, [{ id: 1, title: "Some Announcement" }]);
       const result = await apiClient.getAnnouncements({ contextCodes: ["course1"] });
-      expect(result.data).toEqual([{ id: 1, title: "Some Announcement" }]);
+      expect(result.announcements).toEqual([{ id: 1, title: "Some Announcement" }]);
+    });
+
+    it("returns a nextToken of null if not given pagination", async () => {
+      mock
+        .onGet("/announcements?active_only=true&per_page=50")
+        .reply(200, [{ id: 1, title: "Some Announcement" }]);
+      const result = await apiClient.getAnnouncements({ contextCodes: [] });
+      expect(result.nextToken).toBe(null);
+    });
+
+    it("returns next page number for nextToken if not on the last page", async () => {
+      mock
+        .onGet("/announcements?active_only=true&page=2&per_page=10")
+        .reply(200, [{ id: 1, title: "Some Announcement" }], {
+          link: '<https://canvas.docker?page=8&per_page=50>; rel="last"'
+        });
+      const result = await apiClient.getAnnouncements(
+        { contextCodes: [] },
+        { page: 2, perPage: 10 }
+      );
+      expect(result.nextToken).toBe(3);
+    });
+
+    it("returns null for nextToken if on the last page", async () => {
+      mock
+        .onGet("/announcements?active_only=true&page=2&per_page=10")
+        .reply(200, [{ id: 1, title: "Some Announcement" }], {
+          link: '<https://canvas.docker?page=2&per_page=50>; rel="last"'
+        });
+      const result = await apiClient.getAnnouncements(
+        { contextCodes: [] },
+        { page: 2, perPage: 10 }
+      );
+      expect(result.nextToken).toBe(null);
     });
   });
 });

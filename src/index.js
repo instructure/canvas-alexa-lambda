@@ -38,6 +38,7 @@ const ParentGetGrades = require("./handlers/parentGetGrades");
 const ErrorRequestHandler = require("./handlers/error");
 const GetStudentProfilesRequestHandler = require("./handlers/getStudentProfiles");
 const GetCourseworkRequestHandler = require("./handlers/getCoursework");
+const GetSchoolCommunicationRequestHandler = require("./handlers/getSchoolCommunication");
 
 const PIN_TOKEN = "PIN_REFRESH_ONLY_TOKEN";
 
@@ -87,7 +88,8 @@ exports.handler = function(request, context) {
         StudentGetGrades,
         ParentGetGrades,
         GetCourseworkRequestHandler,
-        GetStudentProfilesRequestHandler
+        GetStudentProfilesRequestHandler,
+        GetSchoolCommunicationRequestHandler
       )
       .addErrorHandlers(ErrorRequestHandler)
       .create();

@@ -143,8 +143,16 @@ module.exports = class ApiClient {
       }));
   }
 
-  getAnnouncements(params) {
-    const contextCodesQuery = params.contextCodes.map(cc => `context_codes[]=${cc}`).join("&");
-    return axios.get(`/announcements?active_only=true&${contextCodesQuery}`);
+  getAnnouncements(params, paginationInfo) {
+    let contextCodesQuery = params.contextCodes.map(cc => `context_codes[]=${cc}`).join("&");
+    if (contextCodesQuery) contextCodesQuery = `&${contextCodesQuery}`;
+    const pageQuery = paginationInfo ? `&page=${paginationInfo.page}` : "";
+    const perPageQuery = paginationInfo ? `&per_page=${paginationInfo.perPage}` : "&per_page=50";
+    return axios
+      .get(`/announcements?active_only=true${contextCodesQuery}${pageQuery}${perPageQuery}`)
+      .then(response => ({
+        announcements: response.data,
+        nextToken: paginationInfo ? nextPage(response, paginationInfo.page) : null
+      }));
   }
 };
