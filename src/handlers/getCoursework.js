@@ -17,7 +17,6 @@
  */
 
 const ErrorResponse = require("../utils/errorResponse");
-const StringStrip = require("string-strip-html");
 const namespace = "Alexa.Education.Coursework";
 const name = "Get";
 const interfaceVersion = "1.0";
@@ -106,7 +105,7 @@ const GetCourseworkRequestHandler = {
         courseId: coursework.assignment.course_id,
         courseName: course && course.name,
         title: coursework.title,
-        description: StringStrip(coursework.description || ""),
+        description: coursework.description || "",
         type: isQuiz ? "ASSESSMENT" : "ASSIGNMENT",
         dueTime: coursework.assignment.due_at
         // submissionState and publishedTime are optional on the PDF

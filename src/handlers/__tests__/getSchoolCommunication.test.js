@@ -134,7 +134,7 @@ describe("GetSchoolCommunication", () => {
       kind: "ANNOUNCEMENT",
       content: {
         type: "PLAIN_TEXT",
-        text: "Some message here"
+        text: "<p>Some message here</p>"
       },
       publishedTime: "2019-11-05T00:00:000Z"
     },
@@ -145,7 +145,7 @@ describe("GetSchoolCommunication", () => {
       kind: "ANNOUNCEMENT",
       content: {
         type: "PLAIN_TEXT",
-        text: "Some other message here"
+        text: "<p>Some <strong>other</strong> message here</p>"
       },
       publishedTime: "2019-11-11T00:00:000Z"
     }

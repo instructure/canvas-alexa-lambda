@@ -17,7 +17,6 @@
  */
 
 const ErrorResponse = require("../utils/errorResponse");
-const StringStrip = require("string-strip-html");
 const namespace = "Alexa.Education.School.Communication";
 const name = "Get";
 const interfaceVersion = "1.0";
@@ -30,7 +29,7 @@ const formatResponse = (handlerInput, data, nextToken) => {
     kind: "ANNOUNCEMENT",
     content: {
       type: "PLAIN_TEXT",
-      text: StringStrip(announcement.message || "")
+      text: announcement.message || ""
     },
     publishedTime: announcement.posted_at || announcement.delayed_post_at
   }));
