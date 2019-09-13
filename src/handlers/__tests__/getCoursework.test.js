@@ -18,6 +18,7 @@
 const sinon = require("sinon");
 const constantDate = new Date("2017-06-13T04:41:20");
 const GetCourseworkRequestHandler = require("../getCoursework");
+const StripTags = require("striptags");
 
 Date = class extends Date {
   constructor() {
@@ -89,7 +90,7 @@ describe("GetCoursework", () => {
         paginationContext: {
           nextToken: "2"
         },
-        coursework: data
+        coursework: data.map(d => Object.assign(d, { description: StripTags(d.description) }))
       }
     };
   };

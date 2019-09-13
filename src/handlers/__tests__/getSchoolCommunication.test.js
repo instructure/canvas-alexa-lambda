@@ -18,6 +18,7 @@
 const sinon = require("sinon");
 const constantDate = new Date("2017-06-13T04:41:20");
 const GetSchoolCommunicationRequestHandler = require("../getSchoolCommunication");
+const StripTags = require("striptags");
 
 Date = class extends Date {
   constructor() {
@@ -89,7 +90,11 @@ describe("GetSchoolCommunication", () => {
         paginationContext: {
           nextToken: "2"
         },
-        schoolCommunications: data
+        schoolCommunications: data.map(d => {
+          return Object.assign(d, {
+            content: { text: StripTags(d.content.text), type: d.content.type }
+          });
+        })
       }
     };
   };
