@@ -577,13 +577,6 @@ arrify@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/arrify/-/arrify-1.0.1.tgz#898508da2226f380df904728456849c1501a4b0d"
 
-ask-sdk-core@2.4.0:
-  version "2.4.0"
-  resolved "https://registry.yarnpkg.com/ask-sdk-core/-/ask-sdk-core-2.4.0.tgz#636836f49870534a4b2e70e3379530548c55ca63"
-  integrity sha512-Ss/Z2mJ2RXx/qZPbRB8P5lRBfyouRks16b2wl2XPAL2DW9BDe1KHFsMQAYMRz9Xs5UcMuVEL+pe8H7tp+QyB8w==
-  dependencies:
-    ask-sdk-runtime "^2.4.0"
-
 ask-sdk-core@^2.7.0:
   version "2.7.0"
   resolved "https://registry.yarnpkg.com/ask-sdk-core/-/ask-sdk-core-2.7.0.tgz#477064d850250149f0c3c4e1d510c7809109e98c"
@@ -596,16 +589,11 @@ ask-sdk-dynamodb-persistence-adapter@^2.7.0:
   dependencies:
     aws-sdk "^2.163.0"
 
-ask-sdk-model@1.11.2:
-  version "1.11.2"
-  resolved "https://registry.yarnpkg.com/ask-sdk-model/-/ask-sdk-model-1.11.2.tgz#c91c08849c1ecb13f88f00e81d53d0249a1a5173"
-  integrity sha512-nxXvf3NRfKbsKVegHrYqDaCn0EMylSuPKXn7SsMmgRJyi5HrxVycb1X/moQVoBJ06ZwGtvbhcI4AhtcWDbZFnw==
-
 ask-sdk-model@^1.9.0:
   version "1.19.0"
   resolved "https://registry.yarnpkg.com/ask-sdk-model/-/ask-sdk-model-1.19.0.tgz#328cb464c596a10395cea3ce7a98be9921b34124"
 
-ask-sdk-runtime@^2.4.0, ask-sdk-runtime@^2.7.0:
+ask-sdk-runtime@^2.7.0:
   version "2.7.0"
   resolved "https://registry.yarnpkg.com/ask-sdk-runtime/-/ask-sdk-runtime-2.7.0.tgz#2905ed9921d9d961c8770ebd29116cb4c7236b39"
 
@@ -3929,15 +3917,6 @@ public-encrypt@^4.0.0:
     parse-asn1 "^5.0.0"
     randombytes "^2.0.1"
 
-pulselabs-recorder@^1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/pulselabs-recorder/-/pulselabs-recorder-1.0.2.tgz#b97eda6aee8c5c79fec4b59b0c4f54d7f4dbcdfe"
-  integrity sha512-pccRBmywhMGB19Hd6BDeS9DeShlr/MEu/S0T9SsEhR8F3bPIvge1vDyi4lfM8dTYfR087+5xBDEfsK1FepfXBA==
-  dependencies:
-    ask-sdk-core "2.4.0"
-    ask-sdk-model "1.11.2"
-    request "2.88.0"
-
 pump@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/pump/-/pump-3.0.0.tgz#b4a2116815bde2f4e1ea602354e8c75565107a64"
@@ -4103,7 +4082,7 @@ request-promise-native@^1.0.5:
     stealthy-require "^1.1.0"
     tough-cookie ">=2.3.3"
 
-request@2.88.0, request@^2.81.0:
+request@^2.81.0:
   version "2.88.0"
   resolved "https://registry.yarnpkg.com/request/-/request-2.88.0.tgz#9c2fca4f7d35b592efe57c7f0a55e81052124fef"
   dependencies:

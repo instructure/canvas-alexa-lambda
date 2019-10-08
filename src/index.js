@@ -39,7 +39,6 @@ const ErrorRequestHandler = require("./handlers/error");
 const GetStudentProfilesRequestHandler = require("./handlers/getStudentProfiles");
 const GetCourseworkRequestHandler = require("./handlers/getCoursework");
 const GetSchoolCommunicationRequestHandler = require("./handlers/getSchoolCommunication");
-const PulseLabsRecorder = require("pulselabs-recorder");
 
 const PIN_TOKEN = "PIN_REFRESH_ONLY_TOKEN";
 
@@ -94,11 +93,6 @@ exports.handler = function(request, context) {
       )
       .addErrorHandlers(ErrorRequestHandler)
       .create();
-
-    if (process.env.PULSE_LABS_API_KEY) {
-      const pulse = PulseLabsRecorder.init(process.env.PULSE_LABS_API_KEY);
-      skill = pulse.handler(skill);
-    }
   }
 
   return skill.invoke(request, context);
