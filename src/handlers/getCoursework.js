@@ -82,8 +82,8 @@ const GetCourseworkRequestHandler = {
               userId: studentId,
               courseworkType,
               contextCodes,
-              startDate: dueTime.start.slice(0, 10),
-              endDate: dueTime.end.slice(0, 10)
+              startDate: dueTime.start,
+              endDate: dueTime.end
             },
             paginationInfo
           )
