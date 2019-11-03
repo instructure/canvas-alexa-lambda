@@ -25,22 +25,11 @@ const ApiClient = require("./apiClient");
 const LaunchRequestHandler = require("./handlers/launch");
 const HelpRequestHandler = require("./handlers/help");
 const CancelStopNoRequestHandler = require("./handlers/cancelStopNo");
-const LogInRequestHandler = require("./handlers/logIn");
-const NeedsPinLoginRequestHandler = require("./handlers/needsPinLogin");
 const NeedsTokenRequestHandler = require("./handlers/needsToken");
-const GetBlackboardRequestHandler = require("./handlers/easterEggs");
-const GetMissingRequestHandler = require("./handlers/getMissing");
-const GetAnnouncements = require("./handlers/getAnnouncements");
-const GetCalendarEvents = require("./handlers/getCalendarEvents");
-const GetSubmissions = require("./handlers/getSubmissions");
-const StudentGetGrades = require("./handlers/studentGetGrades");
-const ParentGetGrades = require("./handlers/parentGetGrades");
 const ErrorRequestHandler = require("./handlers/error");
 const GetStudentProfilesRequestHandler = require("./handlers/getStudentProfiles");
 const GetCourseworkRequestHandler = require("./handlers/getCoursework");
 const GetSchoolCommunicationRequestHandler = require("./handlers/getSchoolCommunication");
-
-const PIN_TOKEN = "PIN_REFRESH_ONLY_TOKEN";
 
 const skillBuilder = Alexa.SkillBuilders.custom();
 let skill;
@@ -67,8 +56,6 @@ exports.handler = function(request, context) {
   }
 
   context.token = token;
-  const needsPinLogin = token.startsWith(PIN_TOKEN);
-  context.needsPinLogin = needsPinLogin;
   context.api = new ApiClient(token, development);
 
   if (!skill) {
@@ -77,16 +64,7 @@ exports.handler = function(request, context) {
         LaunchRequestHandler,
         HelpRequestHandler,
         CancelStopNoRequestHandler,
-        LogInRequestHandler,
-        NeedsPinLoginRequestHandler,
         NeedsTokenRequestHandler,
-        GetBlackboardRequestHandler,
-        GetMissingRequestHandler,
-        GetAnnouncements,
-        GetCalendarEvents,
-        GetSubmissions,
-        StudentGetGrades,
-        ParentGetGrades,
         GetCourseworkRequestHandler,
         GetStudentProfilesRequestHandler,
         GetSchoolCommunicationRequestHandler

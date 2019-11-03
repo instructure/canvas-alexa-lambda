@@ -59,16 +59,16 @@ describe("ApiClient", () => {
     expect(axios.defaults.baseURL).toContain("https://");
   });
 
-  describe("getMissingAssignments", () => {
-    it("calls missing submissions endpoint", async () => {
-      mock
-        .onGet("/users/self/missing_submissions")
-        .reply(200, [{ id: 1, title: "Some Assignment" }]);
-      const apiClient = new ApiClient();
-      const result = await apiClient.getMissingAssignments();
-      expect(result.data).toEqual([{ id: 1, title: "Some Assignment" }]);
-    });
-  });
+  // describe("getMissingAssignments", () => {
+  // it("calls missing submissions endpoint", async () => {
+  // mock
+  // .onGet("/users/self/missing_submissions")
+  // .reply(200, [{ id: 1, title: "Some Assignment" }]);
+  // const apiClient = new ApiClient();
+  // const result = await apiClient.getMissingAssignments();
+  // expect(result.data).toEqual([{ id: 1, title: "Some Assignment" }]);
+  // });
+  // });
 
   describe("getStudentSubmissions", () => {
     it("calls student submissions endpoint for a particular course", async () => {

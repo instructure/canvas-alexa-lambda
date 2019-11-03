@@ -10,7 +10,7 @@ SkillResponse {
     "shouldEndSession": true,
   },
   "sessionAttributes": Object {},
-  "userAgent": "ask-node/2.7.0 Node/v8.16.1",
+  "userAgent": "ask-node/2.7.0 Node/v8.16.2",
   "version": "1.0",
 }
 `;
@@ -25,7 +25,7 @@ SkillResponse {
     "shouldEndSession": true,
   },
   "sessionAttributes": Object {},
-  "userAgent": "ask-node/2.7.0 Node/v8.16.1",
+  "userAgent": "ask-node/2.7.0 Node/v8.16.2",
   "version": "1.0",
 }
 `;
@@ -40,7 +40,7 @@ SkillResponse {
     "shouldEndSession": true,
   },
   "sessionAttributes": Object {},
-  "userAgent": "ask-node/2.7.0 Node/v8.16.1",
+  "userAgent": "ask-node/2.7.0 Node/v8.16.2",
   "version": "1.0",
 }
 `;

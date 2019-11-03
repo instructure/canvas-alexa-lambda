@@ -13,60 +13,7 @@
       "intent": "AMAZON.NoIntent"
     },
     {
-      "slots": [
-        {
-          "name": "Course",
-          "type": "AMAZON.SearchQuery"
-        }
-      ],
-      "intent": "StudentGetGrades"
-    },
-    {
-      "slots": [
-        {
-          "name": "Course",
-          "type": "AMAZON.SearchQuery"
-        },
-        {
-          "name": "Name",
-          "type": "AMAZON.SearchQuery"
-        }
-      ],
-      "intent": "ParentGetGrades"
-    },
-    {
       "intent": "GetBlackboard"
-    },
-    {
-      "intent": "GetAnnouncements"
-    },
-    {
-      "intent": "GetUngradedSubmissions"
-    },
-    {
-      "intent": "GetMissing"
-    },
-    {
-      "slots": [
-        {
-          "name": "Date",
-          "type": "AMAZON.DATE"
-        },
-        {
-          "name": "Course",
-          "type": "AMAZON.SearchQuery"
-        }
-      ],
-      "intent": "GetCalendarEvents"
-    },
-    {
-      "intent": "LogIn",
-      "slots": [
-        {
-          "name": "Pin",
-          "type": "AMAZON.FOUR_DIGIT_NUMBER"
-        }
-      ]
     }
   ]
 }

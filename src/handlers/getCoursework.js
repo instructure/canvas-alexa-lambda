@@ -25,7 +25,6 @@ const interfaceVersion = "1.0";
 const GetCourseworkRequestHandler = {
   canHandle(handlerInput) {
     return (
-      !handlerInput.context.needsPinLogin &&
       handlerInput.context.token &&
       handlerInput.requestEnvelope.request.header &&
       handlerInput.requestEnvelope.request.header.namespace &&

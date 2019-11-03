@@ -26,7 +26,6 @@ describe("GetStudentProfiles", () => {
     mockApi = {};
     handlerInput = {
       context: {
-        needsPinLogin: false,
         token: "some-token",
         api: mockApi
       },
@@ -147,11 +146,6 @@ describe("GetStudentProfiles", () => {
   };
 
   describe("canHandle", () => {
-    it("returns false if needsPinLogin is true", () => {
-      handlerInput.context.needsPinLogin = true;
-      expect(GetStudentProfilesRequestHandler.canHandle(handlerInput)).toBeFalsy();
-    });
-
     it("returns false if token is empty", () => {
       handlerInput.context.token = null;
       expect(GetStudentProfilesRequestHandler.canHandle(handlerInput)).toBeFalsy();
@@ -195,10 +189,6 @@ describe("GetStudentProfiles", () => {
     it("returns false if interfaceVersion is not 1.0", () => {
       handlerInput.requestEnvelope.request.header.interfaceVersion = "2.0";
       expect(GetStudentProfilesRequestHandler.canHandle(handlerInput)).toBeFalsy();
-    });
-
-    it("returns true if needsPinLogin is false, token is present, and data matches", () => {
-      expect(GetStudentProfilesRequestHandler.canHandle(handlerInput)).toBeTruthy();
     });
   });
 

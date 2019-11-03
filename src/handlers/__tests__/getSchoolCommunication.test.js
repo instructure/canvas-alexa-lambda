@@ -34,7 +34,6 @@ describe("GetSchoolCommunication", () => {
     mockApi = {};
     handlerInput = {
       context: {
-        needsPinLogin: false,
         token: "some-token",
         api: mockApi
       },
@@ -157,11 +156,6 @@ describe("GetSchoolCommunication", () => {
   ];
 
   describe("canHandle", () => {
-    it("returns false if needsPinLogin is true", () => {
-      handlerInput.context.needsPinLogin = true;
-      expect(GetSchoolCommunicationRequestHandler.canHandle(handlerInput)).toBeFalsy();
-    });
-
     it("returns false if token is empty", () => {
       handlerInput.context.token = null;
       expect(GetSchoolCommunicationRequestHandler.canHandle(handlerInput)).toBeFalsy();
@@ -205,10 +199,6 @@ describe("GetSchoolCommunication", () => {
     it("returns false if interfaceVersion is not 1.0", () => {
       handlerInput.requestEnvelope.request.header.interfaceVersion = "2.0";
       expect(GetSchoolCommunicationRequestHandler.canHandle(handlerInput)).toBeFalsy();
-    });
-
-    it("returns true if needsPinLogin is false, token is present, and data matches", () => {
-      expect(GetSchoolCommunicationRequestHandler.canHandle(handlerInput)).toBeTruthy();
     });
   });
 

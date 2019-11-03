@@ -114,16 +114,6 @@ GetCalendarEvents What is my next assignment in {Course}
 GetCalendarEvents What are my next assignments in {Course}
 GetCalendarEvents What do I have next in {Course}
 GetCalendarEvents What do I have coming up in {Course}
-LogIn log in with pin {Pin}
-LogIn log in with code {Pin}
-LogIn authenticate with pin {Pin}
-LogIn authenticate with code {Pin}
-LogIn my pin code is {Pin}
-LogIn my pin is {Pin}
-LogIn log in using pin {Pin}
-LogIn log in using code {Pin}
-LogIn pin code is {Pin}
-
 
 
 

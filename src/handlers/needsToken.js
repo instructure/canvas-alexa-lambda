@@ -18,7 +18,7 @@
 
 module.exports = {
   canHandle(handlerInput) {
-    return !handlerInput.context.needsPinLogin && !handlerInput.context.token;
+    return !handlerInput.context.token;
   },
   handle(handlerInput) {
     return handlerInput.responseBuilder

@@ -20,7 +20,6 @@ const virtualAlexa = require("virtual-alexa");
 module.exports = {
   createVirtualAlexa: function(options = {}) {
     fakeAccessToken = options.fakeAccessToken === undefined ? true : options.fakeAccessToken;
-    needsPinLogin = options.needsPinLogin === undefined ? false : options.needsPinLogin;
 
     const alexa = virtualAlexa.VirtualAlexa.Builder()
       .handler("./src/index.handler")
@@ -32,12 +31,7 @@ module.exports = {
     alexa.filter(requestJSON => {
       requestJSON.session.development = true;
       if (fakeAccessToken) {
-        if (needsPinLogin) {
-          requestJSON.session.user.accessToken =
-            "PIN_REFRESH_ONLY_TOKENlocalhost:fake-access-token";
-        } else {
-          requestJSON.session.user.accessToken = "localhost:fake-access-token";
-        }
+        requestJSON.session.user.accessToken = "localhost:fake-access-token";
       }
     });
 
