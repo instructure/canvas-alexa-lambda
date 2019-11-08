@@ -18,6 +18,13 @@
 
 "use strict";
 
+const skillName = "Canvas";
+const welcomeMessage =
+  skillName +
+  " now works with Alexa! You can ask: 'Alexa, what homework do I have?' or, 'do I have any announcements from the school?'";
+const fallbackMessage =
+  "You can ask: 'Alexa, what homework do I have?' or, 'do I have any announcements from the school?'";
+
 const Alexa = require("ask-sdk-core");
 
 const ApiClient = require("./apiClient");
@@ -33,6 +40,21 @@ const GetSchoolCommunicationRequestHandler = require("./handlers/getSchoolCommun
 
 const skillBuilder = Alexa.SkillBuilders.custom();
 let skill;
+
+const FallbackIntentHandler = {
+  canHandle(handlerInput) {
+    return (
+      handlerInput.requestEnvelope.request.type === "IntentRequest" &&
+      handlerInput.requestEnvelope.request.intent.name === "AMAZON.FallbackIntent"
+    );
+  },
+  handle(handlerInput) {
+    return handlerInput.responseBuilder
+      .speak(fallbackMessage)
+      .withShouldEndSession(true)
+      .getResponse();
+  }
+};
 
 exports.handler = function(request, context) {
   let token = null;
@@ -64,6 +86,7 @@ exports.handler = function(request, context) {
         LaunchRequestHandler,
         HelpRequestHandler,
         CancelStopNoRequestHandler,
+        FallbackIntentHandler,
         NeedsTokenRequestHandler,
         GetCourseworkRequestHandler,
         GetStudentProfilesRequestHandler,

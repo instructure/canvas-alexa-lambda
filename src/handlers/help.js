@@ -15,7 +15,11 @@
  * You should have received a copy of the GNU Affero General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-const HELP_MESSAGE = "You can ask to list grades, or check if you have any missing assignments.";
+
+const skillName = "Canvas";
+const welcomeMessage =
+  skillName +
+  " now works with Alexa! You can ask: 'Alexa, what homework do I have?' or, 'do I have any announcements from the school?'";
 
 module.exports = {
   canHandle(handlerInput) {
@@ -26,8 +30,8 @@ module.exports = {
   },
   handle(handlerInput) {
     return handlerInput.responseBuilder
-      .speak(HELP_MESSAGE)
-      .reprompt("What can I help you with?")
+      .speak(welcomeMessage)
+      .withShouldEndSession(true)
       .getResponse();
   }
 };

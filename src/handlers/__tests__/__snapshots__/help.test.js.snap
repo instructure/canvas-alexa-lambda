@@ -4,16 +4,10 @@ exports[`launch the help intent 1`] = `
 SkillResponse {
   "response": Object {
     "outputSpeech": Object {
-      "ssml": "<speak>You can ask to list grades, or check if you have any missing assignments.</speak>",
+      "ssml": "<speak>Canvas now works with Alexa! You can ask: 'Alexa, what homework do I have?' or, 'do I have any announcements from the school?'</speak>",
       "type": "SSML",
     },
-    "reprompt": Object {
-      "outputSpeech": Object {
-        "ssml": "<speak>What can I help you with?</speak>",
-        "type": "SSML",
-      },
-    },
-    "shouldEndSession": false,
+    "shouldEndSession": true,
   },
   "sessionAttributes": Object {},
   "userAgent": "ask-node/2.7.0 Node/v8.16.2",
