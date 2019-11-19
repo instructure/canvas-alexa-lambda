@@ -16,12 +16,37 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 const HelpRequestHandler = require("./help");
+const skillName = "Canvas";
 
 module.exports = {
   canHandle(handlerInput) {
     return handlerInput.requestEnvelope.request.type === "LaunchRequest";
   },
   handle(handlerInput) {
-    return HelpRequestHandler.handle(handlerInput);
+    //Users will need to link their account to access their information.
+
+    //check if access token is present in the Context object. Access the request in the handlerInput object
+
+    var accessToken = handlerInput.requestEnvelope.context.System.user.accessToken;
+    if (accessToken == undefined) {
+      // the request did not include an access token, tell the user to link accounts and return a LinkAccount card
+
+      const LinkAccountWelcomeMessage =
+        "The Canvas skill now works with Alexa. To get started, you must link your account, then ask, 'Alexa, what's my homework or 'Alexa, do I have any updates from school?'";
+
+      return handlerInput.responseBuilder
+        .speak(LinkAccountWelcomeMessage)
+        .withLinkAccountCard()
+        .withShouldEndSession(true)
+        .getResponse();
+    } else {
+      const welcomeMessage =
+        "The Canvas skill now works with Alexa. To get started, you must link your account, then ask, 'Alexa, what's my homework or 'Alexa, do I have any updates from school?'";
+      return handlerInput.responseBuilder
+        .speak(welcomeMessage)
+        .withSimpleCard(skillName, welcomeMessage)
+        .withShouldEndSession(true)
+        .getResponse();
+    }
   }
 };

@@ -31,6 +31,7 @@ module.exports = {
   handle(handlerInput) {
     return handlerInput.responseBuilder
       .speak(welcomeMessage)
+      .withSimpleCard(skillName, welcomeMessage)
       .withShouldEndSession(true)
       .getResponse();
   }

@@ -1,19 +1,93 @@
 {
-  "intents": [
-    {
-      "intent": "AMAZON.HelpIntent"
-    },
-    {
-      "intent": "AMAZON.CancelIntent"
-    },
-    {
-      "intent": "AMAZON.StopIntent"
-    },
-    {
-      "intent": "AMAZON.NoIntent"
-    },
-    {
-      "intent": "GetBlackboard"
+    "interactionModel": {
+        "languageModel": {
+            "invocationName": "canvas",
+            "intents": [
+                {
+                    "name": "AMAZON.FallbackIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.CancelIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.HelpIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.StopIntent",
+                    "samples": []
+                },
+                {
+                    "name": "CourseworkHelpIntent",
+                    "slots": [
+                        {
+                            "name": "Name",
+                            "type": "AMAZON.SearchQuery"
+                        },
+                        {
+                            "name": "CourseName",
+                            "type": "AMAZON.SearchQuery"
+                        },
+                        {
+                            "name": "EndDueDay",
+                            "type": "AMAZON.SearchQuery"
+                        }
+                    ],
+                    "samples": [
+                        "what assignments do the kids have coming up",
+                        "what homework is due tomorrow",
+                        "when is my history paper due",
+                        "what homework does {Name} have this week",
+                        "do I have anything due on {EndDueDay}",
+                        "what do I have coming up in {CourseName}",
+                        "does {Name} have any homework",
+                        "what do I have due {EndDueDay}",
+                        "homework",
+                        "assignments",
+                        "coursework",
+                        "due"
+                    ]
+                },
+                {
+                    "name": "SchoolCommunicationsHelpIntent",
+                    "slots": [
+                        {
+                            "name": "Name",
+                            "type": "AMAZON.SearchQuery"
+                        },
+                        {
+                            "name": "GroupName",
+                            "type": "AMAZON.SearchQuery"
+                        }
+                    ],
+                    "samples": [
+                        "are there any school messages from {Name}",
+                        "are there any class announcements for {Name}",
+                        "do I have any unread messages from my teachers",
+                        "are there any announcements in {GroupName}",
+                        "does {Name} have any class announcements",
+                        "did {Name} teacher leave any messages about him",
+                        "are there any notifications from my kids school",
+                        "do I have any school updates",
+                        "are there any notes from {Name} school",
+                        "what did {Name} do in school today",
+                        "what are my class updates",
+                        "are there any updates from the school",
+                        "are there any posts to {Name} journal",
+                        "School updates",
+                        "messages",
+                        "posts",
+                        "announcements",
+                        "updates",
+                        "behavioral update",
+                        "notice",
+                        "alert"
+                    ]
+                }
+            ],
+            "types": []
+        }
     }
-  ]
 }

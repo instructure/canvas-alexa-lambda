@@ -25,6 +25,18 @@ const welcomeMessage =
 const fallbackMessage =
   "You can ask: 'Alexa, what homework do I have?' or, 'do I have any announcements from the school?'";
 
+const courseworkHelpMessage =
+  "You can learn about upcoming assignments from " +
+  skillName +
+  " by asking: 'Alexa, do" +
+  " the kids have any homework due tomorrow?' or, 'what assignments are due this week?' ";
+
+const schoolCommunicationsHelpMessage =
+  "You can listen to school updates from " +
+  skillName +
+  " by asking: 'Alexa, are" +
+  " there any updates from the kids' school?' or, 'what did Hannah do in school today?'";
+
 const Alexa = require("ask-sdk-core");
 
 const ApiClient = require("./apiClient");
@@ -41,6 +53,38 @@ const GetSchoolCommunicationRequestHandler = require("./handlers/getSchoolCommun
 const skillBuilder = Alexa.SkillBuilders.custom();
 let skill;
 
+const SchoolCommunicationsHelpIntentHandler = {
+  canHandle(handlerInput) {
+    return (
+      handlerInput.requestEnvelope.request.type === "IntentRequest" &&
+      handlerInput.requestEnvelope.request.intent.name === "SchoolCommunicationsHelpIntent"
+    );
+  },
+  handle(handlerInput) {
+    return handlerInput.responseBuilder
+      .speak(schoolCommunicationsHelpMessage)
+      .withSimpleCard(skillName, schoolCommunicationsHelpMessage)
+      .withShouldEndSession(true)
+      .getResponse();
+  }
+};
+
+const CourseworkHelpIntentHandler = {
+  canHandle(handlerInput) {
+    return (
+      handlerInput.requestEnvelope.request.type === "IntentRequest" &&
+      handlerInput.requestEnvelope.request.intent.name === "CourseworkHelpIntent"
+    );
+  },
+  handle(handlerInput) {
+    return handlerInput.responseBuilder
+      .speak(courseworkHelpMessage)
+      .withSimpleCard(skillName, courseworkHelpMessage)
+      .withShouldEndSession(true)
+      .getResponse();
+  }
+};
+
 const FallbackIntentHandler = {
   canHandle(handlerInput) {
     return (
@@ -51,6 +95,7 @@ const FallbackIntentHandler = {
   handle(handlerInput) {
     return handlerInput.responseBuilder
       .speak(fallbackMessage)
+      .withLinkAccountCard()
       .withShouldEndSession(true)
       .getResponse();
   }
@@ -90,7 +135,9 @@ exports.handler = function(request, context) {
         NeedsTokenRequestHandler,
         GetCourseworkRequestHandler,
         GetStudentProfilesRequestHandler,
-        GetSchoolCommunicationRequestHandler
+        GetSchoolCommunicationRequestHandler,
+        CourseworkHelpIntentHandler,
+        SchoolCommunicationsHelpIntentHandler
       )
       .addErrorHandlers(ErrorRequestHandler)
       .create();
