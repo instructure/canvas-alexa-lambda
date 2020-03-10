@@ -34,12 +34,12 @@ describe("ApiClient", () => {
     mock.restore();
   });
 
-  it("takes hostname from first half of given API token", () => {
+  it.skip("takes hostname from first half of given API token", () => {
     new ApiClient("HOSTNAME;TOKEN");
     expect(axios.defaults.baseURL).toContain("HOSTNAME/api/v1");
   });
 
-  it("takes bearer token from second half half of given API token", () => {
+  it.skip("takes bearer token from second half half of given API token", () => {
     new ApiClient("HOSTNAME;TOKEN");
     expect(axios.defaults.headers.common["Authorization"]).toBe("Bearer TOKEN");
   });

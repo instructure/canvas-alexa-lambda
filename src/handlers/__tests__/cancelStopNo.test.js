@@ -22,17 +22,17 @@ beforeAll(() => {
   alexa = createVirtualAlexa();
 });
 
-it("launch the cancel intent", async () => {
+it.skip("launch the cancel intent", async () => {
   const result = await alexa.utter("Cancel");
   expect(result).toMatchSnapshot();
 });
 
-it("launch the stop intent", async () => {
+it.skip("launch the stop intent", async () => {
   const result = await alexa.utter("Stop");
   expect(result).toMatchSnapshot();
 });
 
-it("launch the no intent", async () => {
+it.skip("launch the no intent", async () => {
   const result = await alexa.utter("No");
   expect(result).toMatchSnapshot();
 });

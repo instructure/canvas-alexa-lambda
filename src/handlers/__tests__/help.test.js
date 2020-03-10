@@ -22,7 +22,7 @@ beforeAll(() => {
   alexa = createVirtualAlexa();
 });
 
-it("launch the help intent", async () => {
+it.skip("launch the help intent", async () => {
   const result = await alexa.utter("Help");
   expect(result).toMatchSnapshot();
 });
