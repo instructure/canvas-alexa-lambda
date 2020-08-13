@@ -9,12 +9,13 @@ you will still need to get your own access key for the host you are running agai
 experience (and the easiest to track requests/problems), clone and run [Canvas-lms](https://github.com/instructure/canvas-lms) locally. This process will help you keep the default host in the `.lambda-dev-example`.
 Then, visit your users settings (`<host>profile/settings`) to create an access token and paste it into the `.lambda-dev` file.
 
-After that you should be able to run the `devScript.sh` with the intent you would like to test:
+After that you should be able to run the `devScript.sh` with the intent you would like to test.
+A list of possible intents can be found in `intents.json`:
 
 *Docker*
 
-`docker build -t alexaLambda`
-`docker run -it --rm alexaLambda ./bin/devScript.sh <intentName>`
+`docker build -t alexalambda .`
+`docker run -it --rm alexalambda ./bin/devScript.sh <intentName>`
 
 *local*
 
@@ -47,7 +48,7 @@ You will either need:
 
 or
 
-[Node](https://nodejs.org/en/) v8.10.0.
+[Node](https://nodejs.org/en/) v10.22.0.
 
 You can use npm if you would like; however, we use [Yarn](https://yarnpkg.com/lang/en/) for this project.
 
@@ -57,7 +58,7 @@ We use jest for testing the canvas alexa lambda:
 
 *Docker*
 
-`docker run alexaLambda yarn test`
+`docker run alexalambda yarn test`
 
 *local*
 
